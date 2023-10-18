@@ -4,8 +4,8 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-start-rgb: 255, 100, 255;
+  --background-end-rgb: 100, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,11 +17,90 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  position: relative;
+  top: 0px;
+  height: 700px;
+  max-height: 700px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(200,255,255)
+  )
+  rgb(255,200,255);
+}
+
+.toppostsbox {
+  position: fixed;
   background: linear-gradient(
       to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
+      rgb(218,145,252)
     )
-    rgb(var(--background-start-rgb));
+    rgb(129,188,252);
+  border-radius: 10px;
+  top: 20%;
+  left: 20%;
+  height: 300px;
+  width: 300px;
+  padding: 20px;
+  text-align:center;
+}
+
+.prolificusersbox {
+  position: fixed;
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(218,145,252)
+    )
+    rgb(129,188,252);
+  border-radius: 10px;
+  top: 20%;
+  left: 70%;
+  height:300px;
+  width: 300px;
+  padding: 20px;
+  text-align:center;
+}
+
+.boxtitle{
+  display:inline-block;
+  font-family: 'Times New Roman', Times, serif;
+  text-align: center;
+  background-color: rgb(171,219,254);
+  border-radius: 12px;
+  width: 200px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  opacity: 80%;
+  margin-bottom: 20px;
+}
+
+.littlebox {
+  display: inline-block;
+  flex:3;
+  text-align: left;
+  font-family: 'Times New Roman', Times, serif;
+  padding: 10px 20px;
+  color: rgb(102, 111, 146);
+  background-color: rgb(171,219,254);
+  border-radius: 10px;
+  height: 40px;
+  opacity: 80%;
+  margin-bottom: 15px;
+}
+
+.medal{
+  display: inline-block;
+  flex: 1;
+  height: 40px;
+  background-color: rgb(171,219,254);
+  border-radius: 20px;
+  background-position: center;
+  opacity: 80%;
+  margin-right: 10px;
+}
+
+.rankings{
+  display: flex;
 }

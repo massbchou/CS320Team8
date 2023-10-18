@@ -1,131 +1,103 @@
-import Image from 'next/image'
-import Link from 'next/link'
+// import styles from "./page.module.css";
+import { MongoClient } from "mongodb";
+import Image from "next/image";
+import goldstar_nobackground from '../public/goldstar_nobackground.png';
+import silverstar_nobackground from '../public/silverstar_nobackground.png';
+import bronzestar_nobackground from '../public/bronzestar_nobackground.png';
 
-export default function Home() {
+function cutoff_string(name_to_cut){
+  if (name_to_cut.length < 20){
+    return name_to_cut;
+  }
+  else{//name is too long for bubble
+    while(name_to_cut.length >= 20){
+      name_to_cut = name_to_cut.slice(0,name_to_cut.lastIndexOf(' '));
+    }
+    return name_to_cut+"...";
+  }
+}
+
+function ranking_match(index){
+  if(index == 0){
+    return goldstar_nobackground;
+  }
+  else if(index == 1){
+    return silverstar_nobackground;
+  }
+  else if(index == 2){
+    return bronzestar_nobackground;
+  }
+}
+
+function find_prolific_users(data){
+  //
+}
+
+export default async function Mongo() {
+  // initialize mongoclient credentials
+  const url =
+    "mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/";
+  const client = new MongoClient(url);
+
+  let results;
+  let prolific_users;
+  try {
+    // connect to mongoDB
+    await client.connect();
+    console.log("Connected to MongoDB");
+
+    // get collection "2022-12-15" from database "posts" gives access to all the posts
+    const collection = client.db("posts").collection("2022-12-15");
+
+    // find all posts from September with viewsCount > 100
+    // use *
+    const cursor = collection.find({publishedAt: {$regex: '2022-11'}, viewsCount: {$gt: 100}}).sort({viewsCount:-1});
+    results = await cursor.toArray();
+    // console.log(results);
+
+    //find most prolific users from September
+    const users_data = collection.find({});
+    prolific_users = await users_data.toArray();
+  } catch (e) {
+    console.log("There was an error in connecting to mongo")
+    console.error(e);
+  } finally {
+    await client.close();
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main>
+      <div className='prolificusersbox'>
+        <div className='boxtitle'>
+        Most Active Users
+        </div>
+        <div>
+          {prolific_users.filter((res, i)=> i<3).map((res, i) => (
+          <div className="rankings" key = {i}>
+            <div className="medal">
+            <Image src={ranking_match(i)}/>  
+            </div>
+            <p className='littlebox'>{cutoff_string(res.title)}</p>
+          </div>
+        ))}
         </div>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-
-        <a
-          href="/mongodb"
-          className="group rounded-lg border border-blue-700 px-5 py-4 transition-colors hover:border-2 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-sky-500 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            MongoDB!!!{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Take a look at the backend!!!
-          </p>
-        </a>
+      <div className='toppostsbox'>
+        <div className='boxtitle'>
+        Top Posts
+        </div>
+        <div>
+          {results.filter((res, i)=> i<3).map((res, i) => (
+          <div className="rankings" key = {i}>
+            <div className="medal">
+            <Image src={ranking_match(i)}/>  
+            </div>
+            <p className='littlebox'>{cutoff_string(res.title)}</p>
+          </div>
+        ))}
+        </div>
       </div>
     </main>
-  )
+  );
 }
