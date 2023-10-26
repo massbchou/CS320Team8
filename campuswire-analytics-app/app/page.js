@@ -34,17 +34,17 @@ function computePostScore(post) {
     w4 = 5,
     w5 = 30;
   const today = new Date();
-  const postDate = new Date(post.publishedAt); // Assuming publishedAt is a date string.
+  const postDate = new Date(post.publishedAt);
   const daysOld = Math.ceil((today - postDate) / (1000 * 60 * 60 * 24));
 
   // Use totalViews - uniqueViews for repeated views.
   const repeatedViews = post.totalViews - post.uniqueViews;
 
   return (
-    w1 * post.totalViews +
+    w1 * post.viewsCount +
     w2 * repeatedViews +
-    w3 * post.totalComments +
-    w4 * post.totalLikes -
+    w3 * post.answersCount +
+    w4 * post.votesCount -
     w5 * daysOld
   );
 }
@@ -67,22 +67,20 @@ function findProlificUsers(data) {
     .slice(0, 3);
 }
 
-export default function Mongo({ results }) {
+export default function TopPosts({ results }) {
   return (
     <main>
       <div className="toppostsbox">
         <div className="boxtitle">Top Posts</div>
         <div>
-          {results
-            .filter((res, i) => i < 3)
-            .map((res, i) => (
-              <div className="rankings" key={i}>
-                <div className="medal">
-                  <Image src={ranking_match(i)} />
-                </div>
-                <p className="littlebox">{cutoff_string(res.title)}</p>
+          {results.map((res, i) => (
+            <div className="rankings" key={i}>
+              <div className="medal">
+                <Image src={ranking_match(i)} />
               </div>
-            ))}
+              <p className="littlebox">{cutoff_string(res.title)}</p>
+            </div>
+          ))}
         </div>
       </div>
     </main>
@@ -98,24 +96,23 @@ export async function getServerSideProps() {
 
   try {
     await client.connect();
-    console.log("Connected to MongoDB");
     const collection = client.db("posts").collection("2022-12-15");
     const cursor = collection
-      .find({ publishedAt: { $regex: "2022-11" }, viewsCount: { $gt: 100 } })
+      .find({ publishedAt: { $regex: "2022-09" } })
       .sort({ viewsCount: -1 });
     results = await cursor.toArray();
     results.forEach((post) => (post.score = computePostScore(post)));
     results.sort((a, b) => b.score - a.score);
+    results = results.slice(0, 3); // Take only top 3
   } catch (e) {
-    console.log("There was an error in connecting to mongo");
-    console.error(e);
+    console.error("Error fetching data from MongoDB:", e);
   } finally {
     await client.close();
   }
 
   return {
     props: {
-      results: results || [],
+      results,
     },
   };
 }
