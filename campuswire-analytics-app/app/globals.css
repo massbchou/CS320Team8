@@ -38,12 +38,13 @@ body {
     )
     rgb(129,188,252);
   border-radius: 10px;
-  top: 20%;
-  left: 20%;
+  top: 130px;
+  left: 100px;
   height: 300px;
   width: 300px;
   padding: 20px;
   text-align:center;
+  display: inline-block;
 }
 
 .prolificusersbox {
@@ -55,12 +56,13 @@ body {
     )
     rgb(129,188,252);
   border-radius: 10px;
-  top: 20%;
-  left: 70%;
+  top: 130px;
+  left: 500px;
   height:300px;
   width: 300px;
   padding: 20px;
   text-align:center;
+  display: inline-block;
 }
 
 .boxtitle{
@@ -102,5 +104,9 @@ body {
 }
 
 .rankings{
+  display: flex;
+}
+
+.mainscreen{
   display: flex;
 }
