@@ -49,10 +49,10 @@ export default async function Home() {
 
   const { PythonShell } = require('python-shell');
 
-  let topPhrases;
-  await PythonShell.run('./app/keyword_extractor.py', {mode: 'json', pythonPath: 'py', args: [inputText]}).then(msg => {
+  let topPhrases = ['Phrase 1', 'Phrase 2'];
+  /*await PythonShell.run('./app/keyword_extractor.py', {mode: 'json', pythonPath: 'py', args: [inputText]}).then(msg => {
     topPhrases = msg[0];
-  });
+  });*/
   // Spawn Python process, pass it the text
   // When the output from the script is receieved, capture it
   
@@ -63,9 +63,9 @@ export default async function Home() {
         <span style={{fontFamily:'Roboto', textAlign:'center', fontSize:'30px'}}>Campuswire Analytics</span>
       </div>
       <div style={{display:'flex', justifyContent:'center', alignItems:'center', margin: '10px'}}>
-        <Feature title='Trending Topics' content={topPhrases}></Feature>
-        <Feature title='Top Posts' content={['Post #1', 'Post #2', 'Post #3', 'Post #4', 'Post #5']}></Feature>
-        <Feature title='Most Active Users' content={['User #1', 'User #2', 'User #3', 'User #4', 'User #5']}></Feature>
+        <Feature linkTo= 'trending-topics' title='Trending Topics' content={topPhrases}></Feature>
+        <Feature linkTo= 'top-posts' title='Top Posts' content={['Post #1', 'Post #2', 'Post #3', 'Post #4', 'Post #5']}></Feature>
+        <Feature linkTo= 'most-active-users' title='Most Active Users' content={['User #1', 'User #2', 'User #3', 'User #4', 'User #5']}></Feature>
       </div>
     </main>
   )
