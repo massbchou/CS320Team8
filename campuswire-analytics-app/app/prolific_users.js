@@ -21,10 +21,10 @@ function prolific_users_algo(data){
       let author_name = data[i].author.firstName + " " + data[i].author.lastName;
       
       for(let date in data[i]){
-        if(!(date === "_id" || date === "author")){//goes through all the dates that a post or comment was made
-          let num_posts = data[i][date].postIDs.length;
-          let num_comments = data[i][date].commentIDs.length;
-          //Score = 2*num_posts + 1*num_comments
+        if(!(date === "_id" || date === "author")){//goes through all the dates that a post or comment was made by a specific user
+          let num_posts = data[i][date].postCount;
+          let num_comments = data[i][date].commentCount;
+          // Score = 2*num_posts + 1*num_comments
           count += 2*num_posts+1*num_comments;
         }
       }

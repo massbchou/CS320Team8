@@ -1,9 +1,9 @@
 // mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/
 import {MongoClient} from "mongodb";
 import Image from "next/image";
-// import goldstar_nobackground from '../public/goldstar_nobackground.png';
-// import silverstar_nobackground from '../public/silverstar_nobackground.png';
-// import bronzestar_nobackground from '../public/bronzestar_nobackground.png';
+import goldstar_nobackground from '../public/goldstar_nobackground.png';
+import silverstar_nobackground from '../public/silverstar_nobackground.png';
+import bronzestar_nobackground from '../public/bronzestar_nobackground.png';
 import Feature from './feature.js';
 import background from './images/background.png'
 import top_posts_algo from './top_posts.js';

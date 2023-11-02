@@ -14,3 +14,4 @@ export default function Feature(props){
         </div>
     )
 }
+//if the length of map is only 3 then add the ranking medals instead of the number?

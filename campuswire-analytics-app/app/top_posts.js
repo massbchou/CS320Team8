@@ -14,16 +14,13 @@ function cutoff_string(name_to_cut) {
 
 function days_old(createdAtStr) {
   const post_date = new Date(createdAtStr);
-
   const current_day = new Date();
-
   const days_diff = (current_day - post_date) / (1000 * 3600 * 24);
-
   return Math.floor(days_diff);
 }
+
 function top_posts_algo(data) {
   //Score = (1) * uniqueViews + (2) * repeatedViews + (20) * totalComments + (50) * totalLikes
-  //Try to add Time Decay
   let Score = [data.length];
   for (let i = 0; i < data.length; i++) {
     let entry = data[i];
