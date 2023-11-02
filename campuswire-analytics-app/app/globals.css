@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 100, 255;
-  --background-end-rgb: 100, 255, 255;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 123, 241, 255;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,19 +17,16 @@
 }
 
 body {
-  position: relative;
-  top: 0px;
-  height: 700px;
-  max-height: 700px;
+  color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-    to bottom,
-    transparent,
-    rgb(200,255,255)
-  )
-  rgb(255,200,255);
-}
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+} */
 
-.toppostsbox {
+/* .toppostsbox {
   position: fixed;
   background: linear-gradient(
       to bottom,
@@ -109,4 +106,4 @@ body {
 
 .mainscreen{
   display: flex;
-}
+} */
