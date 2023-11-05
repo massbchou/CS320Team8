@@ -33,7 +33,7 @@ export default async function Mongo() {
     let arr = await cursor.toArray();
     // Turn cursor into an array of post objects
 
-    arr = arr.filter((x) => !(x.body.substring(0, 3) === "zzz"));
+    arr = arr.filter(x => !(x.body.substring(0, 3) === "zzz"));
     // Filter out all fake entries that start with "zzz"
 
     arr.forEach(function (x) {
@@ -67,11 +67,7 @@ export default async function Mongo() {
     //find most prolific users for the Semester
     //based on posts that ask are type 'question'
     const userCollection = client.db("users").collection("users");
-    const userFilter = {
-      type: "note",
-      title: { $not: /Office|OFFICE|office|OH/ },
-    };
-    const users_data = userCollection.find(userFilter);
+    const users_data = userCollection.find();
     prolificUsers = prolific_users_algo(await users_data.toArray());
   } catch (e) {
     console.log("There was an error in connecting to mongo");
@@ -85,9 +81,9 @@ export default async function Mongo() {
   let topPhrases;
   await PythonShell.run("./app/keyword_extractor.py", {
     mode: "json",
-    pythonPath: "py",
+    pythonPath: "python",
     args: [inputText],
-  }).then((msg) => {
+  }).then(msg => {
     topPhrases = msg[0];
   });
 
@@ -114,6 +110,7 @@ export default async function Mongo() {
           quality={100}
           style={{ margin: "10px" }}
           unoptimized
+          alt=""
         ></Image>
         <span
           style={{
