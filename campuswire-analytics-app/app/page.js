@@ -23,8 +23,9 @@ export default async function Home() {
 
     let cacheCollection = client.db('caching').collection('trending topics');
     let cache = await cacheCollection.findOne({collectionDate: collectionDate});
+    // Try to find the cache entry with the corresponding collectionDate
 
-    if(cache === null){
+    if(cache === null){ // If the entry does not exist, generate it
       const MAX_DAYS_OLD = 20;
       let comparisonDate = new Date(new Date(collectionDate).getTime() - (1000 * 60 * 60 * 24 * MAX_DAYS_OLD)).toISOString();
       // Create a new date string that represents a date MAX_DAYS_OLD days in the past in relation to the collection date
@@ -63,7 +64,8 @@ export default async function Home() {
       // When the output from the script is receieved, capture it
 
       await cacheCollection.insertOne({collectionDate: collectionDate, topPhrases: topPhrases});
-    }else{
+      // Insert the generated keywords into the cache database
+    }else{ // If the entry does exist, then just pull the keywords from the database
       topPhrases = cache.topPhrases;
     }
   } catch(e) {
