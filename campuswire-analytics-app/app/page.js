@@ -64,11 +64,13 @@ export default async function Mongo() {
 
     //{type:{$ne: "question"}, title:{$not: {$regex:"Office|OFFICE|office|OH"}}}
 
-    //find most prolific users for the Semester
-    //based on posts that ask are type 'question'
+    // find most prolific users for the Semester
+    // checks author.role of users (member|moderator)
     const userCollection = client.db("users").collection("users");
-    const users_data = userCollection.find();
-    prolificUsers = prolific_users_algo(await users_data.toArray());
+    const userData = userCollection.find();
+    const userList = await userData.toArray();
+    // entire semester
+    prolificUsers = prolific_users_algo(userList);
   } catch (e) {
     console.log("There was an error in connecting to mongo");
     console.error(e);

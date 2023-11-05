@@ -9,10 +9,10 @@ def main():
     """
     Creates users.json file with all users
     """
-    data = None
+    postsList = None
     with open("2022-12-15.json", "rt", encoding="utf-8") as postsJSON:
-        data: list[dict] = json.load(postsJSON)
-    users = getUsers(data)
+        postsList = json.load(postsJSON)
+    users = getUsers(postsList)
 
     with open("users.json", "w", encoding="utf-8") as usersJSON:
         out = json.dumps(users)
@@ -57,8 +57,8 @@ def getUsers(postsList: list[dict]) -> list[dict]:
         for comment in sorted(commentsList, key=incrDate):
             processContent(users, comment, "commentIds")
 
-    possibleModCommentCount = countPossibleModComments(users, postsList)
-    addUsersRole(users, possibleModCommentCount)
+    # label users as member or moderator
+    addUsersRole(users, postsList)
 
     return list(users.values())
 
@@ -109,11 +109,11 @@ def processContent(
         if contentId in user[date][contentType]:
             continue  # ignore edits made on same day
         user[date][contentType].append(contentId)
-        user[date][f"{contentType[:-3]}Count"] += 1  # [content]Ids - Ids + Count = [content]Count
+        user[date][f"{contentType[:-3]}Count"] += 1  # e.g. postIds - Ids + Count = postCount
         user[date]["totalCount"] += 1
 
 
-def addUsersRole(usersDict: dict[dict], modsList: dict[dict]) -> None:
+def addUsersRole(usersDict: dict[dict], postsList: list[dict]) -> None:
     """
     Overwrites each user role with "member" or "moderator"
     - Old role was 0 for all users so it was meaningless (probably revoked mod privileges at end of
@@ -121,10 +121,10 @@ def addUsersRole(usersDict: dict[dict], modsList: dict[dict]) -> None:
 
     Posts that were answered by a mod have a "modAnsweredAt" time field. We assume that comments
     published to those posts at the same time were written by a mod. To avoid false positives caused
-    by students coincidentally posting comments at the same time, we track how many comments the
-    user made overall vs. how many fall within the same time frame as "modAnsweredAt":
+    by students coincidentally posting comments at the same time, we track how many comments fall
+    within the same time frame as "modAnsweredAt":
     - Check for comments made on post within 1 second of modAnsweredAt
-    - If possibleModComments >= 2: user is mod
+    - If probableModComments >= 2: user is mod
 
     Rationale:
     If a student is looking at the post when a mod answers, they might quickly leave a
@@ -136,25 +136,14 @@ def addUsersRole(usersDict: dict[dict], modsList: dict[dict]) -> None:
 
     Limitations:
     - Does not acknowledge posts - only comments
-    - Assumes that mods make at least 2 comments
+    - Assumes that each mod is the first to answer 2 posts
     - Some professors are hands-off and leave comments to TAs/UCAs - can be labeled as member
     - Can't use exact time because modAnsweredAt and corresponding comment have slightly different
       times (~100 ms)
     - If a student is trying to beat world record reply speeds, can be labeled as moderator
     """
-    # add role to user
-    for userId, user in usersDict.items():
-        user["author"]["role"] = "moderator" if modsList[userId] >= 2 else "member"
-
-
-def countPossibleModComments(usersDict: dict[dict], postsList: list[dict]) -> dict:
-    """
-    Returns dict of users but for count of possible mod comments
-    """
     # init mod comment count for each user
-    possibleModCommentCount = {}
-    for userId in usersDict.keys():
-        possibleModCommentCount[userId] = 0
+    probableModCommentCount = {userId: 0 for userId in usersDict.keys()}
 
     # count mod comments
     for post in postsList:
@@ -169,9 +158,11 @@ def countPossibleModComments(usersDict: dict[dict], postsList: list[dict]) -> di
             userId = comment["author"]["id"]
             commentTime = parser.parse(comment["publishedAt"])
             if modAnsweredTime - oneSecond < commentTime < modAnsweredTime + oneSecond:
-                possibleModCommentCount[userId] += 1
+                probableModCommentCount[userId] += 1
 
-    return possibleModCommentCount
+    # add role to user
+    for userId, user in usersDict.items():
+        user["author"]["role"] = "moderator" if probableModCommentCount[userId] >= 2 else "member"
 
 
 if __name__ == "__main__":

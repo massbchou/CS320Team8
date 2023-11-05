@@ -11,32 +11,39 @@ function cutoff_string(name_to_cut) {
     return name_to_cut + "...";
   }
 }
-
-function prolific_users_algo(data) {
+const firstDate = new Date("2022-09-15");
+const lastDate = new Date("2022-12-15");
+function prolific_users_algo(usersList, start = firstDate, end = lastDate) {
+  /**
+   * Takes in list of users and returns list sorted by most activity within interval
+   * Start and end times should be Date objects
+   */
   //authors = firstName + " " + lastName
-  let authors = [data.length];
-  for (let i = 0; i < data.length; i++) {
+  let authors = [usersList.length];
+  for (let i = 0; i < usersList.length; i++) {
     //for all the posts
     let count = 0;
     //Regardless if the post is anonymous or not it has an author field with first and last name
-    let author_name = data[i].author.firstName + " " + data[i].author.lastName;
+    let author_name =
+      usersList[i].author.firstName + " " + usersList[i].author.lastName;
 
-    for (let date in data[i]) {
-      if (!(date === "_id" || date === "author")) {
-        //goes through all the dates that a post or comment was made
-        let num_posts = data[i][date].postCount;
-        let num_comments = data[i][date].commentCount;
-        //Score = 2*num_posts + 1*num_comments
-        count += 2 * num_posts + 1 * num_comments;
-      }
+    for (let date in usersList[i]) {
+      if (date === "_id" || date === "author") continue;
+      let dateTime = new Date(date).getTime();
+      if (!(start.getTime() < dateTime && dateTime < end.getTime())) continue;
+      //goes through all the dates that a post or comment was made
+      let num_posts = usersList[i][date].postCount;
+      let num_comments = usersList[i][date].commentCount;
+      //Score = 2*num_posts + 1*num_comments
+      count += 2 * num_posts + 1 * num_comments;
     }
     authors[i] = { full_name: author_name, engagement_count: count };
   }
   //Now order based on descending post number
   authors.sort((a, b) => b.engagement_count - a.engagement_count);
   let prolific_users = authors
-    .filter((res, i) => i < 5)
-    .map((res, i) => cutoff_string(res.full_name));
+    .filter((_, i) => i < 5)
+    .map(res => cutoff_string(res.full_name));
   console.log(prolific_users);
   return prolific_users;
 }

@@ -5,9 +5,7 @@ with open("users.json", "rt", encoding="utf-8") as f:
     data: list[dict] = json.load(f)
 print(len(data))
 
-postCount = 0
-commentCount = 0
-modCount = 0
+postCount, commentCount, modCount = 0, 0, 0
 seenUsers = []
 for user in data:
     seenUsers.append(user["author"]["id"])
@@ -16,7 +14,7 @@ for user in data:
         assert "author" in user
         # check role is member or moderator
         if key == "author":
-            assert user[key]["role"] == "member" or user[key]["role"] == "moderator"
+            assert user[key]["role"] in ["member", "moderator"]
             if user[key]["role"] == "moderator":
                 modCount += 1
             continue
@@ -36,5 +34,6 @@ for user in data:
         postCount += date["postCount"]
         commentCount += date["commentCount"]
 assert len(data) == len(seenUsers)
+
 print(postCount, commentCount, postCount + commentCount)
 print(modCount)
