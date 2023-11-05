@@ -113,7 +113,7 @@ def processContent(
         user[date]["totalCount"] += 1
 
 
-def addUsersRole(usersDict: dict[dict], modsList: dict[dict]) -> bool:
+def addUsersRole(usersDict: dict[dict], modsList: dict[dict]) -> None:
     """
     Overwrites each user role with "member" or "moderator"
     - Old role was 0 for all users so it was meaningless (probably revoked mod privileges at end of
