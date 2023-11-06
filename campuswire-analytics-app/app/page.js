@@ -75,11 +75,12 @@ export default async function Home() {
   }
   
   return (
-    <main style={{backgroundImage: `url(${background.src})`, backgroundSize: '100%', backgroundRepeat: 'no-repeat', height:'100vh'}}>
+    <main style={{backgroundImage: `url(${background.src})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: '100%', height:'100%'}}>
       <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-        <Image src='/images/icon.png' width={90} height={90} quality={100} style={{margin:'10px'}} unoptimized></Image>
+        <Image src='/images/icon.png' width={90} height={90} quality={100} style={{margin:'10px'}} unoptimized/>
         <span style={{fontFamily:'Roboto', textAlign:'center', fontSize:'30px'}}>Campuswire Analytics</span>
       </div>
+
       <div style={{display:'flex', justifyContent:'center', alignItems:'center', margin: '10px'}}>
         <Feature linkTo='trending-topics' title='Trending Topics' content={topPhrases}></Feature>
         <Feature linkTo='top-posts' title='Top Posts' content={['Post #1', 'Post #2', 'Post #3', 'Post #4', 'Post #5']}></Feature>
