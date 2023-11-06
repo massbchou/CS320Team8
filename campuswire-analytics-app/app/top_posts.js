@@ -12,9 +12,9 @@ function cutoff_string(name_to_cut) {
   }
 }
 
-function days_old(createdAtStr) {
+function days_old(createdAtStr, collectionDate) {
   const post_date = new Date(createdAtStr);
-  const current_day = new Date();
+  const current_day = new Date(collectionDate);
   const days_diff = (current_day - post_date) / (1000 * 3600 * 24);
   return Math.floor(days_diff);
 }

@@ -33,6 +33,5 @@ function prolific_users_algo(data){
     //Now order based on descending post number
     authors.sort((a, b) => b.engagement_count - a.engagement_count);
     let prolific_users = authors.filter((res,i)=> i<5).map((res, i) => cutoff_string(res.full_name));
-    console.log(prolific_users);
     return prolific_users;
   }
