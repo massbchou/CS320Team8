@@ -6,7 +6,7 @@
             "lastName": "Thompson",
             "registered": true,
             "slug": "U2BA2695D",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-08": {
             "postIds": ["7168f03e-ab89-4a2e-b259-7bbf536fb51b"],
@@ -99,7 +99,7 @@
             "lastName": "Harris",
             "registered": true,
             "slug": "0U180906E",
-            "role": "0"
+            "role": "moderator"
         },
         "2022-09-10": {
             "postIds": [],
@@ -355,7 +355,7 @@
             "lastName": "Watson",
             "registered": true,
             "slug": "6EB06U712",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-08": {
             "postIds": ["3f5825b6-9c1d-41f1-9d38-419b60e026c6"],
@@ -407,7 +407,7 @@
             "lastName": "Bowman",
             "registered": true,
             "slug": "ABE9F260U",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-10": {
             "postIds": ["50df03bf-e6e4-41a0-9aa0-2bec41cd56b5"],
@@ -483,7 +483,7 @@
             "lastName": "Brown",
             "registered": true,
             "slug": "UECDE774E",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-11": {
             "postIds": ["88b82025-a6b7-4310-bf01-c42bfb3ab167"],
@@ -660,7 +660,7 @@
             "lastName": "Shannon",
             "registered": true,
             "slug": "E4D6586BU",
-            "role": "0"
+            "role": "moderator"
         },
         "2022-09-14": {
             "postIds": [],
@@ -748,7 +748,7 @@
             "lastName": "Kent",
             "registered": true,
             "slug": "8554039UB",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-13": {
             "postIds": ["876ec3fb-b546-4622-90e9-969f746b4b70"],
@@ -765,7 +765,7 @@
             "lastName": "Gonzales",
             "registered": true,
             "slug": "AU0FA880D",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-14": {
             "postIds": ["b7b6867d-6546-4a7c-9e45-20ff6967e537"],
@@ -849,7 +849,7 @@
             "lastName": "Rose",
             "registered": true,
             "slug": "89489D8U3",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-15": {
             "postIds": ["78b7bfbb-b8e8-4c8b-8227-917941a5ad5b"],
@@ -873,7 +873,7 @@
             "lastName": "Johnson",
             "registered": true,
             "slug": "EAEUC44D3",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-15": {
             "postIds": ["01fc5733-52c3-4cb6-9161-1bee9799cae5"],
@@ -925,7 +925,7 @@
             "lastName": "Mendez",
             "registered": true,
             "slug": "ABA06B77U",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-15": {
             "postIds": [],
@@ -1040,7 +1040,7 @@
             "lastName": "Li",
             "registered": true,
             "slug": "33AEBU1AC",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-15": {
             "postIds": ["c39d4541-203c-44ad-8ad1-25bf96c853c4"],
@@ -1078,7 +1078,7 @@
             "lastName": "Ferguson",
             "registered": true,
             "slug": "U704CBFBB",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-15": {
             "postIds": ["fabe497c-50cf-4adb-a5ff-94b93a92ccda"],
@@ -1123,7 +1123,7 @@
             "lastName": "Anderson",
             "registered": true,
             "slug": "499BF0FUA",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-15": {
             "postIds": [
@@ -1248,7 +1248,7 @@
             "lastName": "Barber",
             "registered": true,
             "slug": "C1B7573U1",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-15": {
             "postIds": ["0d0c5639-f7ef-4c8f-81fa-a58681a71d52"],
@@ -1343,7 +1343,7 @@
             "lastName": "Kidd",
             "registered": true,
             "slug": "U591A09EC",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-16": {
             "postIds": [],
@@ -1395,7 +1395,7 @@
             "lastName": "Bush",
             "registered": true,
             "slug": "15C40BFU2",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-15": {
             "postIds": ["f9665513-5cb5-4e2c-b1d7-f63b9f608470"],
@@ -1426,7 +1426,7 @@
             "lastName": "Mills",
             "registered": true,
             "slug": "D1671FUA8",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-16": {
             "postIds": ["94e187f9-2262-4ada-b7af-673e25bdb5e1"],
@@ -1515,7 +1515,7 @@
             "lastName": "Smith",
             "registered": true,
             "slug": "0FCD0A0U9",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-16": {
             "postIds": ["bc2df0f8-7489-4e38-b47b-f8b9f3730fd4"],
@@ -1557,7 +1557,7 @@
             "lastName": "Morrison",
             "registered": true,
             "slug": "51F8U104B",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-16": {
             "postIds": ["bc35a0cf-5bf7-4fac-81a3-dd75bfba2a67"],
@@ -1661,7 +1661,7 @@
             "lastName": "Johnson",
             "registered": true,
             "slug": "AUE63D71C",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-16": {
             "postIds": [],
@@ -1692,7 +1692,7 @@
             "lastName": "Ross",
             "registered": true,
             "slug": "D3B1U0096",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-16": {
             "postIds": ["06c7c71a-ced6-46ab-b5ec-de6a0ffd4921"],
@@ -1779,7 +1779,7 @@
             "lastName": "Guzman",
             "registered": true,
             "slug": "UB23446F7",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-16": {
             "postIds": ["d0313995-4b26-431f-a8bb-83ed0ba29964"],
@@ -1855,7 +1855,7 @@
             "lastName": "Jackson",
             "registered": true,
             "slug": "798U26180",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-18": {
             "postIds": ["83218468-1dfd-46b7-a176-a5e30ef3248f"],
@@ -1913,7 +1913,7 @@
             "lastName": "Cunningham",
             "registered": true,
             "slug": "6EU8163BB",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-18": {
             "postIds": ["67cd754f-84d7-4b6f-8a31-1bee121e1bad"],
@@ -1944,7 +1944,7 @@
             "lastName": "James",
             "registered": true,
             "slug": "EBU14368B",
-            "role": "0"
+            "role": "moderator"
         },
         "2022-09-19": {
             "postIds": [],
@@ -2191,7 +2191,7 @@
             "lastName": "Farmer",
             "registered": true,
             "slug": "5DB37BU9F",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-19": {
             "postIds": ["8a6c713a-c3d1-43dd-a22e-2f4fba101f8c"],
@@ -2229,7 +2229,7 @@
             "lastName": "Alexander",
             "registered": true,
             "slug": "1UEB240B0",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-20": {
             "postIds": [],
@@ -2313,7 +2313,7 @@
             "lastName": "Brown",
             "registered": true,
             "slug": "AU4179482",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-20": {
             "postIds": ["ce28ee4d-ac9e-4da5-8032-e0b598b28c4a"],
@@ -2358,7 +2358,7 @@
             "lastName": "Dudley",
             "registered": true,
             "slug": "83D7016FU",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-20": {
             "postIds": ["3df11a7c-2bdd-439d-92a1-5cae4803260a"],
@@ -2424,7 +2424,7 @@
             "lastName": "Guzman",
             "registered": true,
             "slug": "DADUE2472",
-            "role": "0"
+            "role": "moderator"
         },
         "2022-09-20": {
             "postIds": [],
@@ -2585,7 +2585,7 @@
             "lastName": "Thomas",
             "registered": true,
             "slug": "4U597C8FC",
-            "role": "0"
+            "role": "moderator"
         },
         "2022-09-20": {
             "postIds": [],
@@ -2632,7 +2632,7 @@
             "lastName": "Keller",
             "registered": true,
             "slug": "2U2AC6CFC",
-            "role": "0"
+            "role": "moderator"
         },
         "2022-09-20": {
             "postIds": ["1c5cb530-0bda-4953-ba2a-d51da2368830"],
@@ -2676,7 +2676,7 @@
             "lastName": "Morrow",
             "registered": true,
             "slug": "210A0U1B7",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-21": {
             "postIds": [
@@ -2710,7 +2710,7 @@
             "lastName": "Howard",
             "registered": true,
             "slug": "9ADEBU821",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-21": {
             "postIds": ["16af22e8-ce2f-4fc3-9a08-3a1a18bcb87e"],
@@ -2734,7 +2734,7 @@
             "lastName": "Smith",
             "registered": true,
             "slug": "5A514UB61",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-21": {
             "postIds": [
@@ -2771,7 +2771,7 @@
             "lastName": "Maldonado",
             "registered": true,
             "slug": "1AUF3AC5D",
-            "role": "0"
+            "role": "moderator"
         },
         "2022-09-21": {
             "postIds": ["eb5d73bb-7ab9-4901-b259-8403d824f27f"],
@@ -3004,7 +3004,7 @@
             "lastName": "Gonzalez",
             "registered": true,
             "slug": "F6FU56043",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-21": {
             "postIds": ["da067a48-a48e-41a1-bafc-2fbe2c298279"],
@@ -3021,7 +3021,7 @@
             "lastName": "Anderson",
             "registered": true,
             "slug": "D62493U76",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-22": {
             "postIds": ["fc593169-809a-4dd4-b25f-7249cb416ce2"],
@@ -3052,7 +3052,7 @@
             "lastName": "Wheeler",
             "registered": true,
             "slug": "05U394921",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-22": {
             "postIds": ["13c4b67d-9b3c-419c-a185-bbfe4e84e564"],
@@ -3069,7 +3069,7 @@
             "lastName": "Hall",
             "registered": true,
             "slug": "2UABF0D82",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-22": {
             "postIds": ["d05aa86d-f45a-4aae-b0e0-41ce494dfc65"],
@@ -3093,7 +3093,7 @@
             "lastName": "Gill",
             "registered": true,
             "slug": "60UF6C694",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-22": {
             "postIds": ["86fbff8d-e045-421b-a82b-4efa031a31bd"],
@@ -3110,7 +3110,7 @@
             "lastName": "Veronica",
             "registered": true,
             "slug": "ABBEU2B39",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-22": {
             "postIds": ["3c5b2de2-7e76-41e6-9bfd-5c7e82836463"],
@@ -3259,7 +3259,7 @@
             "lastName": "Stafford",
             "registered": true,
             "slug": "B600U18AE",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-22": {
             "postIds": ["b65ea66f-22ef-47a9-b2d1-b1127a8fab1b"],
@@ -3346,7 +3346,7 @@
             "lastName": "Jones",
             "registered": true,
             "slug": "660CCE9U8",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-23": {
             "postIds": ["9e24832a-5901-4f48-8113-9d0aa64c6dda"],
@@ -3477,7 +3477,7 @@
             "lastName": "Clark",
             "registered": true,
             "slug": "F1E1E72UD",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-24": {
             "postIds": ["acc583b7-d384-41f8-bae4-ea37ae234db6"],
@@ -3539,7 +3539,7 @@
             "lastName": "Burgess",
             "registered": true,
             "slug": "8DF1C5EU4",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-24": {
             "postIds": [],
@@ -3626,7 +3626,7 @@
             "lastName": "Hayes",
             "registered": true,
             "slug": "C6D67D4UA",
-            "role": "0"
+            "role": "moderator"
         },
         "2022-09-25": {
             "postIds": [],
@@ -3689,7 +3689,7 @@
             "lastName": "Rogers",
             "registered": true,
             "slug": "5DFU5C840",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-26": {
             "postIds": ["8a25da3b-a9cc-43ab-818e-1761f1bd516a"],
@@ -3751,7 +3751,7 @@
             "lastName": "Miles",
             "registered": true,
             "slug": "U9F18D531",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-27": {
             "postIds": ["c1838000-91c8-4d90-82f3-4d3d59cb038a"],
@@ -3768,7 +3768,7 @@
             "lastName": "Daniel",
             "registered": true,
             "slug": "4C75862UB",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-27": {
             "postIds": [
@@ -3823,7 +3823,7 @@
             "lastName": "Morton",
             "registered": true,
             "slug": "U7EE019E5",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-28": {
             "postIds": ["77873991-8b74-4eed-a074-5f8211df3c14"],
@@ -3861,7 +3861,7 @@
             "lastName": "Butler",
             "registered": true,
             "slug": "9BC2AAU3E",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-28": {
             "postIds": [
@@ -3902,7 +3902,7 @@
             "lastName": "Ford",
             "registered": true,
             "slug": "A1U27E48D",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-28": {
             "postIds": ["675e0c54-4a48-4aac-b89a-fe415b4f36d9"],
@@ -3919,7 +3919,7 @@
             "lastName": "Warner",
             "registered": true,
             "slug": "U80F2B0F1",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-28": {
             "postIds": ["27790ee9-103e-413e-b42d-4079ab149e2e"],
@@ -3957,7 +3957,7 @@
             "lastName": "Sosa",
             "registered": true,
             "slug": "C364U8AD0",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-28": {
             "postIds": ["75970d46-06c7-43ba-9cfd-749ea0c4c84a"],
@@ -3988,7 +3988,7 @@
             "lastName": "Nicholson",
             "registered": true,
             "slug": "FC72U08F7",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-28": {
             "postIds": ["20c2b0b6-9b2d-4ba2-9c03-4e37e4522f42"],
@@ -4012,7 +4012,7 @@
             "lastName": "Fitzgerald",
             "registered": true,
             "slug": "D1E22CDU4",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-28": {
             "postIds": ["cde56310-57d4-41c2-a149-6c8b250da5e8"],
@@ -4088,7 +4088,7 @@
             "lastName": "Phillips",
             "registered": true,
             "slug": "B6E2FE8EU",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-28": {
             "postIds": ["727c7b0c-d407-4791-8729-65ecc0a0698e"],
@@ -4147,7 +4147,7 @@
             "lastName": "Burton",
             "registered": true,
             "slug": "F8CDU682F",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-30": {
             "postIds": ["0c8d8eea-e555-4b3f-aa71-65ed2a44799b"],
@@ -4178,7 +4178,7 @@
             "lastName": "Wallace",
             "registered": true,
             "slug": "7ABU70C44",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-30": {
             "postIds": [],
@@ -4209,7 +4209,7 @@
             "lastName": "Diaz",
             "registered": true,
             "slug": "928A8U9B0",
-            "role": "0"
+            "role": "member"
         },
         "2022-09-30": {
             "postIds": ["c71429a7-d070-4d14-91d3-21796443218e"],
@@ -4247,7 +4247,7 @@
             "lastName": "Adams",
             "registered": true,
             "slug": "4U716557F",
-            "role": "0"
+            "role": "moderator"
         },
         "2022-09-30": {
             "postIds": [],
@@ -4419,7 +4419,7 @@
             "lastName": "Taylor",
             "registered": true,
             "slug": "65UA45845",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-01": {
             "postIds": ["48cac1ce-261d-426b-9eac-ccad2f604e64"],
@@ -4436,7 +4436,7 @@
             "lastName": "Marshall",
             "registered": true,
             "slug": "C04U24AE5",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-01": {
             "postIds": ["6436b023-cc7b-4c69-bafa-8f1284d7d15c"],
@@ -4460,7 +4460,7 @@
             "lastName": "Howell",
             "registered": true,
             "slug": "D2D73D5U6",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-01": {
             "postIds": ["973efec6-7b81-40fd-9eef-d8b366700086"],
@@ -4519,7 +4519,7 @@
             "lastName": "Swanson",
             "registered": true,
             "slug": "77C89U86A",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-02": {
             "postIds": ["a5a68be6-481f-4d0f-9485-1b22fb8c0fe2"],
@@ -4588,7 +4588,7 @@
             "lastName": "Herrera",
             "registered": true,
             "slug": "D9CDFFDU2",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-02": {
             "postIds": ["b3c1c149-25af-45a5-89ec-3608456dc2c8"],
@@ -4630,7 +4630,7 @@
             "lastName": "Mcdonald",
             "registered": true,
             "slug": "705F34UE7",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-03": {
             "postIds": ["d7962db3-1f6c-4701-a8df-178a4f7acb96"],
@@ -4647,7 +4647,7 @@
             "lastName": "Payne",
             "registered": true,
             "slug": "U5705B0F1",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-03": {
             "postIds": [],
@@ -4684,7 +4684,7 @@
             "lastName": "Rivera",
             "registered": true,
             "slug": "93101E5U6",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-03": {
             "postIds": ["0e87becb-5924-4fae-9905-bf0dbb2ac584"],
@@ -4708,7 +4708,7 @@
             "lastName": "Gregory",
             "registered": true,
             "slug": "CC8B981UA",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-03": {
             "postIds": ["da00ffe4-050b-42a5-9609-772e80772a5e"],
@@ -4742,7 +4742,7 @@
             "lastName": "Wells",
             "registered": true,
             "slug": "C9AU69DAB",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-04": {
             "postIds": ["d9bde1ea-dfef-47ac-8995-6969729be8dd"],
@@ -4863,7 +4863,7 @@
             "lastName": "Diaz",
             "registered": true,
             "slug": "ACF05721U",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-04": {
             "postIds": [],
@@ -4880,7 +4880,7 @@
             "lastName": "Hayes",
             "registered": true,
             "slug": "18D17277U",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-04": {
             "postIds": ["349ae760-224d-416c-9d4d-b38e6b60725a"],
@@ -4925,7 +4925,7 @@
             "lastName": "Lawrence",
             "registered": true,
             "slug": "FB7AEU042",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-04": {
             "postIds": ["f5ebe36c-6afb-4e04-a924-1797c6905f40"],
@@ -4987,7 +4987,7 @@
             "lastName": "Mercado",
             "registered": true,
             "slug": "CU38D3730",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-04": {
             "postIds": ["1035a9b5-4978-4a58-b48f-e00d05e4aa83"],
@@ -5011,7 +5011,7 @@
             "lastName": "Walker",
             "registered": true,
             "slug": "06UFB05C2",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-04": {
             "postIds": ["cd514270-909d-4d60-9b0d-22886010cdb8"],
@@ -5042,7 +5042,7 @@
             "lastName": "Alvarez",
             "registered": true,
             "slug": "DFE6UECF7",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-05": {
             "postIds": ["c134d6c2-4c9c-4f4e-a8d9-33d8f495f17e"],
@@ -5169,7 +5169,7 @@
             "lastName": "Wheeler",
             "registered": true,
             "slug": "28D3UFFFD",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-05": {
             "postIds": ["155fcaa8-e86b-4a61-bfe5-1792342fa9fd"],
@@ -5221,7 +5221,7 @@
             "lastName": "Norris",
             "registered": true,
             "slug": "UD441D437",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-06": {
             "postIds": ["17b611f9-c8b6-43f1-b3ce-4e670147ac59"],
@@ -5252,7 +5252,7 @@
             "lastName": "Vaughn",
             "registered": true,
             "slug": "649320A7U",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-06": {
             "postIds": ["0f990e25-e4c5-41a7-8dec-7a90ee5d8ed9"],
@@ -5293,7 +5293,7 @@
             "lastName": "Shah",
             "registered": true,
             "slug": "FUCDC7FF8",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-06": {
             "postIds": [],
@@ -5327,7 +5327,7 @@
             "lastName": "Potts",
             "registered": true,
             "slug": "91EUE17DA",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-06": {
             "postIds": [],
@@ -5423,7 +5423,7 @@
             "lastName": "Scott",
             "registered": true,
             "slug": "U0ECDB588",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-06": {
             "postIds": ["319d43bf-16f9-4929-9f2c-03734b9e4167"],
@@ -5468,7 +5468,7 @@
             "lastName": "Parker",
             "registered": true,
             "slug": "220EECU09",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-07": {
             "postIds": ["43dafdd6-c38e-4b3c-acf0-e9bbd365937c"],
@@ -5499,7 +5499,7 @@
             "lastName": "Mitchell",
             "registered": true,
             "slug": "0380587U0",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-07": {
             "postIds": ["86fe66c8-931d-402c-a182-38d3e27164bc"],
@@ -5544,7 +5544,7 @@
             "lastName": "Smith",
             "registered": true,
             "slug": "AD9UA20ED",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-07": {
             "postIds": ["1ab8cc0a-0796-41a8-b025-f1331d26fc62"],
@@ -5568,7 +5568,7 @@
             "lastName": "Carr",
             "registered": true,
             "slug": "02UF8D93F",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-10": {
             "postIds": ["22edd67c-4b08-41bd-bb7d-745ae575d638"],
@@ -5599,7 +5599,7 @@
             "lastName": "Norris",
             "registered": true,
             "slug": "2BE1UCACB",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-10": {
             "postIds": ["510d5335-4a3a-4621-8ee8-66643ace81bd"],
@@ -5675,7 +5675,7 @@
             "lastName": "Thompson",
             "registered": true,
             "slug": "U3BCA7BCD",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-11": {
             "postIds": ["29e52795-0d9e-47cf-8f29-497aa606e964"],
@@ -5744,7 +5744,7 @@
             "lastName": "Acosta",
             "registered": true,
             "slug": "C7763EUB2",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-12": {
             "postIds": ["dbc9ae34-7caf-485b-aeb8-184e8d199982"],
@@ -5782,7 +5782,7 @@
             "lastName": "Clark",
             "registered": true,
             "slug": "881A7U03A",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-12": {
             "postIds": ["55033c91-bf2b-4267-89ce-52edf4efc5db"],
@@ -5868,7 +5868,7 @@
             "lastName": "White",
             "registered": true,
             "slug": "2927A9U20",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-12": {
             "postIds": ["14e3bd8d-deed-4117-902c-c1d2b241d4c4"],
@@ -5899,7 +5899,7 @@
             "lastName": "Monroe",
             "registered": true,
             "slug": "U202077CD",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-12": {
             "postIds": ["d4153f56-c262-4c36-a1ce-9b014591842e"],
@@ -5923,7 +5923,7 @@
             "lastName": "White",
             "registered": true,
             "slug": "U3318FBE1",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-12": {
             "postIds": ["cbd9964c-8b63-4c0b-a099-557c260c3705"],
@@ -5954,7 +5954,7 @@
             "lastName": "Chen",
             "registered": true,
             "slug": "UE109044C",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-13": {
             "postIds": ["250848ff-b7c8-4081-8f38-cf563765d10a"],
@@ -5971,7 +5971,7 @@
             "lastName": "Castillo",
             "registered": true,
             "slug": "2151824U8",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-14": {
             "postIds": ["19f5a7cb-c8ad-4f68-9a37-642ae4f3c397"],
@@ -6009,7 +6009,7 @@
             "lastName": "Haynes",
             "registered": true,
             "slug": "D57201D0U",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-14": {
             "postIds": ["020051f0-ffbb-4e2b-bad9-78742991536a"],
@@ -6033,7 +6033,7 @@
             "lastName": "Peters",
             "registered": true,
             "slug": "605F2089U",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-16": {
             "postIds": ["093a796d-ddae-49a8-8abb-48c2a3a8eb12"],
@@ -6050,7 +6050,7 @@
             "lastName": "Gutierrez",
             "registered": true,
             "slug": "5AU87819F",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-18": {
             "postIds": ["21678de8-0584-4f82-ab14-d9ddfe8b0115"],
@@ -6074,7 +6074,7 @@
             "lastName": "Oneill",
             "registered": true,
             "slug": "6109UD61D",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-18": {
             "postIds": [
@@ -6108,7 +6108,7 @@
             "lastName": "Thornton",
             "registered": true,
             "slug": "BF5U0F22E",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-19": {
             "postIds": ["0cb35ce3-6f27-496d-9af9-4befe39ee56e"],
@@ -6137,7 +6137,7 @@
             "lastName": "Durham",
             "registered": true,
             "slug": "99FUF6A6C",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-19": {
             "postIds": ["894f1611-5c3c-4628-9d29-5a4b3a8de3a7"],
@@ -6168,7 +6168,7 @@
             "lastName": "Olsen",
             "registered": true,
             "slug": "B87UA0A4C",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-19": {
             "postIds": [],
@@ -6227,7 +6227,7 @@
             "lastName": "Combs",
             "registered": true,
             "slug": "4UDAE5850",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-19": {
             "postIds": ["d5cc4027-7faa-4eb7-90da-f52fda685c2a"],
@@ -6258,7 +6258,7 @@
             "lastName": "Craig",
             "registered": true,
             "slug": "01C723UAB",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-20": {
             "postIds": ["cdb9d61c-4f1d-49f7-a251-18515c384533"],
@@ -6282,7 +6282,7 @@
             "lastName": "Jacobson",
             "registered": true,
             "slug": "FE8U7667D",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-21": {
             "postIds": ["1cdcac82-1e2e-4759-b206-76ccf4992421"],
@@ -6316,7 +6316,7 @@
             "lastName": "Lee",
             "registered": true,
             "slug": "42EUA079F",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-23": {
             "postIds": ["ccb20e57-046b-4558-b57b-dc5232154ecd"],
@@ -6340,7 +6340,7 @@
             "lastName": "Huber",
             "registered": true,
             "slug": "C608DCUA9",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-25": {
             "postIds": [],
@@ -6371,7 +6371,7 @@
             "lastName": "Lee",
             "registered": true,
             "slug": "UC6C0BB4A",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-25": {
             "postIds": ["8932c1b8-e151-413e-a5f5-90a39c653a12"],
@@ -6395,7 +6395,7 @@
             "lastName": "Petersen",
             "registered": true,
             "slug": "DC5FUC792",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-26": {
             "postIds": ["ceab0852-992e-4ad2-968c-75c816043b55"],
@@ -6429,7 +6429,7 @@
             "lastName": "Lamb",
             "registered": true,
             "slug": "93C9UE3B7",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-26": {
             "postIds": ["45bac608-87af-4661-93a4-990bc9fc9df1"],
@@ -6446,7 +6446,7 @@
             "lastName": "Wright",
             "registered": true,
             "slug": "7971AU177",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-26": {
             "postIds": [],
@@ -6498,7 +6498,7 @@
             "lastName": "Barton",
             "registered": true,
             "slug": "5U1FD1F32",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-26": {
             "postIds": ["b04c23db-fca9-41be-a2f7-a82eb1516934"],
@@ -6515,7 +6515,7 @@
             "lastName": "Smith",
             "registered": true,
             "slug": "3F7DDA29U",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-26": {
             "postIds": ["4c13ad03-fbb3-49ae-ae0a-ee92dd5c2268"],
@@ -6532,7 +6532,7 @@
             "lastName": "Williams",
             "registered": true,
             "slug": "446C1UBCA",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-26": {
             "postIds": ["439498ef-7f4a-482c-839a-2c3bb206ba2c"],
@@ -6556,7 +6556,7 @@
             "lastName": "Tapia",
             "registered": true,
             "slug": "CU3F60003",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-26": {
             "postIds": ["6a9e27c1-bc2b-4c62-a193-c92d1852320b"],
@@ -6573,7 +6573,7 @@
             "lastName": "Paul",
             "registered": true,
             "slug": "94UB06025",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-26": {
             "postIds": ["0d727930-7c42-4267-b3c6-ba1e2a0d5a16"],
@@ -6604,7 +6604,7 @@
             "lastName": "Potts",
             "registered": true,
             "slug": "U1563BAEA",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-27": {
             "postIds": [],
@@ -6628,7 +6628,7 @@
             "lastName": "Rogers",
             "registered": true,
             "slug": "31FU0B27D",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-27": {
             "postIds": [],
@@ -6652,7 +6652,7 @@
             "lastName": "Stone",
             "registered": true,
             "slug": "54AFEU475",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-27": {
             "postIds": [],
@@ -6676,7 +6676,7 @@
             "lastName": "Rogers",
             "registered": true,
             "slug": "7985E24UC",
-            "role": "0"
+            "role": "member"
         },
         "2022-10-27": {
             "postIds": ["d69e18a8-7388-4e88-945e-1d18c9ab831c"],
@@ -6693,7 +6693,7 @@
             "lastName": "Morgan",
             "registered": true,
             "slug": "AC43C5DCU",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-05": {
             "postIds": [],
@@ -6720,7 +6720,7 @@
             "lastName": "Smith",
             "registered": true,
             "slug": "9U547F15C",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-08": {
             "postIds": ["aaebfd40-9e69-406f-a89f-8969abb749a9"],
@@ -6737,7 +6737,7 @@
             "lastName": "Maldonado",
             "registered": true,
             "slug": "UCB0DA3FD",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-09": {
             "postIds": ["f379fc80-ac5f-4039-8597-41f468ac11c6"],
@@ -6754,7 +6754,7 @@
             "lastName": "James",
             "registered": true,
             "slug": "0E89F9BBU",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-10": {
             "postIds": ["1a653110-2cb6-4f02-9bab-f90c71b90000"],
@@ -6771,7 +6771,7 @@
             "lastName": "Campbell",
             "registered": true,
             "slug": "3E523962U",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-10": {
             "postIds": ["fe3c686d-b6a4-4015-8da4-7c2da2012688"],
@@ -6788,7 +6788,7 @@
             "lastName": "Hall",
             "registered": true,
             "slug": "4AED70AUF",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-14": {
             "postIds": ["504dab0f-333a-4f1f-b24e-c415bd59476d"],
@@ -6812,7 +6812,7 @@
             "lastName": "Davidson",
             "registered": true,
             "slug": "03865DU1B",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-15": {
             "postIds": ["7adc01e3-c3f4-4cc3-8d24-d859b1f227c9"],
@@ -6829,7 +6829,7 @@
             "lastName": "Serrano",
             "registered": true,
             "slug": "CU6D57A71",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-16": {
             "postIds": ["0fc435e4-f775-4d04-b2bb-088cbe2de053"],
@@ -6860,7 +6860,7 @@
             "lastName": "Wilson",
             "registered": true,
             "slug": "06D8F0U7A",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-17": {
             "postIds": ["be10df9c-016f-4e0e-b6a9-23405c46075d"],
@@ -6884,7 +6884,7 @@
             "lastName": "Zhang",
             "registered": true,
             "slug": "D4UCB8DF0",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-21": {
             "postIds": ["13388c41-d77f-45c5-9614-53f723e3a2fb"],
@@ -6915,7 +6915,7 @@
             "lastName": "Cook",
             "registered": true,
             "slug": "ECDEAFUDE",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-25": {
             "postIds": ["bdcc63b1-3cf3-485f-825a-4881314658e0"],
@@ -6946,7 +6946,7 @@
             "lastName": "Reyes",
             "registered": true,
             "slug": "8A79U8CAF",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-28": {
             "postIds": ["a2b27596-b738-4595-9495-aaec65142fd3"],
@@ -6963,7 +6963,7 @@
             "lastName": "Foster",
             "registered": true,
             "slug": "FFEU9C723",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-29": {
             "postIds": ["da70b113-9b93-4254-9350-55b84ede3603"],
@@ -6980,7 +6980,7 @@
             "lastName": "Cox",
             "registered": true,
             "slug": "4888975U8",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-29": {
             "postIds": ["16b8d1f4-65f1-4fce-bc90-a1dbd8800706"],
@@ -7007,7 +7007,7 @@
             "lastName": "Barton",
             "registered": true,
             "slug": "8285DUE97",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-29": {
             "postIds": ["9ff8ac7f-b74b-4d6f-85e2-b1adce52de90"],
@@ -7024,7 +7024,7 @@
             "lastName": "Weiss",
             "registered": true,
             "slug": "AADUBE49A",
-            "role": "0"
+            "role": "member"
         },
         "2022-11-30": {
             "postIds": ["b370b7ec-227f-42aa-8ceb-52a06eda6847"],
@@ -7041,7 +7041,7 @@
             "lastName": "Garner",
             "registered": true,
             "slug": "BEB0079FU",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-01": {
             "postIds": ["1f9cad7d-238d-4a5f-b666-9c4730e4ede1"],
@@ -7065,7 +7065,7 @@
             "lastName": "Rivera",
             "registered": true,
             "slug": "FBU353EA0",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-04": {
             "postIds": [],
@@ -7082,7 +7082,7 @@
             "lastName": "Santiago",
             "registered": true,
             "slug": "67851C72U",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-05": {
             "postIds": ["4ed2365f-fa28-4e74-bc7e-cc8abe2f8684"],
@@ -7099,7 +7099,7 @@
             "lastName": "Hancock",
             "registered": true,
             "slug": "D7458U144",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-06": {
             "postIds": ["3005242f-b5d2-4695-b6f1-f96fed11c2c9"],
@@ -7116,7 +7116,7 @@
             "lastName": "Williams",
             "registered": true,
             "slug": "3DC9D9U2A",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-06": {
             "postIds": ["a4a7d5c8-f3c7-4542-acb1-0705bb984d1d"],
@@ -7144,7 +7144,7 @@
             "lastName": "Montgomery",
             "registered": true,
             "slug": "U9A7CC20D",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-06": {
             "postIds": ["24c7ea4e-80f0-44ab-abc0-e6aca26a01e4"],
@@ -7182,7 +7182,7 @@
             "lastName": "Howell",
             "registered": true,
             "slug": "5CB5C2UF7",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-07": {
             "postIds": ["638d856c-22c4-482d-b91b-f54c45c8035e"],
@@ -7199,7 +7199,7 @@
             "lastName": "Barajas",
             "registered": true,
             "slug": "7AAU6D2B0",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-09": {
             "postIds": ["105f118f-4aab-45ec-8136-89cf63c07dd0"],
@@ -7216,7 +7216,7 @@
             "lastName": "Sanders",
             "registered": true,
             "slug": "7EU0BFC14",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-12": {
             "postIds": ["08d63496-6556-42b6-b2bb-b4ab50784d54"],
@@ -7240,7 +7240,7 @@
             "lastName": "King",
             "registered": true,
             "slug": "80D99U9A3",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-13": {
             "postIds": ["866cee35-2ec7-479a-8a76-00cb1adc3780"],
@@ -7257,7 +7257,7 @@
             "lastName": "Phillips",
             "registered": true,
             "slug": "8F914A0U2",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-13": {
             "postIds": ["f7617395-1f4e-434c-b14a-7c7ade6eca55"],
@@ -7291,7 +7291,7 @@
             "lastName": "Crosby",
             "registered": true,
             "slug": "E6U770328",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-13": {
             "postIds": [],
@@ -7308,7 +7308,7 @@
             "lastName": "Castro",
             "registered": true,
             "slug": "B0U7D727C",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-13": {
             "postIds": ["c0e6398e-e232-46fb-9215-481ffc04c05b"],
@@ -7325,7 +7325,7 @@
             "lastName": "Werner",
             "registered": true,
             "slug": "3CEUFBE3D",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-13": {
             "postIds": ["c5fbf5e2-0982-42d5-9dc2-b41d75aabceb"],
@@ -7342,7 +7342,7 @@
             "lastName": "Silva",
             "registered": true,
             "slug": "BD639UE4B",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-14": {
             "postIds": ["60abdd66-c6da-4922-9452-fcd4bc7a90f2"],
@@ -7359,7 +7359,7 @@
             "lastName": "Kelley",
             "registered": true,
             "slug": "U89E952D3",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-14": {
             "postIds": ["73429a0b-e165-4161-b3aa-aab2562999fc"],
@@ -7376,7 +7376,7 @@
             "lastName": "Williams",
             "registered": true,
             "slug": "U24FD5787",
-            "role": "0"
+            "role": "member"
         },
         "2022-12-15": {
             "postIds": [],
