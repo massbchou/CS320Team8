@@ -1,9 +1,6 @@
 // mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/
 import { MongoClient } from "mongodb";
 import Image from "next/image";
-// import goldstar_nobackground from '../public/goldstar_nobackground.png';
-// import silverstar_nobackground from '../public/silverstar_nobackground.png';
-// import bronzestar_nobackground from '../public/bronzestar_nobackground.png';
 import Feature from "./feature.js";
 import background from "./images/background.png";
 import top_posts_algo from "./top_posts.js";
@@ -22,12 +19,25 @@ export default async function Mongo() {
   let inputText = '';
   // Create initially empty input text variable
 
+
+  /*Caching right now is set as one entry per date. So for '2022-09-15' there is one entry and if the collectionDate is set to that string, 
+  then no database query calls have to be made because it can just take array information saved at that specific collectionDate. 
+  However, MAX_DAYS is hard-coded to only allow posts from 20 days prior up to the collectionDate as being queried. 
+  I was thinking if we wanted to allow users to change this range to say only 7 days before the collectionDate or all possible days before the collectionDate our method currently wouldn't allow it. 
+  If the current if-else statement was changed to a if-elseif-else statement where the second if conditional checked if the collectionDate with whatever desired value of MAX_DAYS has been calculated before. 
+  If it has NOT been calculated before that means the same collectionDate has been calculated before, but with a different time range for allowing posts to count towards the calculation.
+  So, it should be calculated and stored as having the collectionDate as its collectionDate and the MAX_DAYS as its MAX_DAYS. 
+  If it HAS been calculated before that means both that collectionDay and MAX_DAYS combo has been calculated before and this is just the else statement we currently have.*/
+
   try {
     await client.connect();
     // Connect to cluster
 
-    let collectionDate = '2022-11-19';
+    let collectionDate = '2022-12-15';
     // Set collection date
+
+    let thresholdDaysPrior = 20;
+    // Get the number of days prior they want included
 
     let cacheCollection = client.db('caching').collection('trending topics');
     let cache = await cacheCollection.findOne({collectionDate: collectionDate});
@@ -79,18 +89,17 @@ export default async function Mongo() {
     
     //Same idea but for top posts now
     let cacheCollectionPosts = client.db('caching').collection('top posts');
-    let cachePosts = await cacheCollectionPosts.findOne({collectionDate: collectionDate});
+    let cachePosts = await cacheCollectionPosts.findOne({collectionDate: collectionDate, thresholdDaysPrior: numDaysPrior});
 
     if(cachePosts === null){//if the entry does not exist generate it
-      const MAX_DAYS_OLD = 20;
-      let compDate = new Date(new Date(collectionDate).getTime() - (1000 * 60 * 60 * 24 * MAX_DAYS_OLD)).toISOString();
+      let compDate = new Date(new Date(collectionDate).getTime() - (1000 * 60 * 60 * 24 * thresholdDaysPrior)).toISOString();
       // Create a new date string that represents a date MAX_DAYS_OLD days in the past in relation to the collection date
 
       let entry_data = client.db('posts').collection(collectionDate).find({publishedAt: {$gt: compDate}});
       // Finds all posts made within the past MAX_DAYS_OLD days in relation to the collection date
 
       topPosts = top_posts_algo(await entry_data.toArray().then((arr) => arr.filter((x) => !(x.body.substring(0, 3) === 'zzz'))), collectionDate);
-      await cacheCollectionPosts.insertOne({collectionDate: collectionDate, topPosts: topPosts});
+      await cacheCollectionPosts.insertOne({collectionDate: collectionDate, thresholdDaysPrior: thresholdDaysPrior, topPosts: topPosts});
     }
     else{// If the entry does exist, then just pull the keywords from the database
       topPosts = cachePosts.topPosts;
@@ -98,12 +107,11 @@ export default async function Mongo() {
 
     //Same idea for prolific users now
     let cacheCollectionUsers = client.db('caching').collection('prolific users');
-    let cacheUsers = await cacheCollectionUsers.findOne({collectionDate: collectionDate});
+    let cacheUsers = await cacheCollectionUsers.findOne({collectionDate: collectionDate, thresholdDaysPrior: thresholdDaysPrior});
 
     if(cacheUsers === null){//if the entry does not exist generate it
       const endDate = new Date(collectionDate);
-      const MAX_DAYS_OLD = 20;
-      let beginDate = new Date(new Date(collectionDate).getTime() - (1000 * 60 * 60 * 24 * MAX_DAYS_OLD));
+      let beginDate = new Date(new Date(collectionDate).getTime() - (1000 * 60 * 60 * 24 * numDaysPrior));
 
       let user_data = client.db('users').collection('users').find({'author.role':'member'});
       // Finds all posts made by non-moderators
@@ -128,7 +136,7 @@ export default async function Mongo() {
       //filters out all the entries that have no posts or comments because they have no date fields because they only have id and author fields
 
       prolificUsers = prolific_users_algo(filteredArray, beginDate, endDate);
-      await cacheCollectionUsers.insertOne({collectionDate: collectionDate, prolificUsers: prolificUsers});
+      await cacheCollectionUsers.insertOne({collectionDate: collectionDate,  thresholdDaysPrior: thresholdDaysPrior, prolificUsers: prolificUsers});
     }
     else{// If the entry does exist, then just pull the keywords from the database
       prolificUsers = cacheUsers.prolificUsers;

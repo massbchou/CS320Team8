@@ -43,6 +43,5 @@ function prolific_users_algo(usersList, start, end) {
   let prolific_users = authors
     .filter((_, i) => i < 5)
     .map(res => cutoff_string(res.full_name));
-  console.log(prolific_users);
   return prolific_users;
 }
