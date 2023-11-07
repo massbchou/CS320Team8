@@ -1,5 +1,6 @@
 // import styles from "./page.module.css";
 import { MongoClient } from "mongodb";
+import Statistic from './statistic.js';
 
 export default async function Mongo() {
 
@@ -8,6 +9,7 @@ export default async function Mongo() {
   const client = new MongoClient(url);
 
   let numUnanswered;
+  let output;
 
   try {
     // connect to mongoDB
@@ -31,8 +33,6 @@ export default async function Mongo() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        <p>Unanswered questions: {numUnanswered}</p>
-    </main>
+    <Statistic title = 'Unanswered questions' data = {numUnanswered}></Statistic>
   );
 }
