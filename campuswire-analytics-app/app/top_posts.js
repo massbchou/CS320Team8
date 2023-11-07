@@ -45,9 +45,9 @@ function top_posts_algo(data) {
   Score.sort(function (a, b) {
     return b["score"] - a["score"];
   });
-  let ranked_posts = Score.map((pair) => pair["entry"]);
+  let ranked_posts = Score.map(pair => pair["entry"]);
   let top_posts = ranked_posts
     .filter((res, i) => i < 5)
-    .map((res, i) => cutoff_string(res.title));
+    .map(res => cutoff_string(res.title));
   return top_posts;
 }

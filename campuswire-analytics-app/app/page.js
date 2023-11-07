@@ -1,19 +1,20 @@
 // mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/
-import {MongoClient} from "mongodb";
+import { MongoClient } from "mongodb";
 import Image from "next/image";
 // import goldstar_nobackground from '../public/goldstar_nobackground.png';
 // import silverstar_nobackground from '../public/silverstar_nobackground.png';
 // import bronzestar_nobackground from '../public/bronzestar_nobackground.png';
-import Feature from './feature.js';
-import background from './images/background.png'
-import top_posts_algo from './top_posts.js';
-import prolific_users_algo from './prolific_users.js';
+import Feature from "./feature.js";
+import background from "./images/background.png";
+import top_posts_algo from "./top_posts.js";
+import prolific_users_algo from "./prolific_users.js";
 
 export default async function Mongo() {
   // initialize mongoclient credentials
   const url =
     "mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/?retryWrites=true&w=majority";
   const client = new MongoClient(url);
+
 
   let topPosts;
   let prolificUsers;
@@ -76,6 +77,7 @@ export default async function Mongo() {
       topPhrases = cache.topPhrases;
     }
     
+    //Same idea but for top posts now
     let cacheCollectionPosts = client.db('caching').collection('top posts');
     let cachePosts = await cacheCollectionPosts.findOne({collectionDate: collectionDate});
 
@@ -94,6 +96,7 @@ export default async function Mongo() {
       topPosts = cachePosts.topPosts;
     }
 
+    //Same idea for prolific users now
     let cacheCollectionUsers = client.db('caching').collection('prolific users');
     let cacheUsers = await cacheCollectionUsers.findOne({collectionDate: collectionDate});
 
@@ -124,29 +127,77 @@ export default async function Mongo() {
       const filteredArray = filteredDocuments.filter(doc => Object.keys(doc).length > 2);
       //filters out all the entries that have no posts or comments because they have no date fields because they only have id and author fields
 
-      prolificUsers = prolific_users_algo(filteredArray);
+      prolificUsers = prolific_users_algo(filteredArray, beginDate, endDate);
       await cacheCollectionUsers.insertOne({collectionDate: collectionDate, prolificUsers: prolificUsers});
     }
     else{// If the entry does exist, then just pull the keywords from the database
       prolificUsers = cacheUsers.prolificUsers;
     }
   } catch (e) {
-    console.log("There was an error in connecting to mongo")
+    console.log("There was an error in connecting to mongo");
     console.error(e);
   } finally {
     await client.close();
   }
 
   return (
-    <main style={{backgroundImage: `url(${background.src})`, backgroundSize: '100%', backgroundRepeat: 'no-repeat', height:'100vh'}}>
-      <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-        <Image src='/images/icon.png' width={90} height={90} quality={100} style={{margin:'10px'}} unoptimized></Image>
-        <span style={{fontFamily:'Roboto', textAlign:'center', fontSize:'30px'}}>Campuswire Analytics</span>
+    <main
+      style={{
+        backgroundImage: `url(${background.src})`,
+        backgroundSize: "100%",
+        backgroundRepeat: "no-repeat",
+        height: "100vh",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Image
+          src="/images/icon.png"
+          width={90}
+          height={90}
+          quality={100}
+          style={{ margin: "10px" }}
+          unoptimized
+          alt=""
+        ></Image>
+        <span
+          style={{
+            fontFamily: "Roboto",
+            textAlign: "center",
+            fontSize: "30px",
+          }}
+        >
+          Campuswire Analytics
+        </span>
       </div>
-      <div style={{display:'flex', justifyContent:'center', alignItems:'center', margin: '10px'}}>
-        <Feature linkTo= 'trending-topics' title='Trending Topics' content={topPhrases}></Feature>
-        <Feature linkTo= 'top-posts' title='Top Posts' content={topPosts}></Feature>
-        <Feature linkTo= 'most-active-users' title='Most Active Users' content={prolificUsers}></Feature>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "10px",
+        }}
+      >
+        <Feature
+          linkTo="trending-topics"
+          title="Trending Topics"
+          content={topPhrases}
+        ></Feature>
+        <Feature
+          linkTo="top-posts"
+          title="Top Posts"
+          content={topPosts}
+        ></Feature>
+        <Feature
+          linkTo="most-active-users"
+          title="Most Active Users"
+          content={prolificUsers}
+        ></Feature>
       </div>
     </main>
   );
