@@ -89,7 +89,7 @@ export default async function Mongo() {
     
     //Same idea but for top posts now
     let cacheCollectionPosts = client.db('caching').collection('top posts');
-    let cachePosts = await cacheCollectionPosts.findOne({collectionDate: collectionDate, thresholdDaysPrior: numDaysPrior});
+    let cachePosts = await cacheCollectionPosts.findOne({collectionDate: collectionDate, thresholdDaysPrior: thresholdDaysPrior});
 
     if(cachePosts === null){//if the entry does not exist generate it
       let compDate = new Date(new Date(collectionDate).getTime() - (1000 * 60 * 60 * 24 * thresholdDaysPrior)).toISOString();
@@ -111,7 +111,7 @@ export default async function Mongo() {
 
     if(cacheUsers === null){//if the entry does not exist generate it
       const endDate = new Date(collectionDate);
-      let beginDate = new Date(new Date(collectionDate).getTime() - (1000 * 60 * 60 * 24 * numDaysPrior));
+      let beginDate = new Date(new Date(collectionDate).getTime() - (1000 * 60 * 60 * 24 * thresholdDaysPrior));
 
       let user_data = client.db('users').collection('users').find({'author.role':'member'});
       // Finds all posts made by non-moderators
