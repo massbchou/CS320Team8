@@ -1,4 +1,4 @@
-export default prolific_users_algo;
+export default top_users_algo;
 
 function cutoff_string(name_to_cut) {
   if (name_to_cut.length < 20) {
@@ -12,7 +12,7 @@ function cutoff_string(name_to_cut) {
   }
 }
 
-function prolific_users_algo(usersList, start, end) {
+function top_users_algo(usersList, start, end) {
   /**
    * Takes in list of users and returns list sorted by most activity within interval
    * Start and end times should be Date objects
@@ -40,8 +40,8 @@ function prolific_users_algo(usersList, start, end) {
   }
   //Now order based on descending post number
   authors.sort((a, b) => b.engagement_count - a.engagement_count);
-  let prolific_users = authors
+  let top_users = authors
     .filter((_, i) => i < 5)
     .map(res => cutoff_string(res.full_name));
-  return prolific_users;
+  return top_users;
 }

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Feature from "./feature.js";
 import background from "./images/background.png";
 import top_posts_algo from "./top_posts.js";
-import prolific_users_algo from "./prolific_users.js";
+import top_users_algo from "./top_users.js";
 
 export default async function Mongo() {
   // initialize mongoclient credentials
@@ -14,11 +14,10 @@ export default async function Mongo() {
 
 
   let topPosts;
-  let prolificUsers;
+  let topUsers;
   let topPhrases;
   let inputText = '';
   // Create initially empty input text variable
-
 
   /*Caching right now is set as one entry per date. So for '2022-09-15' there is one entry and if the collectionDate is set to that string, 
   then no database query calls have to be made because it can just take array information saved at that specific collectionDate. 
@@ -33,10 +32,10 @@ export default async function Mongo() {
     await client.connect();
     // Connect to cluster
 
-    let collectionDate = '2022-12-15';
+    let collectionDate = '2022-10-15';
     // Set collection date
 
-    let thresholdDaysPrior = 20;
+    let thresholdDaysPrior = 10;
     // Get the number of days prior they want included
 
     let cacheCollection = client.db('caching').collection('trending topics');
@@ -106,7 +105,7 @@ export default async function Mongo() {
     }
 
     //Same idea for prolific users now
-    let cacheCollectionUsers = client.db('caching').collection('prolific users');
+    let cacheCollectionUsers = client.db('caching').collection('top users');
     let cacheUsers = await cacheCollectionUsers.findOne({collectionDate: collectionDate, thresholdDaysPrior: thresholdDaysPrior});
 
     if(cacheUsers === null){//if the entry does not exist generate it
@@ -135,11 +134,11 @@ export default async function Mongo() {
       const filteredArray = filteredDocuments.filter(doc => Object.keys(doc).length > 2);
       //filters out all the entries that have no posts or comments because they have no date fields because they only have id and author fields
 
-      prolificUsers = prolific_users_algo(filteredArray, beginDate, endDate);
-      await cacheCollectionUsers.insertOne({collectionDate: collectionDate,  thresholdDaysPrior: thresholdDaysPrior, prolificUsers: prolificUsers});
+      topUsers = top_users_algo(filteredArray, beginDate, endDate);
+      await cacheCollectionUsers.insertOne({collectionDate: collectionDate,  thresholdDaysPrior: thresholdDaysPrior, topUsers: topUsers});
     }
     else{// If the entry does exist, then just pull the keywords from the database
-      prolificUsers = cacheUsers.prolificUsers;
+      topUsers = cacheUsers.topUsers;
     }
   } catch (e) {
     console.log("There was an error in connecting to mongo");
@@ -204,7 +203,7 @@ export default async function Mongo() {
         <Feature
           linkTo="most-active-users"
           title="Most Active Users"
-          content={prolificUsers}
+          content={topUsers}
         ></Feature>
       </div>
     </main>

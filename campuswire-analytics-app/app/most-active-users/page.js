@@ -1,6 +1,6 @@
 import background from "../images/background.png";
 import { MongoClient } from "mongodb";
-import prolific_users_algo from "../prolific_users.js";
+import prolific_users_algo from "../top_users.js";
 import Feature from "../feature.js";
 
 export default async function Page() {
