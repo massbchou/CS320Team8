@@ -28,8 +28,8 @@ function top_users_algo(usersList, start, end) {
 
     for (let date in usersList[i]) {
       if (date === "_id" || date === "author") continue;
-      let dateTime = new Date(date).getTime();
-      if (!(start.getTime() < dateTime && dateTime < end.getTime())) continue;
+      let dateTime = new Date(date);
+      if (start > dateTime || dateTime > end) continue;
       //goes through all the dates that a post or comment was made
       let num_posts = usersList[i][date].postCount;
       let num_comments = usersList[i][date].commentCount;
@@ -42,6 +42,6 @@ function top_users_algo(usersList, start, end) {
   authors.sort((a, b) => b.engagement_count - a.engagement_count);
   let top_users = authors
     .filter((_, i) => i < 5)
-    .map(res => cutoff_string(res.full_name));
+    .map((res) => cutoff_string(res.full_name));
   return top_users;
 }

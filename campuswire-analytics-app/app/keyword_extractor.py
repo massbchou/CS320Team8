@@ -1,9 +1,13 @@
 import sys
 import json
 import yake
-
 kw_extractor = yake.KeywordExtractor(
-    lan="en", n=3, dedupLim=0.25, dedupFunc="seqm", windowsSize=1, top=15
+  lan = "en",
+  n = 3,
+  dedupLim = 0.25,
+  dedupFunc = 'seqm',
+  windowsSize = 1,
+  top = 15
 )
 keywords = kw_extractor.extract_keywords(sys.argv[1])
 output = []
