@@ -1,5 +1,16 @@
-import background from '../images/background.png'
+import background from "../images/background.png";
 
 export default function Page() {
-    return <h1>Top Posts</h1>
+  return (
+    <main
+      style={{
+        backgroundImage: `url(${background.src})`,
+        backgroundSize: "100%",
+        backgroundRepeat: "no-repeat",
+        height: "100vh",
+      }}
+    >
+      <header>Top Posts</header>
+    </main>
+  );
 }
