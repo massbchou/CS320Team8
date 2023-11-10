@@ -10,7 +10,7 @@ export default function Feature(props){
                     <span key={i + 'c'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'70%'}}>{x}</span>
                 </div>
             ))}
-            <Link href={"/" + props.linkTo}>...</Link>
+            <Link href={"/" + props.linkTo} style={{display: 'flex', justifyContent:'center', borderRadius:'7px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', margin: '0 auto', marginTop:'10px', width:'40px', fontSize:'20px', textAlign:'center'}}>...</Link>
         </div>
     )
 }
