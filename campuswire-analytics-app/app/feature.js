@@ -1,16 +1,25 @@
+'use client'
 import Link from 'next/link';
+import { Button } from '@material-ui/core'
 // Returns a formatted Feature component for the Overview tab given a title and some data
 export default function Feature(props){
     return (
-        <div style={{backgroundImage: 'linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))', borderRadius: '10px', padding: '20px', margin: '20px', width: '350px'}}>
-            <div style={{textAlign:'center', fontFamily:'Young Serif', fontSize:'25px', backgroundColor:'rgba(255, 255, 255, 0.70)', borderRadius:'10px', padding:'3px', marginBottom:'9px'}}>{props.title}</div>
+        <div style={{backgroundImage: 'linear-gradient(rgba(0, 242, 255, 0.45), rgba(255, 0, 242, 0.45))', borderRadius: '10px', padding: '20px', margin: '20px', width: '18%'}}>
+            <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                <div style={{textAlign:'center', fontFamily:'Young Serif', fontSize:'20px', backgroundColor:'rgba(255, 255, 255, 0.70)', borderRadius:'10px', width:'100%', padding:'6px', marginBottom:'9px', marginRight:'9px'}}>{props.title}</div>
+                {(props.totalCount === undefined) ? '' : <div style={{textAlign:'center', fontFamily:'Young Serif', fontSize:'20px', backgroundColor:'rgba(255, 255, 255, 0.70)', borderRadius:'10px', width:'15%', padding:'6px', marginBottom:'9px'}}>{props.totalCount}</div>}
+            </div>
             {props.content.map((x, i) => (
                 <div key={i + 'a'} style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-                    <span key={i + 'b'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'10%'}}>{i + 1}</span>
-                    <span key={i + 'c'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'70%'}}>{x}</span>
+                    <span key={i + 'b'} style={{fontFamily:'Young Serif', fontSize:'17px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'10%'}}>{i + 1}</span>
+                    <span key={i + 'c'} style={{fontFamily:'Young Serif', fontSize:'17px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'70%'}}>{x}</span>
                 </div>
             ))}
-            <Link href={"/" + props.linkTo}>...</Link>
+            <div style={{display:'flex', justifyContent:'center', alignItems:'center', margin:'6px', color:'rgba(255, 255, 255, 1)', opacity:'0.6'}}>
+                <Link href={"/" + props.linkTo}>
+                    <Button size="small" variant="contained">...</Button>
+                </Link>
+            </div>
         </div>
     )
 }

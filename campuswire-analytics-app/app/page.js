@@ -16,7 +16,9 @@ export default async function Mongo() {
   let topUsers;
   let topPhrases;
   let inputText = "";
-  // Create initially empty input text variable
+  let unansweredCount;
+  let unansweredTitles;
+  // Create initially empty variables
 
   /*Caching right now is set as one entry per date. So for '2022-09-15' there is one entry and if the collectionDate is set to that string, 
   then no database query calls have to be made because it can just take array information saved at that specific collectionDate. 
@@ -27,15 +29,35 @@ export default async function Mongo() {
   So, it should be calculated and stored as having the collectionDate as its collectionDate and the MAX_DAYS as its MAX_DAYS. 
   If it HAS been calculated before that means both that collectionDay and MAX_DAYS combo has been calculated before and this is just the else statement we currently have.*/
 
+  let collectionDate = "2022-10-15";
+  // Set collection date
+
+  let thresholdDaysPrior = 10;
+  // Get the number of days prior they want included
+
   try {
     await client.connect();
     // Connect to cluster
 
-    let collectionDate = "2022-10-15";
-    // Set collection date
+    const collection = client.db("posts").collection(collectionDate);
+    // get collection "2022-09-15" from database "posts"
 
-    let thresholdDaysPrior = 10;
-    // Get the number of days prior they want included
+    const unanswered = collection.find({type: "question", $nor: [{modAnsweredAt: {$exists: true}}, {comments: {$elemMatch: {endorsed: true}}}] });
+    let unansweredArr = await unanswered.toArray();
+    // find posts that are not either (a) answered by mods or (b) have endorsed comments !(a or b)
+
+    unansweredCount = unansweredArr.length;
+    // get the length of the original unanswered array
+
+    unansweredTitles = unansweredArr.map(e => e.title.substring(0, 18) + "...");
+    // get the titles of the oldest 5 unanswered posts
+    // .filter(e => !(e.substring(0, 3) === 'zzz'));
+    // ^^ use this to filter out the private posts
+
+    if(unansweredArr.length > 5){
+      unansweredTitles = unansweredTitles.slice(0, 5);
+    }
+    // if there are more than 5 unanswered posts, cut the list down to 5
 
     let cacheCollection = client.db("caching").collection("trending topics");
     let cache = await cacheCollection.findOne({
@@ -205,7 +227,7 @@ export default async function Mongo() {
       topUsers = cacheUsers.topUsers;
     }
   } catch (e) {
-    console.log("There was an error in connecting to mongo");
+    console.log("There was an error in connecting to mongoDB");
     console.error(e);
   } finally {
     await client.close();
@@ -214,9 +236,11 @@ export default async function Mongo() {
   return (
     <main
       style={{
-        backgroundImage: `url(${background.src})`,
-        backgroundSize: "100%",
+        // backgroundImage: `url(${background.src})`,
+        background: "linear-gradient(140deg, rgba(2,0,36,1) 0%, rgba(255,173,252,1) 0%, rgba(255,255,255,1) 48%, rgba(136,255,243,1) 100%)",
+        backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
+        width: "100%",
         height: "100vh",
       }}
     >
@@ -238,7 +262,7 @@ export default async function Mongo() {
         ></Image>
         <span
           style={{
-            fontFamily: "Roboto",
+            fontFamily: "Young Serif",
             textAlign: "center",
             fontSize: "30px",
           }}
@@ -255,14 +279,20 @@ export default async function Mongo() {
         }}
       >
         <Feature
-          linkTo="trending-topics"
-          title="Trending Topics"
-          content={topPhrases}
+          totalCount={unansweredCount}
+          linkTo="unanswered-questions"
+          title="Unanswered Questions"
+          content={unansweredTitles}
         ></Feature>
         <Feature
           linkTo="top-posts"
           title="Top Posts"
           content={topPosts}
+        ></Feature>
+        <Feature
+          linkTo="trending-topics"
+          title="Trending Topics"
+          content={topPhrases}
         ></Feature>
         <Feature
           linkTo="most-active-users"

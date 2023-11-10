@@ -32,7 +32,7 @@ export default async function Page() {
     // mods for entire semester
     topMods = top_users_algo(await modData.toArray(), sep1, dec31);
   } catch (e) {
-    console.log("There was an error in connecting to mongo");
+    console.log("There was an error in connecting to mongoDB");
     console.error(e);
   } finally {
     await client.close();
@@ -71,7 +71,6 @@ export default async function Page() {
           title="Most Active Students: dec 1 - end of semester (dec 15)"
           content={topStudents3}
         ></Feature>
-
         <Feature
           linkTo="most-active-users"
           title="Most Active Mods"
