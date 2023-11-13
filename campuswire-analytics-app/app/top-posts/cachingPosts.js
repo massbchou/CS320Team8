@@ -1,6 +1,6 @@
 export default handlingTopPostCaching;
 
-async function handlingTopPostCaching(cachePosts){
+async function handlingTopPostCaching(cachePosts, cacheCollectionPosts){
     if (cachePosts === null) {
     //if the entry does not exist generate it
     let compDate = new Date(

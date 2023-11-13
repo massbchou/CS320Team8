@@ -7,6 +7,7 @@ import React from 'react';
 import DateChooser from '../app/dateChooser';
 import handlingTopPostCaching from "./top-posts/cachingPosts.js";
 import handlingTopUserCaching from "./most-active-users/cachingUsers.js";
+import handlingHotTopicsCaching from "./trending-topics/cachingTopics.js";
 
 export default async function Mongo() {
   // initialize mongoclient credentials
@@ -37,66 +38,68 @@ export default async function Mongo() {
     });
     // Try to find the cache entry with the corresponding collectionDate
 
-    if (cache === null) {
-      // If the entry does not exist, generate it
-      const MAX_DAYS_OLD = 20;
-      let comparisonDate = new Date(
-        new Date(collectionDate).getTime() - 1000 * 60 * 60 * 24 * MAX_DAYS_OLD,
-      ).toISOString();
-      // Create a new date string that represents a date MAX_DAYS_OLD days in the past in relation to the collection date
+    topPhrases = await handlingHotTopicsCaching(cache, cacheCollection);
 
-      let cursor = client
-        .db("posts")
-        .collection(collectionDate)
-        .find({ publishedAt: { $gt: comparisonDate } });
-      // Finds all posts made within the past MAX_DAYS_OLD days in relation to the collection date
+    // if (cache === null) {
+    //   // If the entry does not exist, generate it
+    //   const MAX_DAYS_OLD = 20;
+    //   let comparisonDate = new Date(
+    //     new Date(collectionDate).getTime() - 1000 * 60 * 60 * 24 * MAX_DAYS_OLD,
+    //   ).toISOString();
+    //   // Create a new date string that represents a date MAX_DAYS_OLD days in the past in relation to the collection date
 
-      let arr = await cursor.toArray();
-      // Turn cursor into an array of post objects
+    //   let cursor = client
+    //     .db("posts")
+    //     .collection(collectionDate)
+    //     .find({ publishedAt: { $gt: comparisonDate } });
+    //   // Finds all posts made within the past MAX_DAYS_OLD days in relation to the collection date
 
-      arr = arr.filter((x) => !(x.body.substring(0, 3) === "zzz"));
-      // Filter out all fake entries that start with 'zzz'
+    //   let arr = await cursor.toArray();
+    //   // Turn cursor into an array of post objects
 
-      arr.forEach(function (x) {
-        if (x.body.indexOf("![") >= 0) {
-          let start =
-            Math.max(x.body.lastIndexOf(".png)"), x.body.lastIndexOf(".jpg)")) +
-            5;
-          x.body =
-            x.body.substring(0, x.body.indexOf("![")) + x.body.substring(start);
-        }
-      });
-      // Remove all embedded images
+    //   arr = arr.filter((x) => !(x.body.substring(0, 3) === "zzz"));
+    //   // Filter out all fake entries that start with 'zzz'
 
-      for (let i = 0; i < arr.length; i++) {
-        inputText += arr[i].title + " " + arr[i].body + " ";
-      }
-      // Generate concatenation of all remaining title and body texts
+    //   arr.forEach(function (x) {
+    //     if (x.body.indexOf("![") >= 0) {
+    //       let start =
+    //         Math.max(x.body.lastIndexOf(".png)"), x.body.lastIndexOf(".jpg)")) +
+    //         5;
+    //       x.body =
+    //         x.body.substring(0, x.body.indexOf("![")) + x.body.substring(start);
+    //     }
+    //   });
+    //   // Remove all embedded images
 
-      inputText = inputText.replaceAll("\n", " ");
-      // Remove all newlines
+    //   for (let i = 0; i < arr.length; i++) {
+    //     inputText += arr[i].title + " " + arr[i].body + " ";
+    //   }
+    //   // Generate concatenation of all remaining title and body texts
 
-      const { PythonShell } = require("python-shell");
+    //   inputText = inputText.replaceAll("\n", " ");
+    //   // Remove all newlines
 
-      await PythonShell.run("./app/keyword_extractor.py", {
-        mode: "json",
-        pythonPath: "py",
-        args: [inputText],
-      }).then((msg) => {
-        topPhrases = msg[0];
-      });
-      // Spawn Python process, pass it the text
-      // When the output from the script is receieved, capture it
+    //   const { PythonShell } = require("python-shell");
 
-      await cacheCollection.insertOne({
-        collectionDate: collectionDate,
-        topPhrases: topPhrases,
-      });
-      // Insert the generated keywords into the cache database
-    } else {
-      // If the entry does exist, then just pull the keywords from the database
-      topPhrases = cache.topPhrases;
-    }
+    //   await PythonShell.run("./app/keyword_extractor.py", {
+    //     mode: "json",
+    //     pythonPath: "py",
+    //     args: [inputText],
+    //   }).then((msg) => {
+    //     topPhrases = msg[0];
+    //   });
+    //   // Spawn Python process, pass it the text
+    //   // When the output from the script is receieved, capture it
+
+    //   await cacheCollection.insertOne({
+    //     collectionDate: collectionDate,
+    //     topPhrases: topPhrases,
+    //   });
+    //   // Insert the generated keywords into the cache database
+    // } else {
+    //   // If the entry does exist, then just pull the keywords from the database
+    //   topPhrases = cache.topPhrases;
+    // }
 
     //Same idea but for top posts now
     let cacheCollectionPosts = client.db("caching").collection("top posts");
@@ -105,7 +108,7 @@ export default async function Mongo() {
       thresholdDaysPrior: thresholdDaysPrior,
       hasDecay: true,
     });
-    topPosts = await handlingTopPostCaching(cachePosts);
+    topPosts = await handlingTopPostCaching(cachePosts, cacheCollectionPosts);
 
     //Same idea for top users now
     let cacheCollectionUsers = client.db("caching").collection("top users");
@@ -115,7 +118,7 @@ export default async function Mongo() {
       thresholdDaysPrior: thresholdDaysPrior,
       role: userRole,
     });
-    topUsers = await handlingTopUserCaching(cacheUsers);
+    topUsers = await handlingTopUserCaching(cacheUsers, cacheCollectionUsers);
   } catch (e) {
     console.log("There was an error in connecting to mongo");
     console.error(e);

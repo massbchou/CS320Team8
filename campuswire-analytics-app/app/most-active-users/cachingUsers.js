@@ -1,6 +1,6 @@
 export default handlingTopUserCaching;
 
-async function handlingTopUserCaching(cacheUsers){
+async function handlingTopUserCaching(cacheUsers, cacheCollectionUsers){
     if (cacheUsers === null) {
         //if the entry does not exist generate it
         const endDate = new Date(collectionDate);
