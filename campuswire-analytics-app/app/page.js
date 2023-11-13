@@ -1,4 +1,5 @@
 // mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/
+import { useState } from "react";
 import { MongoClient } from "mongodb";
 import Image from "next/image";
 import Feature from "./feature.js";
@@ -31,11 +32,23 @@ export default async function Mongo() {
     await client.connect();
     // Connect to cluster
 
-    let collectionDate = "2022-10-15";
+    // let collectionDate = "2022-10-15";
     // Set collection date
 
-    let thresholdDaysPrior = 10;
+    // let thresholdDaysPrior = 10;
     // Get the number of days prior they want included
+
+    // State for collection date and threshold days
+    const [collectionDate, setCollectionDate] = useState('2022-10-15'); // Default value
+    const [thresholdDaysPrior, setThresholdDaysPrior] = useState(10); // Default value
+
+    // Event handlers
+    const handleDateChange = (e) => {
+      setCollectionDate(e.target.value);
+    };
+    const handleDaysPriorChange = (e) => {
+      setThresholdDaysPrior(Number(e.target.value));
+    };
 
     let cacheCollection = client.db("caching").collection("trending topics");
     let cache = await cacheCollection.findOne({
@@ -60,7 +73,7 @@ export default async function Mongo() {
       let arr = await cursor.toArray();
       // Turn cursor into an array of post objects
 
-      arr = arr.filter((x) => !(x.body.substring(0, 3) === "zzz"));
+      arr = arr.filter((x) => x.body.substring(0, 3) !== "zzz");
       // Filter out all fake entries that start with 'zzz'
 
       arr.forEach(function (x) {
@@ -74,8 +87,8 @@ export default async function Mongo() {
       });
       // Remove all embedded images
 
-      for (let i = 0; i < arr.length; i++) {
-        inputText += arr[i].title + " " + arr[i].body + " ";
+      for (const element of arr) {
+        inputText += element.title + " " + element.body + " ";
       }
       // Generate concatenation of all remaining title and body texts
 
@@ -129,7 +142,7 @@ export default async function Mongo() {
         await entry_data
           .toArray()
           .then((arr) =>
-            arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
+            arr.filter((x) => x.body.substring(0, 3) !== "zzz"),
           ),
         collectionDate,
       );
@@ -269,6 +282,24 @@ export default async function Mongo() {
           title="Most Active Users"
           content={topUsers}
         ></Feature>
+      </div>
+      <div>
+        <label htmlFor="collectionDate">Collection Date: </label>
+        <input
+          type="date"
+          id="collectionDate"
+          value={collectionDate}
+          onChange={handleDateChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="daysPrior">Threshold Days Prior: </label>
+        <input
+          type="number"
+          id="daysPrior"
+          value={thresholdDaysPrior}
+          onChange={handleDaysPriorChange}
+        />
       </div>
     </main>
   );
