@@ -1,7 +1,7 @@
 export default handlingTopPostCaching;
 
-async function handlingTopPostCaching(cachePosts, cacheCollectionPosts){
-    if (cachePosts === null) {
+async function handlingTopPostCaching(cachePosts, cacheCollectionPosts) {
+  if (cachePosts === null) {
     //if the entry does not exist generate it
     let compDate = new Date(
       new Date(collectionDate).getTime() -
@@ -18,9 +18,7 @@ async function handlingTopPostCaching(cachePosts, cacheCollectionPosts){
     topPosts = top_posts_algo(
       await entry_data
         .toArray()
-        .then((arr) =>
-          arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
-        ),
+        .then((arr) => arr.filter((x) => !(x.body.substring(0, 3) === "zzz"))),
       collectionDate,
       true,
     );
@@ -29,7 +27,7 @@ async function handlingTopPostCaching(cachePosts, cacheCollectionPosts){
       thresholdDaysPrior: thresholdDaysPrior,
       hasDecay: true,
       topPosts: topPosts,
-    })
+    });
     return topPosts;
   } else {
     // If the entry does exist, then just pull the keywords from the database

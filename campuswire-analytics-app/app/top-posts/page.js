@@ -17,37 +17,41 @@ export default async function Page() {
   try {
     await client.connect();
     let postsCollection = client.db("caching").collection("top posts");
-    let cache1Posts = await postsCollection.findOne({//Posts from Sept 01 to Sept 30 inclusive
+    let cache1Posts = await postsCollection.findOne({
+      //Posts from Sept 01 to Sept 30 inclusive
       collectionDate: "2022-09-30",
       thresholdDaysPrior: 29,
       hasDecay: false,
     });
-    let cache2Posts = await postsCollection.findOne({//Posts from Oct 01 to Oct 31 inclusive
+    let cache2Posts = await postsCollection.findOne({
+      //Posts from Oct 01 to Oct 31 inclusive
       collectionDate: "2022-10-31",
       thresholdDaysPrior: 30,
       hasDecay: false,
     });
-    let cache3Posts = await postsCollection.findOne({//Posts from Nov 01 to Nov 30 inclusive
+    let cache3Posts = await postsCollection.findOne({
+      //Posts from Nov 01 to Nov 30 inclusive
       collectionDate: "2022-11-30",
       thresholdDaysPrior: 29,
       hasDecay: false,
     });
-    let cache4Posts = await postsCollection.findOne({//Posts from Dec 01 to Dec 31 inclusive
+    let cache4Posts = await postsCollection.findOne({
+      //Posts from Dec 01 to Dec 31 inclusive
       collectionDate: "2022-12-31",
       thresholdDaysPrior: 30,
       hasDecay: false,
     });
-    let cacheAllPosts = await postsCollection.findOne({//Posts from the Whole Semester
+    let cacheAllPosts = await postsCollection.findOne({
+      //Posts from the Whole Semester
       collectionDate: "2022-12-15",
       thresholdDaysPrior: 365,
       hasDecay: false,
     });
-    
+
     if (cache1Posts === null) {
       //if the entry does not exist generate it
       let compDate = new Date(
-        new Date("2022-09-30").getTime() -
-          1000 * 60 * 60 * 24 * 29,
+        new Date("2022-09-30").getTime() - 1000 * 60 * 60 * 24 * 29,
       ).toISOString();
       // Create a new date string that represents a date MAX_DAYS_OLD days in the past in relation to the collection date
 
@@ -63,8 +67,8 @@ export default async function Page() {
           .then((arr) =>
             arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
           ),
-          "2022-09-30",
-          false,
+        "2022-09-30",
+        false,
       );
       await postsCollection.insertOne({
         collectionDate: "2022-09-30",
@@ -79,8 +83,7 @@ export default async function Page() {
     if (cache2Posts === null) {
       //if the entry does not exist generate it
       let compDate = new Date(
-        new Date("2022-10-31").getTime() -
-          1000 * 60 * 60 * 24 * 30,
+        new Date("2022-10-31").getTime() - 1000 * 60 * 60 * 24 * 30,
       ).toISOString();
       // Create a new date string that represents a date MAX_DAYS_OLD days in the past in relation to the collection date
 
@@ -96,8 +99,8 @@ export default async function Page() {
           .then((arr) =>
             arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
           ),
-          "2022-10-31",
-          false,
+        "2022-10-31",
+        false,
       );
       await postsCollection.insertOne({
         collectionDate: "2022-10-31",
@@ -112,8 +115,7 @@ export default async function Page() {
     if (cache3Posts === null) {
       //if the entry does not exist generate it
       let compDate = new Date(
-        new Date("2022-11-30").getTime() -
-          1000 * 60 * 60 * 24 * 29,
+        new Date("2022-11-30").getTime() - 1000 * 60 * 60 * 24 * 29,
       ).toISOString();
       // Create a new date string that represents a date MAX_DAYS_OLD days in the past in relation to the collection date
 
@@ -129,8 +131,8 @@ export default async function Page() {
           .then((arr) =>
             arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
           ),
-          "2022-11-30",
-          false,
+        "2022-11-30",
+        false,
       );
       await postsCollection.insertOne({
         collectionDate: "2022-11-30",
@@ -145,8 +147,7 @@ export default async function Page() {
     if (cache4Posts === null) {
       //if the entry does not exist generate it
       let compDate = new Date(
-        new Date("2022-12-31").getTime() -
-          1000 * 60 * 60 * 24 * 30,
+        new Date("2022-12-31").getTime() - 1000 * 60 * 60 * 24 * 30,
       ).toISOString();
       // Create a new date string that represents a date MAX_DAYS_OLD days in the past in relation to the collection date
 
@@ -162,8 +163,8 @@ export default async function Page() {
           .then((arr) =>
             arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
           ),
-          "2022-12-15",
-          false,
+        "2022-12-15",
+        false,
       );
       await postsCollection.insertOne({
         collectionDate: "2022-12-15",
@@ -178,8 +179,7 @@ export default async function Page() {
     if (cacheAllPosts === null) {
       //if the entry does not exist generate it
       let compDate = new Date(
-        new Date("2022-12-31").getTime() -
-          1000 * 60 * 60 * 24 * 365,
+        new Date("2022-12-31").getTime() - 1000 * 60 * 60 * 24 * 365,
       ).toISOString();
       // Create a new date string that represents a date MAX_DAYS_OLD days in the past in relation to the collection date
 
@@ -195,8 +195,8 @@ export default async function Page() {
           .then((arr) =>
             arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
           ),
-          "2022-12-15",
-          false,
+        "2022-12-15",
+        false,
       );
       await postsCollection.insertOne({
         collectionDate: "2022-12-15",
@@ -208,7 +208,6 @@ export default async function Page() {
       // If the entry does exist, then just pull the keywords from the database
       topPostsOfAllTime = cacheAllPosts.topPosts;
     }
-   
   } catch (e) {
     console.log("There was an error in connecting to mongo");
     console.error(e);
@@ -217,47 +216,47 @@ export default async function Page() {
   }
   return (
     <main
-    style={{
-      backgroundImage: `url(${background.src})`,
-      backgroundSize: "100%",
-      backgroundRepeat: "no-repeat",
-      height: "100vh",
-    }}
-  >
-    <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        margin: "10px",
+        backgroundImage: `url(${background.src})`,
+        backgroundSize: "100%",
+        backgroundRepeat: "no-repeat",
+        height: "100vh",
       }}
     >
-      <Feature
-        linkTo="top-posts"
-        title="Most Popular Posts: for September"
-        content={topPosts1}
-      ></Feature>
-      <Feature
-        linkTo="top-posts"
-        title="Most Popular Posts: for October"
-        content={topPosts2}
-      ></Feature>
-      <Feature
-        linkTo="top-posts"
-        title="Most Popular Posts: for November"
-        content={topPosts3}
-      ></Feature>
-      <Feature
-        linkTo="top=posts"
-        title="Most Popular Posts: for December"
-        content={topPosts4}
-      ></Feature>
-      <Feature
-        linkTo="top-posts"
-        title="Overall Top Posts"
-        content={topPostsOfAllTime}
-      ></Feature>
-    </div>
-  </main>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "10px",
+        }}
+      >
+        <Feature
+          linkTo="top-posts"
+          title="Most Popular Posts: for September"
+          content={topPosts1}
+        ></Feature>
+        <Feature
+          linkTo="top-posts"
+          title="Most Popular Posts: for October"
+          content={topPosts2}
+        ></Feature>
+        <Feature
+          linkTo="top-posts"
+          title="Most Popular Posts: for November"
+          content={topPosts3}
+        ></Feature>
+        <Feature
+          linkTo="top=posts"
+          title="Most Popular Posts: for December"
+          content={topPosts4}
+        ></Feature>
+        <Feature
+          linkTo="top-posts"
+          title="Overall Top Posts"
+          content={topPostsOfAllTime}
+        ></Feature>
+      </div>
+    </main>
   );
 }

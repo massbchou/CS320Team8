@@ -29,7 +29,7 @@ function top_posts_algo(data, collectionDate, hasDecay) {
     let num_comments = entry.comments.length;
     //if there is not a likesCount field the likes for the post are set to 0
     let num_likes = entry.likesCount ? entry.likesCount : 0;
-    let decay_days =  hasDecay ? days_old(entry.createdAt, collectionDate): 0;
+    let decay_days = hasDecay ? days_old(entry.createdAt, collectionDate) : 0;
     //Create an object {entry: data, score: #}
     Score[i] = {
       entry: entry,
