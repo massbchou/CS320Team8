@@ -1,6 +1,6 @@
 import background from "../images/background.png";
 import { MongoClient } from "mongodb";
-import top_posts_algo from "../top_posts.js";
+import top_posts_algo from "./top_posts.js";
 import Feature from "../feature.js";
 
 export default async function Page() {

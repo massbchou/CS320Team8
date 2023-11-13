@@ -1,6 +1,6 @@
 import background from "../images/background.png";
 import { MongoClient } from "mongodb";
-import top_users_algo from "../top_users.js";
+import top_users_algo from "./top_users.js";
 import Feature from "../feature.js";
 
 export default async function Page() {
@@ -47,7 +47,6 @@ export default async function Page() {
         height: "100vh",
       }}
     >
-      <header>Most Active Users</header>
       <div
         style={{
           display: "flex",
