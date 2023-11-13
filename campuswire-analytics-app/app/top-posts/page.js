@@ -20,22 +20,27 @@ export default async function Page() {
     let cache1Posts = await postsCollection.findOne({//Posts from Sept 01 to Sept 30 inclusive
       collectionDate: "2022-09-30",
       thresholdDaysPrior: 29,
+      hasDecay: false,
     });
     let cache2Posts = await postsCollection.findOne({//Posts from Oct 01 to Oct 31 inclusive
       collectionDate: "2022-10-31",
       thresholdDaysPrior: 30,
+      hasDecay: false,
     });
     let cache3Posts = await postsCollection.findOne({//Posts from Nov 01 to Nov 30 inclusive
       collectionDate: "2022-11-30",
       thresholdDaysPrior: 29,
+      hasDecay: false,
     });
     let cache4Posts = await postsCollection.findOne({//Posts from Dec 01 to Dec 31 inclusive
       collectionDate: "2022-12-31",
       thresholdDaysPrior: 30,
+      hasDecay: false,
     });
     let cacheAllPosts = await postsCollection.findOne({//Posts from the Whole Semester
       collectionDate: "2022-12-15",
       thresholdDaysPrior: 365,
+      hasDecay: false,
     });
     
     if (cache1Posts === null) {
@@ -59,10 +64,12 @@ export default async function Page() {
             arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
           ),
           "2022-09-30",
+          false,
       );
       await postsCollection.insertOne({
         collectionDate: "2022-09-30",
         thresholdDaysPrior: 29,
+        hasDecay: false,
         topPosts: topPosts1,
       });
     } else {
@@ -90,10 +97,12 @@ export default async function Page() {
             arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
           ),
           "2022-10-31",
+          false,
       );
       await postsCollection.insertOne({
         collectionDate: "2022-10-31",
         thresholdDaysPrior: 30,
+        hasDecay: false,
         topPosts: topPosts2,
       });
     } else {
@@ -121,10 +130,12 @@ export default async function Page() {
             arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
           ),
           "2022-11-30",
+          false,
       );
       await postsCollection.insertOne({
         collectionDate: "2022-11-30",
         thresholdDaysPrior: 29,
+        hasDecay: false,
         topPosts: topPosts3,
       });
     } else {
@@ -152,10 +163,12 @@ export default async function Page() {
             arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
           ),
           "2022-12-15",
+          false,
       );
       await postsCollection.insertOne({
         collectionDate: "2022-12-15",
         thresholdDaysPrior: 14,
+        hasDecay: false,
         topPosts: topPosts4,
       });
     } else {
@@ -183,10 +196,12 @@ export default async function Page() {
             arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
           ),
           "2022-12-15",
+          false,
       );
       await postsCollection.insertOne({
         collectionDate: "2022-12-15",
         thresholdDaysPrior: 365,
+        hasDecay: false,
         topPosts: topPostsOfAllTime,
       });
     } else {

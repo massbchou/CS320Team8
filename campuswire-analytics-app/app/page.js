@@ -109,6 +109,7 @@ export default async function Mongo() {
     let cachePosts = await cacheCollectionPosts.findOne({
       collectionDate: collectionDate,
       thresholdDaysPrior: thresholdDaysPrior,
+      hasDecay: true,
     });
 
     if (cachePosts === null) {
@@ -132,10 +133,12 @@ export default async function Mongo() {
             arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
           ),
         collectionDate,
+        true,
       );
       await cacheCollectionPosts.insertOne({
         collectionDate: collectionDate,
         thresholdDaysPrior: thresholdDaysPrior,
+        hasDecay: true,
         topPosts: topPosts,
       });
     } else {
