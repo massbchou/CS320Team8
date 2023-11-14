@@ -1,4 +1,6 @@
+'use client'
 import Link from 'next/link';
+import { Button } from '@material-ui/core'
 // Returns a formatted Feature component for the Overview tab given a title and some data
 export default function Feature(props){
     return (
@@ -10,7 +12,11 @@ export default function Feature(props){
                     <span key={i + 'c'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'70%'}}>{x}</span>
                 </div>
             ))}
-            <Link href={"/" + props.linkTo}>...</Link>
+            <div style={{display:'flex', justifyContent:'center', alignItems:'center', margin:'6px', color:'rgba(255, 255, 255, 1)', opacity:'0.6'}}>
+                <Link href={"/" + props.linkTo}>
+                    <Button size="small" variant="contained">...</Button>
+                </Link>
+            </div>
         </div>
     )
 }
