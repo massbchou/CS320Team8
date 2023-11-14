@@ -1,5 +1,4 @@
 // mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/
-import { useState } from "react";
 import { MongoClient } from "mongodb";
 import Image from "next/image";
 import Feature from "./feature.js";
@@ -32,24 +31,13 @@ export default async function Mongo() {
     await client.connect();
     // Connect to cluster
 
-    // let collectionDate = "2022-10-15";
+    let collectionDate = "2022-10-15";
     // Set collection date
 
-    // let thresholdDaysPrior = 10;
+    let thresholdDaysPrior = 10;
     // Get the number of days prior they want included
 
     // State for collection date and threshold days
-    const [collectionDate, setCollectionDate] = useState('2022-10-15'); // Default value
-    const [thresholdDaysPrior, setThresholdDaysPrior] = useState(10); // Default value
-
-    // Event handlers
-    const handleDateChange = (e) => {
-      setCollectionDate(e.target.value);
-    };
-    const handleDaysPriorChange = (e) => {
-      setThresholdDaysPrior(Number(e.target.value));
-    };
-
     let cacheCollection = client.db("caching").collection("trending topics");
     let cache = await cacheCollection.findOne({
       collectionDate: collectionDate,
@@ -282,24 +270,6 @@ export default async function Mongo() {
           title="Most Active Users"
           content={topUsers}
         ></Feature>
-      </div>
-      <div>
-        <label htmlFor="collectionDate">Collection Date: </label>
-        <input
-          type="date"
-          id="collectionDate"
-          value={collectionDate}
-          onChange={handleDateChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="daysPrior">Threshold Days Prior: </label>
-        <input
-          type="number"
-          id="daysPrior"
-          value={thresholdDaysPrior}
-          onChange={handleDaysPriorChange}
-        />
       </div>
     </main>
   );
