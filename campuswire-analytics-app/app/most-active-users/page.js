@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import top_users_algo from "../top_users.js";
+import top_users_algo from "./top_users.js";
 import Feature from "../feature.js";
 
 export default async function Page() {

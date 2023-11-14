@@ -2,8 +2,8 @@
 import { MongoClient } from "mongodb";
 import Image from "next/image";
 import Feature from "./feature.js";
-import top_posts_algo from "./top_posts.js";
-import top_users_algo from "./top_users.js";
+import top_posts_algo from "./top-posts/top_posts.js";
+import top_users_algo from "./most-active-users/top_users.js";
 
 export default async function Mongo() {
   // initialize mongoclient credentials

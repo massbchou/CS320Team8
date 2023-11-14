@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link';
-import { Button } from '@material-ui/core'
+import { Button } from '@material-ui/core';
 // Returns a formatted Feature component for the Overview tab given a title and some data
 export default function Feature(props){
     return (
