@@ -46,7 +46,6 @@ export default async function Page() {
         height: "100vh",
       }}
     >
-      <header>Most Active Users</header>
       <div
         style={{
           display: "flex",
