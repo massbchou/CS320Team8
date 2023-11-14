@@ -2,7 +2,6 @@
 import { MongoClient } from "mongodb";
 import Image from "next/image";
 import Feature from "./feature.js";
-import background from "./images/background.png";
 import top_posts_algo from "./top_posts.js";
 import top_users_algo from "./top_users.js";
 
@@ -19,15 +18,6 @@ export default async function Mongo() {
   let unansweredCount;
   let unansweredTitles;
   // Create initially empty variables
-
-  /*Caching right now is set as one entry per date. So for '2022-09-15' there is one entry and if the collectionDate is set to that string, 
-  then no database query calls have to be made because it can just take array information saved at that specific collectionDate. 
-  However, MAX_DAYS is hard-coded to only allow posts from 20 days prior up to the collectionDate as being queried. 
-  I was thinking if we wanted to allow users to change this range to say only 7 days before the collectionDate or all possible days before the collectionDate our method currently wouldn't allow it. 
-  If the current if-else statement was changed to a if-elseif-else statement where the second if conditional checked if the collectionDate with whatever desired value of MAX_DAYS has been calculated before. 
-  If it has NOT been calculated before that means the same collectionDate has been calculated before, but with a different time range for allowing posts to count towards the calculation.
-  So, it should be calculated and stored as having the collectionDate as its collectionDate and the MAX_DAYS as its MAX_DAYS. 
-  If it HAS been calculated before that means both that collectionDay and MAX_DAYS combo has been calculated before and this is just the else statement we currently have.*/
 
   let collectionDate = "2022-10-15";
   // Set collection date
@@ -236,8 +226,7 @@ export default async function Mongo() {
   return (
     <main
       style={{
-        // backgroundImage: `url(${background.src})`,
-        background: "linear-gradient(140deg, rgba(2,0,36,1) 0%, rgba(255,173,252,1) 0%, rgba(255,255,255,1) 48%, rgba(136,255,243,1) 100%)",
+        background: "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         width: "100%",
