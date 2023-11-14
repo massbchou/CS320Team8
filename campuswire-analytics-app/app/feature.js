@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core'
 // Returns a formatted Feature component for the Overview tab given a title and some data
 export default function Feature(props){
     return (
-        <div style={{backgroundImage: 'linear-gradient(rgba(0, 242, 255, 0.45), rgba(255, 0, 242, 0.45))', borderRadius: '10px', padding: '20px', margin: '20px', width: '18%'}}>
+        <div style={{backgroundImage: 'linear-gradient(rgba(0, 224, 255, 0.45), rgba(240, 56, 255, 0.55))', borderRadius: '10px', padding: '20px', margin: '20px', width: '18%'}}>
             <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                 <div style={{textAlign:'center', fontFamily:'Young Serif', fontSize:'20px', backgroundColor:'rgba(255, 255, 255, 0.70)', borderRadius:'10px', width:'100%', padding:'6px', marginBottom:'9px', marginRight:'9px'}}>{props.title}</div>
                 {(props.totalCount === undefined) ? '' : <div style={{textAlign:'center', fontFamily:'Young Serif', fontSize:'20px', backgroundColor:'rgba(255, 255, 255, 0.70)', borderRadius:'10px', width:'15%', padding:'6px', marginBottom:'9px'}}>{props.totalCount}</div>}

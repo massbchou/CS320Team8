@@ -2,7 +2,6 @@
 import { MongoClient } from "mongodb";
 import Image from "next/image";
 import Feature from "./feature.js";
-import background from "./images/background.png";
 import top_posts_algo from "./top_posts.js";
 import top_users_algo from "./top_users.js";
 
@@ -236,8 +235,7 @@ export default async function Mongo() {
   return (
     <main
       style={{
-        // backgroundImage: `url(${background.src})`,
-        background: "linear-gradient(140deg, rgba(2,0,36,1) 0%, rgba(255,173,252,1) 0%, rgba(255,255,255,1) 48%, rgba(136,255,243,1) 100%)",
+        background: "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         width: "100%",
