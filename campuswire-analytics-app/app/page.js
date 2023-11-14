@@ -5,6 +5,10 @@ import Feature from "./feature.js";
 import background from "./images/background.png";
 import top_posts_algo from "./top_posts.js";
 import top_users_algo from "./top_users.js";
+import {
+  getForumActivity,
+  renderForumActivityFeature,
+} from "./forum-activity/forum_activity.js";
 
 export default async function Mongo() {
   // initialize mongoclient credentials
@@ -18,6 +22,7 @@ export default async function Mongo() {
   let inputText = "";
   let unansweredCount;
   let unansweredTitles;
+  let forumActivity;
   // Create initially empty variables
 
   /*Caching right now is set as one entry per date. So for '2022-09-15' there is one entry and if the collectionDate is set to that string, 
@@ -39,22 +44,30 @@ export default async function Mongo() {
     await client.connect();
     // Connect to cluster
 
-    const collection = client.db("posts").collection(collectionDate);
+    const postsCollection = client.db("posts").collection(collectionDate);
     // get collection "2022-09-15" from database "posts"
 
-    const unanswered = collection.find({type: "question", $nor: [{modAnsweredAt: {$exists: true}}, {comments: {$elemMatch: {endorsed: true}}}] });
+    const unanswered = postsCollection.find({
+      type: "question",
+      $nor: [
+        { modAnsweredAt: { $exists: true } },
+        { comments: { $elemMatch: { endorsed: true } } },
+      ],
+    });
     let unansweredArr = await unanswered.toArray();
     // find posts that are not either (a) answered by mods or (b) have endorsed comments !(a or b)
 
     unansweredCount = unansweredArr.length;
     // get the length of the original unanswered array
 
-    unansweredTitles = unansweredArr.map(e => e.title.substring(0, 18) + "...");
+    unansweredTitles = unansweredArr.map(
+      (e) => e.title.substring(0, 18) + "...",
+    );
     // get the titles of the oldest 5 unanswered posts
     // .filter(e => !(e.substring(0, 3) === 'zzz'));
     // ^^ use this to filter out the private posts
 
-    if(unansweredArr.length > 5){
+    if (unansweredArr.length > 5) {
       unansweredTitles = unansweredTitles.slice(0, 5);
     }
     // if there are more than 5 unanswered posts, cut the list down to 5
@@ -226,8 +239,17 @@ export default async function Mongo() {
       // If the entry does exist, then just pull the keywords from the database
       topUsers = cacheUsers.topUsers;
     }
+
+    // forum activity
+    const allPosts = await postsCollection.find().toArray();
+    const endDate = new Date(collectionDate);
+    const beginDate = new Date(
+      new Date(collectionDate).getTime() -
+        1000 * 60 * 60 * 24 * thresholdDaysPrior,
+    );
+    forumActivity = getForumActivity(allPosts, beginDate, endDate, 7);
   } catch (e) {
-    console.log("There was an error in connecting to mongoDB");
+    // console.log("There was an error in connecting to mongoDB");
     console.error(e);
   } finally {
     await client.close();
@@ -237,7 +259,8 @@ export default async function Mongo() {
     <main
       style={{
         // backgroundImage: `url(${background.src})`,
-        background: "linear-gradient(140deg, rgba(2,0,36,1) 0%, rgba(255,173,252,1) 0%, rgba(255,255,255,1) 48%, rgba(136,255,243,1) 100%)",
+        background:
+          "linear-gradient(140deg, rgba(2,0,36,1) 0%, rgba(255,173,252,1) 0%, rgba(255,255,255,1) 48%, rgba(136,255,243,1) 100%)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         width: "100%",
@@ -299,6 +322,7 @@ export default async function Mongo() {
           title="Most Active Users"
           content={topUsers}
         ></Feature>
+        {renderForumActivityFeature(forumActivity)}
       </div>
     </main>
   );
