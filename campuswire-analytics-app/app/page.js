@@ -4,6 +4,12 @@ import Image from "next/image";
 import Feature from "./feature.js";
 import top_posts_algo from "./top-posts/top_posts.js";
 import top_users_algo from "./most-active-users/top_users.js";
+import { Young_Serif } from "next/font/google";
+
+const youngSerif = Young_Serif({
+  subsets: ['latin'],
+  weight: '400',
+});
 
 export default async function Mongo() {
   // initialize mongoclient credentials
@@ -251,7 +257,7 @@ export default async function Mongo() {
         ></Image>
         <span
           style={{
-            fontFamily: "Young Serif",
+            fontFamily: youngSerif,
             textAlign: "center",
             fontSize: "30px",
           }}
