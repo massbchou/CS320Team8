@@ -5,6 +5,7 @@ import Feature from "./feature.js";
 import background from "./images/background.png";
 import top_posts_algo from "./top_posts.js";
 import top_users_algo from "./top_users.js";
+import dateChooser from "./chooseDate.js";
 
 export default async function Mongo() {
   // initialize mongoclient credentials
@@ -31,8 +32,14 @@ export default async function Mongo() {
     await client.connect();
     // Connect to cluster
 
-    let collectionDate = "2022-10-15";
+   
+
+    const userCollection = client.db("userInput").collection("currentDate").find().sort({_id:-1}).limit(1);
+    let userInput = await userCollection.toArray();
+    console.log(userInput[0].userInputDate);
     // Set collection date
+
+    let collectionDate = userInput[0].userInputDate;
 
     let thresholdDaysPrior = 10;
     // Get the number of days prior they want included
@@ -270,6 +277,9 @@ export default async function Mongo() {
           title="Most Active Users"
           content={topUsers}
         ></Feature>
+      </div>
+      <div>
+        <dateChooser/>
       </div>
     </main>
   );
