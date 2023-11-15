@@ -1,11 +1,11 @@
 // mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/
-import { useState } from "react";
 import { MongoClient } from "mongodb";
 import Image from "next/image";
 import Feature from "./feature.js";
 import background from "./images/background.png";
 import top_posts_algo from "./top_posts.js";
 import top_users_algo from "./top_users.js";
+import DateChooser from "./dateChooser.js";
 
 export default async function Mongo() {
   // initialize mongoclient credentials
@@ -32,24 +32,16 @@ export default async function Mongo() {
     await client.connect();
     // Connect to cluster
 
-    // let collectionDate = "2022-10-15";
+    const userCollection = client.db("userInput").collection("currentDate").find().sort({_id:-1}).limit(1);
+    let userInput = await userCollection.toArray();
     // Set collection date
 
-    // let thresholdDaysPrior = 10;
+    let collectionDate = userInput[0].userInputDate;
+
+    let thresholdDaysPrior = 10;
     // Get the number of days prior they want included
 
     // State for collection date and threshold days
-    const [collectionDate, setCollectionDate] = useState('2022-10-15'); // Default value
-    const [thresholdDaysPrior, setThresholdDaysPrior] = useState(10); // Default value
-
-    // Event handlers
-    const handleDateChange = (e) => {
-      setCollectionDate(e.target.value);
-    };
-    const handleDaysPriorChange = (e) => {
-      setThresholdDaysPrior(Number(e.target.value));
-    };
-
     let cacheCollection = client.db("caching").collection("trending topics");
     let cache = await cacheCollection.findOne({
       collectionDate: collectionDate,
@@ -284,22 +276,7 @@ export default async function Mongo() {
         ></Feature>
       </div>
       <div>
-        <label htmlFor="collectionDate">Collection Date: </label>
-        <input
-          type="date"
-          id="collectionDate"
-          value={collectionDate}
-          onChange={handleDateChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="daysPrior">Threshold Days Prior: </label>
-        <input
-          type="number"
-          id="daysPrior"
-          value={thresholdDaysPrior}
-          onChange={handleDaysPriorChange}
-        />
+        <DateChooser/> 
       </div>
     </main>
   );
