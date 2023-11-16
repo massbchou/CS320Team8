@@ -5,7 +5,7 @@ import Feature from "./feature.js";
 import background from "./images/background.png";
 import top_posts_algo from "./top_posts.js";
 import top_users_algo from "./top_users.js";
-import DateChooser from "./dateChooser.js";
+import DateChooser from "./userInput/DateChooser.js";
 
 export default async function Mongo() {
   // initialize mongoclient credentials
@@ -19,15 +19,6 @@ export default async function Mongo() {
   let inputText = "";
   // Create initially empty input text variable
 
-  /*Caching right now is set as one entry per date. So for '2022-09-15' there is one entry and if the collectionDate is set to that string, 
-  then no database query calls have to be made because it can just take array information saved at that specific collectionDate. 
-  However, MAX_DAYS is hard-coded to only allow posts from 20 days prior up to the collectionDate as being queried. 
-  I was thinking if we wanted to allow users to change this range to say only 7 days before the collectionDate or all possible days before the collectionDate our method currently wouldn't allow it. 
-  If the current if-else statement was changed to a if-elseif-else statement where the second if conditional checked if the collectionDate with whatever desired value of MAX_DAYS has been calculated before. 
-  If it has NOT been calculated before that means the same collectionDate has been calculated before, but with a different time range for allowing posts to count towards the calculation.
-  So, it should be calculated and stored as having the collectionDate as its collectionDate and the MAX_DAYS as its MAX_DAYS. 
-  If it HAS been calculated before that means both that collectionDay and MAX_DAYS combo has been calculated before and this is just the else statement we currently have.*/
-
   try {
     await client.connect();
     // Connect to cluster
@@ -36,8 +27,8 @@ export default async function Mongo() {
     let userInput = await userCollection.toArray();
     // Set collection date
 
-    let collectionDate = userInput[0].userInputDate;
-
+    let collectionDate = userInput[0].date;
+    console.log(collectionDate);
     let thresholdDaysPrior = 10;
     // Get the number of days prior they want included
 
@@ -276,7 +267,7 @@ export default async function Mongo() {
         ></Feature>
       </div>
       <div>
-        <DateChooser/> 
+        <DateChooser/>
       </div>
     </main>
   );
