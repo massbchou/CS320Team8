@@ -127,16 +127,16 @@ def addUsersRole(usersDict: dict[dict], postsList: list[dict]) -> None:
     - If probableModComments >= 2: user is mod
 
     Rationale:
-    If a student is looking at the post when a mod answers, they might quickly leave a
-    short "thanks" comment. To avoid counting these we give a 2 second window (+-1) and there are
-    86400 seconds in a day. Assuming independence, the probability of a student commenting at the
-    same time is 2/86400 ~= 0.00002. To minimize false positives, we also require at least 2
-    matching comments which would make the odds of a student commenting within a second twice be 1
-    in 20 billion, assuming that they aren't camping posts.
+    If a student is looking at the post when a mod answers, they might quickly leave a short
+    "thanks" comment. To avoid counting these we give a 2 second window (+-1) and there are 86400
+    seconds in a day. Assuming independence, the probability of a student commenting at the same
+    time is 2/86400 ~= 0.00002. To minimize false positives, we also require at least 2 matching
+    comments which would make the odds of a student commenting within a second twice be 1 in 20
+    billion, assuming that they aren't camping posts.
 
     Limitations:
     - Does not acknowledge posts - only comments
-    - Assumes that each mod is the first to answer 2 posts
+    - Assumes that each mod is the first to answer at least 2 posts
     - Some professors are hands-off and leave comments to TAs/UCAs - can be labeled as member
     - Can't use exact time because modAnsweredAt and corresponding comment have slightly different
       times (~100 ms)
