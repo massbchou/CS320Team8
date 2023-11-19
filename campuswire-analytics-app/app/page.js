@@ -9,7 +9,7 @@ import top_users_algo from "./top_users.js";
 import {
   getForumActivity,
   renderForumActivityFeature,
-} from "./forum-activity/forum_activity";
+} from "./forum-activity/forum_activity.js";
 
 export default async function Mongo() {
   // initialize mongoclient credentials
