@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link';
-import { Button } from '@material-ui/core';
-import { Young_Serif } from 'next/font/google'
+import Button from '@mui/material/Button';
+import { Young_Serif } from 'next/font/google';
 const youngSerif = Young_Serif({
     subsets: ['latin'],
     weight: '400',
