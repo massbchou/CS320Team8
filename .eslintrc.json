@@ -1,0 +1,7 @@
+{
+  "extends": ["eslint:recommended", "plugin:cypress/recommended", "next/core-web-vitals", "prettier"],
+  "rules": {
+    "camelcase": "warn",
+    "eqeqeq": "error"
+  }
+}

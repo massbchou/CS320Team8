@@ -7,7 +7,7 @@ kw_extractor = yake.KeywordExtractor(
   dedupLim = 0.25,
   dedupFunc = 'seqm',
   windowsSize = 1,
-  top = 15
+  top = 5
 )
 keywords = kw_extractor.extract_keywords(sys.argv[1])
 output = []
