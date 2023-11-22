@@ -1,5 +1,5 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+// import { Inter } from 'next/font/google'
 import { Young_Serif } from 'next/font/google'
 
 const youngSerif = Young_Serif({
