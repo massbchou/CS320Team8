@@ -53,7 +53,7 @@ export default async function Page() {
         paddingTop: '20px',
         fontSize: "20px"
       }}> 
-        <a href="http://localhost:3000" style={{display: 'inline-block'}}>
+        <a href="/" style={{display: 'inline-block'}}>
           Return Home
           <div style={{display: 'inline-block'}}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 -2 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
