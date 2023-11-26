@@ -12,6 +12,10 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
+    "antd": "^5.11.4",
+    "DatePicker": "^2.0.0",
+    "focus": "^0.0.1",
+    "moment": "^2.29.4",
     "mongodb": "^6.1.0",
     "mongoose": "^8.0.0",
     "next": "^13.5.6",
