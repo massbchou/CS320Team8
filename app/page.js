@@ -39,7 +39,9 @@ export default async function Mongo() {
     // get collection "2022-09-15" from database "posts"
 
     const unanswered = collection.find({type: "question", $nor: [{modAnsweredAt: {$exists: true}}, {comments: {$elemMatch: {endorsed: true}}}] });
-    let unansweredArr = await unanswered.toArray();
+    let unansweredArr = await unanswered.toArray().then((arr) =>
+    arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
+    );
     // find posts that are not either (a) answered by mods or (b) have endorsed comments !(a or b)
 
     unansweredCount = unansweredArr.length;
