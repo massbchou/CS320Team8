@@ -275,21 +275,21 @@ export default async function Mongo() {
       >
         <Feature
           totalCount={unansweredCount}
-          linkTo="unanswered-questions"
           title="Unanswered Questions"
           content={unansweredTitles}
         ></Feature>
         <Feature
+          hasButton = {true}
           linkTo="top-posts"
           title="Top Posts"
           content={topPosts}
         ></Feature>
         <Feature
-          linkTo="trending-topics"
           title="Trending Topics"
           content={topPhrases}
         ></Feature>
         <Feature
+          hasButton = {true}
           linkTo="most-active-users"
           title="Most Active Users"
           content={topUsers}
