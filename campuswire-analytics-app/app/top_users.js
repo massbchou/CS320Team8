@@ -17,6 +17,9 @@ function top_users_algo(usersList, start, end) {
    * Takes in list of users and returns list sorted by most activity within interval
    * Start and end times should be Date objects
    */
+  let top_users = [];
+  if(Object.keys(usersList).length === 0){return top_users;}
+
   //authors = firstName + " " + lastName
   let authors = [usersList.length];
   for (let i = 0; i < usersList.length; i++) {
@@ -40,8 +43,6 @@ function top_users_algo(usersList, start, end) {
   }
   //Now order based on descending post number
   authors.sort((a, b) => b.engagement_count - a.engagement_count);
-  let top_users = authors
-    .filter((_, i) => i < 5)
-    .map((res) => cutoff_string(res.full_name));
+  top_users = authors.map((res) => cutoff_string(res.full_name));
   return top_users;
 }
