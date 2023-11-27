@@ -17,7 +17,6 @@ import {
  * - Use UTC date functions for reliability since post times are already UTC
  *
  * @param {post[]} posts array of post objects
- * @param {"post" | "comment" | "all"} type of content to track
  * @param {Date} start yyyy-mm-dd
  * @param {Date} end yyyy-mm-dd
  * @param {1 | 7 | 30} delta
@@ -30,7 +29,8 @@ import {
  *    - 30: monthly -> start on first day of month
  *    - else: default to weekly
  *    - if last post date is before end of last chunk, last chunk will include all remaining posts
- * @returns array of chunks as {posts: [post objects], score: int}
+ * @param {"post" | "comment" | "all"} type of content to track
+ * @returns {chunk[]} array of chunks as {posts: [post objects], score: int, startDate: int}
  */
 export function getForumActivity(
   posts = mp(),
@@ -43,18 +43,18 @@ export function getForumActivity(
   // else, weight is just 1 (score = # of posts/comments)
   const postWeight = type === "all" ? 6 : 1;
   const commentWeight = type === "all" ? 10 - postWeight : 1;
-  let minDate = new Date(3000, 0, 1); // init with arbitrary maximum date 3000-01-01
+  let chunkMinDate = new Date(3000, 0, 1); // init with arbitrary maximum date 3000-01-01
   let prevIdx = 0;
   // filter posts within start and end publishedAt time
   const relPosts = posts.filter((post) => {
     const postDate = new Date(post.publishedAt.slice(0, 10)); // yyyy-mm-dd
     // get date of first post
-    if (postDate < minDate) minDate = postDate;
+    if (postDate < chunkMinDate) chunkMinDate = postDate;
     return start < postDate && postDate < end;
   });
-  // make minDate start on first day of next chunk
-  // (not first chunk to avoid first postDate > minDate of first chunk)
-  minDate = nextMinDate(minDate, delta);
+  // compare post to nextMinDate to know when to make new chunk
+  chunkMinDate = getFirstDate(chunkMinDate, delta);
+  let nextMinDate = getNextMinDate(chunkMinDate, delta);
   return (
     relPosts
       // sort posts by increasing publishedAt time
@@ -64,11 +64,17 @@ export function getForumActivity(
         // get all posts from minDate to nextMinDate
         const postDate = new Date(post.publishedAt.slice(0, 10));
         const ifLastChunkSmallerThanDelta =
-          i === chunks.length && minDate + delta > end;
+          i === chunks.length && nextMinDate + delta > end;
         // current post is after chunk, get next chunk
-        if (postDate > minDate || ifLastChunkSmallerThanDelta) {
-          acc.push({ posts: chunks.slice(prevIdx, i + 1), score: 0 });
-          minDate = nextMinDate(minDate, delta);
+        if (postDate > nextMinDate || ifLastChunkSmallerThanDelta) {
+          acc.push({
+            posts: chunks.slice(prevIdx, i + 1),
+            score: 0,
+            startDate: chunkMinDate,
+          });
+          // update min dates
+          chunkMinDate = nextMinDate;
+          nextMinDate = getNextMinDate(nextMinDate, delta);
           prevIdx = i;
         }
         return acc;
@@ -96,7 +102,7 @@ export function getForumActivity(
  * @param {1 | 7 | 30} delta
  * @returns {Date} new date
  */
-export function nextMinDate(date = mp(), delta = mp()) {
+export function getNextMinDate(date = mp(), delta = mp()) {
   const next = new Date(date);
   next.setUTCDate(next.getUTCDate() + delta);
   return getFirstDate(next, delta);
