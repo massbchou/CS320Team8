@@ -1,6 +1,7 @@
 import top_users_algo from "../top_users";
 import { MongoClient } from "mongodb";
 import Podium from "../Podium";
+import background from "../images/background.png";
 
 export default async function Page() {
   const url =
@@ -35,6 +36,9 @@ export default async function Page() {
         alignItems: "center",
         justifyContent: "flex-start",
         height: "100vh",
+        backgroundImage: `url(${background.src})`,
+        backgroundSize: "100%",
+        backgroundRepeat: "no-repeat",
       }}
     >
       {/* Podium Component */}
@@ -45,8 +49,7 @@ export default async function Page() {
       {/* Column for ranked users */}
       <div
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
+          backgroundImage: 'linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))',
           margin: "0 auto",
           display: "inline-block",
           flex: 1,
@@ -54,15 +57,14 @@ export default async function Page() {
           borderRadius: "10px",
           padding: "20px",
           overflow: "scroll",
-          height: "600px",
           maxWidth: "600px",
           boxSizing: "border-box",
-          marginTop: "50px", // Adjust as needed
+          marginTop: "50px",
         }}
       >
-        <ul>
+        <ul >
           {allUsersRanked.map((item, i) => (
-            <li key={i}>
+            <li key={i}  style={{fontSize:'40px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', margin: '10px'}}>
               {i + 1}. {item}
             </li>
           ))}
