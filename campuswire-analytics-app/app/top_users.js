@@ -18,7 +18,9 @@ function top_users_algo(usersList, start, end) {
    * Start and end times should be Date objects
    */
   let top_users = [];
-  if(Object.keys(usersList).length === 0){return top_users;}
+  if (Object.keys(usersList).length === 0) {
+    return top_users;
+  }
 
   //authors = firstName + " " + lastName
   let authors = [usersList.length];

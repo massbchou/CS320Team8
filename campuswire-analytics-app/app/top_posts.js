@@ -21,8 +21,10 @@ function days_old(createdAtStr, collectionDate) {
 function top_posts_algo(data, collectionDate) {
   //Score = (1) * uniqueViews + (2) * repeatedViews + (20) * totalComments + (50) * totalLikes
   let top_posts = [];
-  if(Object.keys(data).length === 0){return top_posts;}
-  let Score = [data.length]
+  if (Object.keys(data).length === 0) {
+    return top_posts;
+  }
+  let Score = [data.length];
   for (let i = 0; i < data.length; i++) {
     let entry = data[i];
     let uniqueViews = entry.uniqueViewsCount;
@@ -47,6 +49,8 @@ function top_posts_algo(data, collectionDate) {
     return b["score"] - a["score"];
   });
   let ranked_posts = Score.map((pair) => pair["entry"]);
-  top_posts = ranked_posts.filter((_, i) => i < 5).map((res) => cutoff_string(res.title));
+  top_posts = ranked_posts
+    .filter((_, i) => i < 5)
+    .map((res) => cutoff_string(res.title));
   return top_posts;
 }

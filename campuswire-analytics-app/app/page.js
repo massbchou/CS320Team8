@@ -131,7 +131,6 @@ export default async function Mongo() {
         topPosts = [];
       }
       else{
-        console.log(postData);
         topPosts = top_posts_algo(
           postData,
           collectionDate,
@@ -163,8 +162,6 @@ export default async function Mongo() {
         new Date(collectionDate).getTime() -
           1000 * 60 * 60 * 24 * thresholdDaysPrior,
       );
-      console.log(beginDate);
-      console.log(endDate);
       // Finds all posts made by all users -- see students vs moderators in most-active-users/page.js
       let user_data = client.db("users").collection("users");
       // filter users by role, unless role is "all" which gets all users
