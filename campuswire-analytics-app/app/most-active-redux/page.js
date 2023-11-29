@@ -100,6 +100,32 @@ export default async function Page() {
         backgroundRepeat: "no-repeat",
       }}
     >
+    <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {/* <Image
+          src="/images/icon.png"
+          width={90}
+          height={90}
+          quality={100}
+          style={{ margin: "10px" }}
+          unoptimized
+          alt=""
+        ></Image> */}
+        <span
+          style={{
+            fontFamily: "Roboto",
+            textAlign: "center",
+            fontSize: "30px",
+          }}
+        >
+          Most Active Users 
+        </span>
+      </div>
       {/* Podium Component */}
       <div style={{ marginTop: "50px" }}>
         <Podium winners={podiumData} />
