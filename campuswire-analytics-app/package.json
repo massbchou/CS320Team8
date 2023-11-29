@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "antd": "^5.11.4",
+    "chart.js": "^4.4.0",
     "DatePicker": "^2.0.0",
     "focus": "^0.0.1",
     "framer-motion": "^10.16.5",
@@ -23,6 +24,7 @@
     "next": "^14.0.2",
     "python-shell": "^5.0.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-date-picker": "^10.5.2",
     "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0"

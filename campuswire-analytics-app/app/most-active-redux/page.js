@@ -2,6 +2,7 @@ import top_users_algo from "../top_users";
 import { MongoClient } from "mongodb";
 import Podium from "../Podium";
 import background from "../images/background.png";
+import BarGraph from "./BarGraph";
 
 export default async function Page() {
   const url =
@@ -47,19 +48,18 @@ export default async function Page() {
         });
       }
     }
+    console.log(namesArr);
 
     let contributionData = contributionCollection.find({
       $or: queryConditions,
     });
     let winnerList = await contributionData.toArray();
-    console.log(winnerList);
     let count = 0;
     let winnerContributionArr = []
     for(let j = 0; j < 5; j++){//into the 5 data points one for linda one for alexander etc.
       for (let date in winnerList[j]) {
         if (date === "_id" || date === "author") continue;
         count += winnerList[j][date].totalCount;
-        console.log(count);
       }
       winnerContributionArr.push(count);
       count = 0;
@@ -71,6 +71,8 @@ export default async function Page() {
   } finally {
     await client.close();
   }
+
+
 
   return (
     <main
@@ -123,7 +125,9 @@ export default async function Page() {
             </li>
           ))}
         </ul>
-
+      </div>
+      <div>
+        <BarGraph/>
       </div>
     </main>
   );
