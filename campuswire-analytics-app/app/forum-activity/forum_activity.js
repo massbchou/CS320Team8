@@ -1,13 +1,6 @@
 import LineChart from "@/components/LineChart";
 import Feature from "../feature";
 import mp from "../missingParameter";
-import {
-  LineController,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-} from "chart.js";
 
 /**
  * Goes through posts within start and end date and sums up:
@@ -160,8 +153,9 @@ export function renderForumActivityGraph(forumActivity = mp()) {
     ...for more properties see https://www.chartjs.org/docs/latest/charts/line.html
   }}
   */
-  const data = {
-    labels: forumActivity.map((chunk) => chunk.startDate),
+  const chartData = {
+    labels: forumActivity.map((chunk, i) => i),
+    // labels: forumActivity.map((chunk) => chunk.startDate),
     datasets: [
       {
         label: "Forum Activity",
@@ -172,6 +166,5 @@ export function renderForumActivityGraph(forumActivity = mp()) {
       },
     ],
   };
-  console.log(data);
-  return <LineChart>data={data}</LineChart>;
+  return <LineChart chartData={chartData} />;
 }
