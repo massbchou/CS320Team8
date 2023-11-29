@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-const BarGraph = () => {
+const BarGraph = ({ namesArr, scoresArr, title }) => {
   const chartContainer = useRef(null);
   const chartInstance = useRef(null);
 
@@ -12,22 +12,15 @@ const BarGraph = () => {
     }
 
     if (chartContainer.current) {
-      const names = [
-        'Linda', 'Alexander',  'Jessica',
-         'Brian', 'Christopher'
-      ];
-
-      const scores = [74, 37, 61, 62, 24];
-
       const ctx = chartContainer.current.getContext('2d');
 
       chartInstance.current = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: names.slice(0, scores.length),
+          labels: namesArr.slice(0, scoresArr.length),
           datasets: [{
             label: 'Scores',
-            data: scores,
+            data: scoresArr,
             backgroundColor: 'rgba(75,192,192,1)',
             borderColor: 'rgba(0,0,0,1)',
             borderWidth: 2,
@@ -42,7 +35,7 @@ const BarGraph = () => {
           plugins: {
             title: {
               display: true,
-              text: 'Scores by Person',
+              text: title,
               font: {
                 size: 20
               }
@@ -54,7 +47,7 @@ const BarGraph = () => {
         }
       });
     }
-  }, []);
+  }, [namesArr, scoresArr]); // Added namesArr and scoresArr as dependencies to re-render on change
 
   return (
     <div>

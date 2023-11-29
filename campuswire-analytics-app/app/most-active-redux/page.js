@@ -12,6 +12,12 @@ export default async function Page() {
   const lastDay = new Date("2022-12-15");
   let allUsersRanked;
   let podiumData;
+  let firstNamesArr = [];
+  let namesArr = [];
+  let winnerCommentArr = [];
+  let winnerPostArr = [];
+  const graphCommentTitle = "Comment";
+  const graphPostTitle = "Post";
   try {
     await client.connect();
     let userCollection = client.db("users").collection("users");
@@ -21,7 +27,6 @@ export default async function Page() {
     podiumData = allUsersRanked
       .slice(0, 5)
       .map((name, position) => ({ name, position }));
-    let namesArr = [];
     for (let i = 0; i < 5; i++) {
       namesArr.push(
         podiumData[i].name.substring(0, podiumData[i].name.indexOf(" ")),
@@ -33,7 +38,11 @@ export default async function Page() {
         ),
       );
     }
-    console.log(namesArr);
+    for (let i = 0; i < 5; i++) {
+      firstNamesArr.push(
+        podiumData[i].name.substring(0, podiumData[i].name.indexOf(" ")),
+      );
+    }
 
     let contributionCollection = client.db("users").collection("users");
     let queryConditions = [];
@@ -48,23 +57,27 @@ export default async function Page() {
         });
       }
     }
-    console.log(namesArr);
 
     let contributionData = contributionCollection.find({
       $or: queryConditions,
     });
     let winnerList = await contributionData.toArray();
-    let count = 0;
-    let winnerContributionArr = []
+    let commentCount = 0;
+   
+    let postCount = 0;
+
     for(let j = 0; j < 5; j++){//into the 5 data points one for linda one for alexander etc.
       for (let date in winnerList[j]) {
         if (date === "_id" || date === "author") continue;
-        count += winnerList[j][date].totalCount;
+        commentCount += winnerList[j][date].commentCount;
+        postCount += winnerList[j][date].postCount;
       }
-      winnerContributionArr.push(count);
-      count = 0;
+      winnerCommentArr.push(commentCount);
+      commentCount = 0;
+      winnerPostArr.push(postCount);
+      postCount = 0;
     }
-    console.log(winnerContributionArr);
+  
   } catch (e) {
     console.log("There was an error in connecting to mongo");
     console.error(e);
@@ -127,7 +140,10 @@ export default async function Page() {
         </ul>
       </div>
       <div>
-        <BarGraph/>
+        <BarGraph namesArr={firstNamesArr} scoresArr = {winnerCommentArr} title={graphCommentTitle}/>
+      </div>
+      <div>
+        <BarGraph namesArr={firstNamesArr} scoresArr = {winnerPostArr} title={graphPostTitle}/>
       </div>
     </main>
   );
