@@ -1,3 +1,4 @@
+import LineChart from "@/components/LineChart";
 import Feature from "../feature";
 import mp from "../missingParameter";
 import {
@@ -153,5 +154,24 @@ export function renderForumActivityFeature(forumActivity = mp()) {
  */
 export function renderForumActivityGraph(forumActivity = mp()) {
   // TODO: insert graph here
-  return <></>;
+  /* 
+  LineChart takes in data: {labels: str[], datasets: {
+    data: number[]
+    ...for more properties see https://www.chartjs.org/docs/latest/charts/line.html
+  }}
+  */
+  const data = {
+    labels: forumActivity.map((chunk) => chunk.startDate),
+    datasets: [
+      {
+        label: "Forum Activity",
+        data: forumActivity.map((chunk) => chunk.score),
+        backgroundColor: "white",
+        borderColor: "rgb(75, 192, 192)",
+        tension: 0.2,
+      },
+    ],
+  };
+  console.log(data);
+  return <LineChart>data={data}</LineChart>;
 }

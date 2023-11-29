@@ -9,6 +9,7 @@ import top_users_algo from "./top_users.js";
 import {
   getForumActivity,
   renderForumActivityFeature,
+  renderForumActivityGraph,
 } from "./forum-activity/forum_activity.js";
 
 export default async function Mongo() {
@@ -329,7 +330,7 @@ export default async function Mongo() {
           title="Most Active Users"
           content={topUsers}
         ></Feature>
-        {renderForumActivityFeature(forumActivity)}
+        {renderForumActivityGraph(forumActivity)}
       </div>
     </main>
   );
