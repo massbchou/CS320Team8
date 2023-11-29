@@ -89,62 +89,126 @@ export default async function Page() {
 
   return (
     <main
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        height: "100vh",
-        backgroundImage: `url(${background.src})`,
-        backgroundSize: "100%",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      {/* Podium Component */}
-      <div style={{ marginTop: "50px" }}>
-        <Podium winners={podiumData} />
-      </div>
+  style={{
+    display: "flex",
+    flexDirection: "row", // Horizontal layout
+    alignItems: "flex-start", // Align items at the top
+    height: "100vh",
+    backgroundImage: `url(${background.src})`,
+    backgroundSize: "100%",
+    backgroundRepeat: "no-repeat",
+  }}
+>
+  {/* Charts Container */}
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column", // Vertical layout for charts
+      alignItems: "center",
+      justifyContent: "flex-start",
+      padding: "20px", // Add padding for spacing
+      flex: "1", // Allow charts to take available space
+    }}
+  >
+    <BarGraph namesArr={firstNamesArr} scoresArr={winnerCommentArr} title={graphCommentTitle} />
+    <BarGraph namesArr={firstNamesArr} scoresArr={winnerPostArr} title={graphPostTitle} />
+  </div>
 
-      {/* Column for ranked users */}
-      <div
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
-          margin: "0 auto",
-          display: "inline-block",
-          flex: 1,
-          fontSize: "40px",
-          borderRadius: "10px",
-          padding: "20px",
-          overflow: "scroll",
-          maxWidth: "600px",
-          boxSizing: "border-box",
-          marginTop: "50px",
-        }}
-      >
-        <ul>
-          {allUsersRanked.map((item, i) => (
-            <li
-              key={i}
-              style={{
-                fontSize: "40px",
-                backgroundColor: "rgba(255, 255, 255, 1)",
-                opacity: "0.6",
-                borderRadius: "7px",
-                margin: "10px",
-              }}
-            >
-              {i + 1}. {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <BarGraph namesArr={firstNamesArr} scoresArr = {winnerCommentArr} title={graphCommentTitle}/>
-      </div>
-      <div>
-        <BarGraph namesArr={firstNamesArr} scoresArr = {winnerPostArr} title={graphPostTitle}/>
-      </div>
-    </main>
+   {/* Podium Component */}
+  <div style={{ marginTop: "50px" }}>
+        <Podium winners={podiumData} />
+  </div>
+
+
+  {/* Scrollable List */}
+  <div
+    style={{
+      backgroundImage:
+        "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
+      flex: "1", // Equal flex for scrollable list
+      padding: "20px", // Add padding for styling
+      overflowY: "scroll", // Enable vertical scrollbar
+      maxWidth: "600px",
+      boxSizing: "border-box",
+    }}
+  >
+    <ul>
+      {allUsersRanked.map((item, i) => (
+        <li
+          key={i}
+          style={{
+            fontSize: "40px",
+            backgroundColor: "rgba(255, 255, 255, 1)",
+            opacity: "0.6",
+            borderRadius: "7px",
+            margin: "10px",
+            maxHeight: '300px'
+          }}
+        >
+          {i + 1}. {item}
+        </li>
+      ))}
+    </ul>
+  </div>
+</main>
+
+    // <main
+    //   style={{
+    //     display: "flex",
+    //     flexDirection: "column",
+    //     alignItems: "center",
+    //     justifyContent: "flex-start",
+    //     height: "100vh",
+    //     backgroundImage: `url(${background.src})`,
+    //     backgroundSize: "100%",
+    //     backgroundRepeat: "no-repeat",
+    //   }}
+    // >
+    //   {/* Podium Component */}
+    //   <div style={{ marginTop: "50px" }}>
+    //     <Podium winners={podiumData} />
+    //   </div>
+
+    //   {/* Column for ranked users */}
+    //   <div
+    //     style={{
+    //       backgroundImage:
+    //         "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
+    //       margin: "0 auto",
+    //       display: "inline-block",
+    //       flex: 1,
+    //       fontSize: "40px",
+    //       borderRadius: "10px",
+    //       padding: "20px",
+    //       overflow: "scroll",
+    //       maxWidth: "600px",
+    //       boxSizing: "border-box",
+    //       marginTop: "50px",
+    //     }}
+    //   >
+    //     <ul>
+    //       {allUsersRanked.map((item, i) => (
+    //         <li
+    //           key={i}
+    //           style={{
+    //             fontSize: "40px",
+    //             backgroundColor: "rgba(255, 255, 255, 1)",
+    //             opacity: "0.6",
+    //             borderRadius: "7px",
+    //             margin: "10px",
+    //           }}
+    //         >
+    //           {i + 1}. {item}
+    //         </li>
+    //       ))}
+    //     </ul>
+    //   </div>
+    //   <div>
+    //     <BarGraph namesArr={firstNamesArr} scoresArr = {winnerCommentArr} title={graphCommentTitle}/>
+    //   </div>
+    //   <div>
+    //     <BarGraph namesArr={firstNamesArr} scoresArr = {winnerPostArr} title={graphPostTitle}/>
+    //   </div>
+    // </main>
   );
 }
