@@ -3,6 +3,7 @@ import { MongoClient } from "mongodb";
 import Podium from "../Podium";
 import background from "../images/background.png";
 import BarGraph from "./BarGraph";
+import Image from "next/image";
 
 export default async function Page() {
   const url =
@@ -91,21 +92,46 @@ export default async function Page() {
     <main
   style={{
     display: "flex",
-    flexDirection: "row", // Horizontal layout
-    alignItems: "flex-start", // Align items at the top
     height: "100vh",
     backgroundImage: `url(${background.src})`,
     backgroundSize: "100%",
     backgroundRepeat: "no-repeat",
   }}
 >
+
+  <header>
+  <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Image
+          src="/images/icon.png"
+          width={90}
+          height={90}
+          quality={100}
+          style={{ margin: "10px" }}
+          unoptimized
+          alt=""
+        ></Image>
+        <span
+          style={{
+            fontFamily: "Roboto",
+            textAlign: "center",
+            fontSize: "30px",
+          }}
+        >
+          Most Active Users Stats
+        </span>
+      </div>
+  </header>
+
   {/* Charts Container */}
   <div
     style={{
-      display: "flex",
-      flexDirection: "column", // Vertical layout for charts
       alignItems: "center",
-      justifyContent: "flex-start",
       padding: "20px", // Add padding for spacing
       flex: "1", // Allow charts to take available space
     }}
@@ -130,6 +156,9 @@ export default async function Page() {
       overflowY: "scroll", // Enable vertical scrollbar
       maxWidth: "600px",
       boxSizing: "border-box",
+      maxHeight: '600px',
+      marginTop: '100px',
+      borderRadius: '20px',
     }}
   >
     <ul>
