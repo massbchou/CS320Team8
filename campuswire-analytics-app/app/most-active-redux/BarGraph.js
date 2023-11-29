@@ -50,7 +50,7 @@ const BarGraph = ({ namesArr, scoresArr, title }) => {
   }, [namesArr, scoresArr]); // Added namesArr and scoresArr as dependencies to re-render on change
 
   return (
-    <div>
+    <div style={{width:'500px', height:'400px', marginRight:'60px', marginLeft:'60px', marginBottom:'60px'}}>
       <canvas ref={chartContainer} width="400" height="200"></canvas>
     </div>
   );

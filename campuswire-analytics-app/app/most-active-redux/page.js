@@ -89,97 +89,192 @@ export default async function Page() {
 
 
   return (
-    <main
-  style={{
-    display: "flex",
-    height: "100vh",
-    backgroundImage: `url(${background.src})`,
-    backgroundSize: "100%",
-    backgroundRepeat: "no-repeat",
-  }}
->
 
-  <header>
-  <div
+    <main
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      height: "100vh",
+      backgroundImage: `url(${background.src})`,
+      backgroundSize: "100%",
+      backgroundRepeat: "no-repeat",
+    }}
+  >
+    {/* Image and Title Div */}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        fontSize: "30px",
+        marginTop: "10px",
+      }}
+    >
+      <Image
+        src="/images/icon.png"
+        width={90}
+        height={90}
+        quality={100}
+        style={{ margin: "10px" }}
+        unoptimized
+        alt=""
+      />
+      <span
         style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          fontFamily: "Roboto",
+          textAlign: "center",
         }}
       >
-        <Image
-          src="/images/icon.png"
-          width={90}
-          height={90}
-          quality={100}
-          style={{ margin: "10px" }}
-          unoptimized
-          alt=""
-        ></Image>
-        <span
-          style={{
-            fontFamily: "Roboto",
-            textAlign: "center",
-            fontSize: "30px",
-          }}
-        >
-          Most Active Users Stats
-        </span>
+        Most Active Users Stats
+      </span>
+    </div>
+
+    {/* Flex container for graphs, podium, and scrollable list */}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        width: "100%",
+        marginTop: "50px", // Adjust as needed
+        padding: "20px",
+      }}
+    >
+      {/* Bar Graphs */}
+      <div style={{ flex: "0 0 30%"}}>
+        <BarGraph namesArr={firstNamesArr} scoresArr={winnerCommentArr} title={graphCommentTitle} />
+        <BarGraph namesArr={firstNamesArr} scoresArr={winnerPostArr} title={graphPostTitle} />
       </div>
-  </header>
 
-  {/* Charts Container */}
-  <div
-    style={{
-      alignItems: "center",
-      padding: "20px", // Add padding for spacing
-      flex: "1", // Allow charts to take available space
-    }}
-  >
-    <BarGraph namesArr={firstNamesArr} scoresArr={winnerCommentArr} title={graphCommentTitle} />
-    <BarGraph namesArr={firstNamesArr} scoresArr={winnerPostArr} title={graphPostTitle} />
-  </div>
-
-   {/* Podium Component */}
-  <div style={{ marginTop: "50px" }}>
+      {/* Podium */}
+      <div style={{ flex: "0 0 30%", textAlign: "center" }}>
         <Podium winners={podiumData} />
-  </div>
+      </div>
+
+      {/* Scrollable List */}
+      <div
+        style={{
+          flex: "0 0 30%",
+          backgroundImage: "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
+          padding: "20px",
+          overflowY: "scroll",
+          maxHeight: '600px',
+          maxWidth: "600px",
+          boxSizing: "border-box",
+          borderRadius: "20px",
+        }}
+      >
+        <ul>
+          {allUsersRanked.map((item, i) => (
+            <li
+              key={i}
+              style={{
+                fontSize: "40px",
+                backgroundColor: "rgba(255, 255, 255, 1)",
+                opacity: "0.6",
+                borderRadius: "7px",
+                margin: "10px",
+              }}
+            >
+              {i + 1}. {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </main>
+//     <main
+//   style={{
+//     display: "flex",
+//     height: "100vh",
+//     backgroundImage: `url(${background.src})`,
+//     backgroundSize: "100%",
+//     backgroundRepeat: "no-repeat",
+//   }}
+// >
+
+//   <header>
+//   <div
+//         style={{
+//           display: "flex",
+//           justifyContent: "center",
+//           alignItems: "center",
+//         }}
+//       >
+//         <Image
+//           src="/images/icon.png"
+//           width={90}
+//           height={90}
+//           quality={100}
+//           style={{ margin: "10px" }}
+//           unoptimized
+//           alt=""
+//         ></Image>
+//         <span
+//           style={{
+//             fontFamily: "Roboto",
+//             textAlign: "center",
+//             fontSize: "30px",
+//           }}
+//         >
+//           Most Active Users Stats
+//         </span>
+//       </div>
+//   </header>
+
+//   {/* Charts Container */}
+//   <div
+//     style={{
+//       alignItems: "center",
+//       padding: "20px", // Add padding for spacing
+//       flex: "1", // Allow charts to take available space
+//     }}
+//   >
+//     <BarGraph namesArr={firstNamesArr} scoresArr={winnerCommentArr} title={graphCommentTitle} />
+//     <BarGraph namesArr={firstNamesArr} scoresArr={winnerPostArr} title={graphPostTitle} />
+//   </div>
+
+//    {/* Podium Component */}
+//   <div style={{ marginTop: "50px" }}>
+//         <Podium winners={podiumData} />
+//   </div>
 
 
-  {/* Scrollable List */}
-  <div
-    style={{
-      backgroundImage:
-        "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
-      flex: "1", // Equal flex for scrollable list
-      padding: "20px", // Add padding for styling
-      overflowY: "scroll", // Enable vertical scrollbar
-      maxWidth: "600px",
-      boxSizing: "border-box",
-      maxHeight: '600px',
-      marginTop: '100px',
-      borderRadius: '20px',
-    }}
-  >
-    <ul>
-      {allUsersRanked.map((item, i) => (
-        <li
-          key={i}
-          style={{
-            fontSize: "40px",
-            backgroundColor: "rgba(255, 255, 255, 1)",
-            opacity: "0.6",
-            borderRadius: "7px",
-            margin: "10px",
-            maxHeight: '300px'
-          }}
-        >
-          {i + 1}. {item}
-        </li>
-      ))}
-    </ul>
-  </div>
-</main>
+//   {/* Scrollable List */}
+//   <div
+//     style={{
+//       backgroundImage:
+//         "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
+//       flex: "1", // Equal flex for scrollable list
+//       padding: "20px", // Add padding for styling
+//       overflowY: "scroll", // Enable vertical scrollbar
+//       maxWidth: "600px",
+//       boxSizing: "border-box",
+//       maxHeight: '600px',
+//       marginTop: '100px',
+//       borderRadius: '20px',
+//     }}
+//   >
+//     <ul>
+//       {allUsersRanked.map((item, i) => (
+//         <li
+//           key={i}
+//           style={{
+//             fontSize: "40px",
+//             backgroundColor: "rgba(255, 255, 255, 1)",
+//             opacity: "0.6",
+//             borderRadius: "7px",
+//             margin: "10px",
+//             maxHeight: '300px'
+//           }}
+//         >
+//           {i + 1}. {item}
+//         </li>
+//       ))}
+//     </ul>
+//   </div>
+// </main>
 
     // <main
     //   style={{
