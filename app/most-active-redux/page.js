@@ -155,34 +155,6 @@ export default async function Page() {
           </div>
         </a>
       </div>
-    {/* Image and Title Div
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        fontSize: "30px",
-        marginTop: "10px",
-      }}
-    >
-      <Image
-        src="/images/icon.png"
-        width={90}
-        height={90}
-        quality={100}
-        style={{ margin: "10px" }}
-        unoptimized
-        alt=""
-      />
-      <span
-        style={{
-          fontFamily: "Roboto",
-          textAlign: "center",
-        }}
-      >
-        Most Active Users Stats
-      </span>
-    </div> */}
 
     {/* Flex container for graphs, podium, and scrollable list */}
     <div

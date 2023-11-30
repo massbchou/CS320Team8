@@ -7,10 +7,6 @@ function RangeChooser() {
   const [dates, setDates] = useState([]);
   console.log(dates);
 
-  const formatDate = (date) => {
-    return date.toISOString().split("T")[0];
-  };
-
   const getYearMonthDay = (date) => {
     let year = date.getFullYear(); // Get the year (YYYY)
     let month = date.getMonth() + 1; // Get the month (0-11), adding 1 to match human-readable months
