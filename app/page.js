@@ -7,8 +7,6 @@ import top_users_algo from "./most-active-users/top_users.js";
 import { Young_Serif } from "next/font/google";
 
 const youngSerif = Young_Serif({
-  subsets: ['latin'],
-  weight: '400',
 });
 
 export default async function Mongo() {
@@ -38,7 +36,6 @@ export default async function Mongo() {
 
     // Set collection date
     collectionDate = userInput[0].date[1];
-   
     // Get the number of days prior they want included
     let thresholdDaysPrior = userInput[0].date[2];
     const collection = client.db("posts").collection(collectionDate);
@@ -283,10 +280,6 @@ export default async function Mongo() {
           Campuswire Analytics
         </span>
       </div>
-      
-   
-     
-
       <div
         style={{
           display: "flex",
@@ -322,7 +315,6 @@ export default async function Mongo() {
           content={unansweredTitles}
         ></Feature>
         <Feature
-          hasButton = {true}
           linkTo="top-posts"
           title="Top Posts"
           content={topPosts}
@@ -334,7 +326,6 @@ export default async function Mongo() {
           content={topUsers}
         ></Feature>
       </div>
-    
     </main>
   );
 }
