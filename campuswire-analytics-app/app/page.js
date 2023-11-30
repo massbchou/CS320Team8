@@ -17,6 +17,8 @@ export default async function Mongo() {
   let topUsers;
   let topPhrases;
   let inputText = "";
+  let collectionDate = "";
+  let farthestPastDate = "";
   // Create initially empty input text variable
 
   try {
@@ -26,8 +28,10 @@ export default async function Mongo() {
     const userCollection = client.db("userInput").collection("dates").find().sort({_id:-1}).limit(1);
     let userInput = await userCollection.toArray();
 
+    farthestPastDate = userInput[0].date[0];
+
     // Set collection date
-    let collectionDate = userInput[0].date[1];
+    collectionDate = userInput[0].date[1];
    
     // Get the number of days prior they want included
     let thresholdDaysPrior = userInput[0].date[2];
@@ -251,6 +255,10 @@ export default async function Mongo() {
           Campuswire Analytics
         </span>
       </div>
+      
+   
+     
+
       <div
         style={{
           display: "flex",
@@ -259,6 +267,21 @@ export default async function Mongo() {
           margin: "10px",
         }}
       >
+        <div  style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}> 
+          <div  style={{
+            fontFamily: "Roboto",
+            fontSize: "20px",
+          }}>Current Range: {farthestPastDate} to {collectionDate}
+      </div>
+      <div style={{backgroundImage: 'linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))', borderRadius: '10px', padding: '20px', margin: '20px', width: '350px'}}>
+        <RangeChooser/>
+      </div>
+      </div>
         <Feature
           title="Trending Topics"
           content={topPhrases}
@@ -276,9 +299,7 @@ export default async function Mongo() {
           content={topUsers}
         ></Feature>
       </div>
-      <div>
-        <RangeChooser/>
-      </div>
+    
     </main>
   );
 }

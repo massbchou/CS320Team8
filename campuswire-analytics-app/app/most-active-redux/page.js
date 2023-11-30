@@ -4,7 +4,6 @@ import Podium from "../Podium";
 import background from "../images/background.png";
 import BarGraph from "./BarGraph";
 import Image from "next/image";
-import { userInfo } from "os";
 
 export default async function Page() {
   const url =
@@ -118,11 +117,8 @@ export default async function Page() {
       connectUserToScore[j] = ({rank: totalCount, numComments: totalIndivComments, numPosts: totalIndivPosts});
     }
     connectUserToScore.sort((a, b) => b.rank - a.rank);
-    console.log(connectUserToScore);
     allCommentArr = connectUserToScore.map((userInfo) => userInfo.numComments);;
     allPostArr = connectUserToScore.map((userInfo) => userInfo.numPosts);
-    console.log(allCommentArr);
-    console.log(allPostArr);
   } catch (e) {
     console.log("There was an error in connecting to mongo");
     console.error(e);
