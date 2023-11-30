@@ -151,10 +151,11 @@ export default async function Mongo() {
         .collection(collectionDate)
         .find({ publishedAt: { $gt: compDate } });
       // Finds all posts made within the past MAX_DAYS_OLD days in relation to the collection date
-      let postData = await entry_data.toArray().then((arr) =>
-        arr.filter((x) => x.body.substring(0, 3) !== "zzz"),
-      )
-      if(Object.keys(postData).length === 0){//there were no posts
+      let postData = await entry_data
+        .toArray()
+        .then((arr) => arr.filter((x) => x.body.substring(0, 3) !== "zzz"));
+      if (Object.keys(postData).length === 0) {
+        //there were no posts
         console.log("there are no posts");
         topPosts = [];
       }
