@@ -320,7 +320,6 @@ export default async function Mongo() {
           content={topPosts}
         ></Feature>
         <Feature
-          hasButton = {true}
           linkTo="most-active-users"
           title="Most Active Users"
           content={topUsers}
