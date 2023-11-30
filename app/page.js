@@ -55,7 +55,6 @@ export default async function Mongo() {
     // .filter(e => !(e.substring(0, 3) === 'zzz'));
     // ^^ use this to filter out the private posts
 
-    if(unansweredArr.length > 5){
     if (unansweredArr.length > 5) {
       unansweredTitles = unansweredTitles.slice(0, 5);
     }
