@@ -5,6 +5,7 @@ import Feature from "./feature.js";
 import top_posts_algo from "./top-posts/top_posts.js";
 import top_users_algo from "./most-active-users/top_users.js";
 import { Young_Serif } from "next/font/google";
+import RangeChooser from "./userInput/RangeChooser.js";
 
 const youngSerif = Young_Serif({
   subsets: ["latin"],

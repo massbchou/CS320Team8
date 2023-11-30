@@ -1,7 +1,6 @@
-import top_users_algo from "../top_users";
+import top_users_algo from "../most-active-users/top_users";
 import { MongoClient } from "mongodb";
 import Podium from "../Podium";
-import background from "../images/background.png";
 import BarGraph from "./BarGraph";
 import Image from "next/image";
 
@@ -134,12 +133,29 @@ export default async function Page() {
       flexDirection: "column",
       alignItems: "center",
       height: "100vh",
-      backgroundImage: `url(${background.src})`,
-      backgroundSize: "100%",
+      background:
+      "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
+      backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
     }}
   >
-    {/* Image and Title Div */}
+    <div style ={{
+        display: 'flex',
+        justifyContent: 'center',
+        paddingTop: '20px',
+        alignItems: 'center',
+        fontSize: "20px"
+      }}> 
+        <a href="/" style={{display: 'inline-block'}}>
+          Return Home
+          <div style={{display: 'inline-block'}}>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 -2 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+          </svg>
+          </div>
+        </a>
+      </div>
+    {/* Image and Title Div
     <div
       style={{
         display: "flex",
@@ -166,7 +182,7 @@ export default async function Page() {
       >
         Most Active Users Stats
       </span>
-    </div>
+    </div> */}
 
     {/* Flex container for graphs, podium, and scrollable list */}
     <div
