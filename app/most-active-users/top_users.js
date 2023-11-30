@@ -55,7 +55,6 @@ function top_users_algo(usersList, start, end) {
   }
   //Now order based on descending post number
   authors.sort((a, b) => b.engagement_count - a.engagement_count);
-  console.log(authors.slice(0,5));
   top_users = authors.map((res) => cutoff_string(res.full_name));
   return top_users;
 }
