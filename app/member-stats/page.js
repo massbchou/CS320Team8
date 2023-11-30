@@ -1,6 +1,7 @@
 import Image from "next/image";
 import UserList from "./userlist.js";
 import SelectedUser from "./selected_user.js";
+import StatsGraph from "./stats_graph.js";
 
 export default function Page() {
     return <main
@@ -43,7 +44,7 @@ export default function Page() {
         alignItems: "center",
       }}>
     <div style={{
-        fontSize: '20px'
+        fontSize: '20px',
     }}>Member Statistics</div>
     </div>
     <div
@@ -62,6 +63,14 @@ export default function Page() {
         title='User #1'
         stats={{numPosts: 5, numTrendingPosts: 2, numUnansweredQuestions: 2, avgReplyTime: 35}}
       ></SelectedUser>
+      <StatsGraph chartData={{
+        numTopPosts: [2, 5, 0, 0, 1, 2, 4],
+        numTrendingPosts: [1, 3, 0, 0, 1, 1, 2],
+        numComments: [4, 2, 0, 0, 1, 2, 3],
+        numPostViews: [20, 30, 15, 0, 50, 0, 0],
+        numUnansweredQuestions: [1, 0, 1, 2, 0, 1, 0],
+      }} isModerator={false}></StatsGraph>
+
     </div>
   </main>
 }
