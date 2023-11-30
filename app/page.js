@@ -7,6 +7,8 @@ import top_users_algo from "./most-active-users/top_users.js";
 import { Young_Serif } from "next/font/google";
 
 const youngSerif = Young_Serif({
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export default async function Mongo() {
@@ -29,28 +31,42 @@ export default async function Mongo() {
     await client.connect();
     // Connect to cluster
 
-    const userCollection = client.db("userInput").collection("dates").find().sort({_id:-1}).limit(1);
+    const userCollection = client
+      .db("userInput")
+      .collection("dates")
+      .find()
+      .sort({ _id: -1 })
+      .limit(1);
     let userInput = await userCollection.toArray();
 
     farthestPastDate = userInput[0].date[0];
 
     // Set collection date
     collectionDate = userInput[0].date[1];
+
     // Get the number of days prior they want included
     let thresholdDaysPrior = userInput[0].date[2];
     const collection = client.db("posts").collection(collectionDate);
     // get collection "2022-09-15" from database "posts"
 
-    const unanswered = collection.find({type: "question", $nor: [{modAnsweredAt: {$exists: true}}, {comments: {$elemMatch: {endorsed: true}}}] });
-    let unansweredArr = await unanswered.toArray().then((arr) =>
-    arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
-    );
+    const unanswered = collection.find({
+      type: "question",
+      $nor: [
+        { modAnsweredAt: { $exists: true } },
+        { comments: { $elemMatch: { endorsed: true } } },
+      ],
+    });
+    let unansweredArr = await unanswered
+      .toArray()
+      .then((arr) => arr.filter((x) => !(x.body.substring(0, 3) === "zzz")));
     // find posts that are not either (a) answered by mods or (b) have endorsed comments !(a or b)
 
     unansweredCount = unansweredArr.length;
     // get the length of the original unanswered array
 
-    unansweredTitles = unansweredArr.map(e => e.title.substring(0, 18) + "...");
+    unansweredTitles = unansweredArr.map(
+      (e) => e.title.substring(0, 18) + "...",
+    );
     // get the titles of the oldest 5 unanswered posts
     // .filter(e => !(e.substring(0, 3) === 'zzz'));
     // ^^ use this to filter out the private posts
@@ -158,12 +174,8 @@ export default async function Mongo() {
         //there were no posts
         console.log("there are no posts");
         topPosts = [];
-      }
-      else{
-        topPosts = top_posts_algo(
-          postData,
-          collectionDate,
-        );
+      } else {
+        topPosts = top_posts_algo(postData, collectionDate);
       }
       await cacheCollectionPosts.insertOne({
         collectionDate: collectionDate,
@@ -225,8 +237,8 @@ export default async function Mongo() {
 
       //filters out all the entries that have no posts or comments because they have no date fields because they only have id and author fields
       topUsers = top_users_algo(filteredArray, beginDate, endDate);
-      if(topUsers.length > 5){
-        topUsers = topUsers.slice(0,5);
+      if (topUsers.length > 5) {
+        topUsers = topUsers.slice(0, 5);
       }
       await cacheCollectionUsers.insertOne({
         collectionDate: collectionDate,
@@ -248,7 +260,8 @@ export default async function Mongo() {
   return (
     <main
       style={{
-        background: "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
+        background:
+          "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         width: "100%",
@@ -289,25 +302,36 @@ export default async function Mongo() {
           margin: "10px",
         }}
       >
-        <div  style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}> 
-          <div  style={{
-            fontFamily: "Roboto",
-            fontSize: "20px",
-          }}>Current Range: {farthestPastDate} to {collectionDate}
-      </div>
-      <div style={{backgroundImage: 'linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))', borderRadius: '10px', padding: '20px', margin: '20px', width: '350px'}}>
-        <RangeChooser/>
-      </div>
-      </div>
-        <Feature
-          title="Trending Topics"
-          content={topPhrases}
-        ></Feature>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "Roboto",
+              fontSize: "20px",
+            }}
+          >
+            Current Range: {farthestPastDate} to {collectionDate}
+          </div>
+          <div
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
+              borderRadius: "10px",
+              padding: "20px",
+              margin: "20px",
+              width: "350px",
+            }}
+          >
+            <RangeChooser />
+          </div>
+        </div>
+        <Feature title="Trending Topics" content={topPhrases}></Feature>
         <Feature
           hasButton={true}
           linkTo="most-active-redux"
@@ -316,11 +340,13 @@ export default async function Mongo() {
           content={unansweredTitles}
         ></Feature>
         <Feature
+          hasButton={true}
           linkTo="top-posts"
           title="Top Posts"
           content={topPosts}
         ></Feature>
         <Feature
+          hasButton={true}
           linkTo="most-active-users"
           title="Most Active Users"
           content={topUsers}
