@@ -4,21 +4,25 @@ import Podium from "../Podium";
 import background from "../images/background.png";
 import BarGraph from "./BarGraph";
 import Image from "next/image";
+import { userInfo } from "os";
 
 export default async function Page() {
   const url =
     "mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/?retryWrites=true&w=majority";
   const client = new MongoClient(url);
-  const firstDay = new Date("2022-09-15");
-  const lastDay = new Date("2022-12-15");
+  const firstDay = new Date("2022-09-13");
+  const lastDay = new Date("2022-12-17");
   let allUsersRanked;
   let podiumData;
   let firstNamesArr = [];
   let namesArr = [];
   let winnerCommentArr = [];
   let winnerPostArr = [];
-  const graphCommentTitle = "Comment";
-  const graphPostTitle = "Post";
+  let allCommentArr = [];
+  let allPostArr = [];
+  let connectUserToScore = [];
+  const graphCommentTitle = "Number of Comments Made by Top Contributors";
+  const graphPostTitle = "Number of Posts Made by Top Contributors";
   try {
     await client.connect();
     let userCollection = client.db("users").collection("users");
@@ -63,30 +67,68 @@ export default async function Page() {
       $or: queryConditions,
     });
     let winnerList = await contributionData.toArray();
-    let commentCount = 0;
-   
-    let postCount = 0;
+
+    let count;
+    let num_posts;
+    let total_posts;
+    let total_comments;
+    let num_comments;
+    let winnerScore = [];
 
     for(let j = 0; j < 5; j++){//into the 5 data points one for linda one for alexander etc.
+      count = 0;
+      total_posts = 0;
+      total_comments = 0;
       for (let date in winnerList[j]) {
         if (date === "_id" || date === "author") continue;
-        commentCount += winnerList[j][date].commentCount;
-        postCount += winnerList[j][date].postCount;
+        num_posts = winnerList[j][date].postCount;
+        total_posts += num_posts;
+        num_comments = winnerList[j][date].commentCount;
+        total_comments += num_comments;
+        count += 2 * num_posts + 1 * num_comments;
       }
-      winnerCommentArr.push(commentCount);
-      commentCount = 0;
-      winnerPostArr.push(postCount);
-      postCount = 0;
+      winnerScore[j] = {post: total_posts, comment: total_comments, score: count };
     }
+    winnerScore.sort((a, b) => b.score - a.score);
+    winnerCommentArr = winnerScore.map((winnerInfo) => winnerInfo.comment);
+    winnerPostArr = winnerScore.map((winnerInfo) => winnerInfo.post);
+
+    let allContributionCollection = client.db("users").collection("users");
+    let allUsersScores = allContributionCollection.find({});
+    let allUsersList = await allUsersScores.toArray();
+
+    let totalCount;
+    let indivCommentCount = 0;
+    let indivPostCount = 0;
+    let totalIndivComments;
+    let totalIndivPosts;
   
+    for(let j = 0; j < allUsersList.length; j++){//into the 5 data points one for linda one for alexander etc.
+      totalCount = 0;
+      totalIndivComments = 0;
+      totalIndivPosts = 0;
+      for (let date in allUsersList[j]) {
+        if (date === "_id" || date === "author") continue;
+        indivCommentCount = allUsersList[j][date].commentCount;
+        indivPostCount = allUsersList[j][date].postCount;
+        totalIndivComments += indivCommentCount;
+        totalIndivPosts += indivPostCount;
+        totalCount += indivCommentCount+2*indivPostCount;
+      }
+      connectUserToScore[j] = ({rank: totalCount, numComments: totalIndivComments, numPosts: totalIndivPosts});
+    }
+    connectUserToScore.sort((a, b) => b.rank - a.rank);
+    console.log(connectUserToScore);
+    allCommentArr = connectUserToScore.map((userInfo) => userInfo.numComments);;
+    allPostArr = connectUserToScore.map((userInfo) => userInfo.numPosts);
+    console.log(allCommentArr);
+    console.log(allPostArr);
   } catch (e) {
     console.log("There was an error in connecting to mongo");
     console.error(e);
   } finally {
     await client.close();
   }
-
-
 
   return (
 
@@ -143,15 +185,9 @@ export default async function Page() {
     >
       {/* Bar Graphs */}
       <div style={{ flex: "0 0 30%"}}>
-        <BarGraph namesArr={firstNamesArr} scoresArr={winnerCommentArr} title={graphCommentTitle} />
         <BarGraph namesArr={firstNamesArr} scoresArr={winnerPostArr} title={graphPostTitle} />
+        <BarGraph namesArr={firstNamesArr} scoresArr={winnerCommentArr} title={graphCommentTitle} />
       </div>
-
-      {/* Podium */}
-      <div style={{ flex: "0 0 30%", textAlign: "center" }}>
-        <Podium winners={podiumData} />
-      </div>
-
       {/* Scrollable List */}
       <div
         style={{
@@ -160,179 +196,42 @@ export default async function Page() {
           padding: "20px",
           overflowY: "scroll",
           maxHeight: '600px',
-          maxWidth: "600px",
+          maxWidth: "900px",
           boxSizing: "border-box",
           borderRadius: "20px",
         }}
       >
+        <div style={{textAlign:'center', fontFamily:'Young Serif', fontSize:'25px', backgroundColor:'rgba(255, 255, 255, 0.70)', borderRadius:'10px', padding:'3px', marginBottom:'9px'}}>Leader Board</div>
+
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+        <div style={{flexBasis: '48%', fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'1px', backgroundColor:'rgba(255, 255, 255, 0.9)', opacity:'0.8', borderRadius:'7px'}}>
+      Name
+    </div>
+    <div style={{flexBasis: '48%', fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'1px', backgroundColor:'rgba(255, 255, 255, 0.9)', opacity:'0.8', borderRadius:'7px'}}>
+      Number of Posts
+    </div>
+    
+    <div style={{flexBasis: '48%', fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'1px', backgroundColor:'rgba(255, 255, 255, 0.9)', opacity:'0.8', borderRadius:'7px'}}>
+      Number of Comments
+    </div>
+  </div>
+
         <ul>
           {allUsersRanked.map((item, i) => (
-            <li
-              key={i}
-              style={{
-                fontSize: "40px",
-                backgroundColor: "rgba(255, 255, 255, 1)",
-                opacity: "0.6",
-                borderRadius: "7px",
-                margin: "10px",
-              }}
-            >
-              {i + 1}. {item}
-            </li>
+            <div key={i + 'a'} style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+            <span key={i + 'b'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'10%'}}>{i + 1}</span>
+            <span key={i + 'c'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'70%'}}>{item}</span>
+            <span key={i + 'c'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'70%'}}>{allPostArr[i]}</span>
+            <span key={i + 'c'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'70%'}}>{allCommentArr[i]}</span>
+          </div>           
           ))}
         </ul>
       </div>
+      {/* Podium */}
+      <div style={{ flex: "0 0 30%", textAlign: "center" }}>
+        <Podium winners={podiumData} />
+      </div>
     </div>
   </main>
-//     <main
-//   style={{
-//     display: "flex",
-//     height: "100vh",
-//     backgroundImage: `url(${background.src})`,
-//     backgroundSize: "100%",
-//     backgroundRepeat: "no-repeat",
-//   }}
-// >
-
-//   <header>
-//   <div
-//         style={{
-//           display: "flex",
-//           justifyContent: "center",
-//           alignItems: "center",
-//         }}
-//       >
-//         <Image
-//           src="/images/icon.png"
-//           width={90}
-//           height={90}
-//           quality={100}
-//           style={{ margin: "10px" }}
-//           unoptimized
-//           alt=""
-//         ></Image>
-//         <span
-//           style={{
-//             fontFamily: "Roboto",
-//             textAlign: "center",
-//             fontSize: "30px",
-//           }}
-//         >
-//           Most Active Users Stats
-//         </span>
-//       </div>
-//   </header>
-
-//   {/* Charts Container */}
-//   <div
-//     style={{
-//       alignItems: "center",
-//       padding: "20px", // Add padding for spacing
-//       flex: "1", // Allow charts to take available space
-//     }}
-//   >
-//     <BarGraph namesArr={firstNamesArr} scoresArr={winnerCommentArr} title={graphCommentTitle} />
-//     <BarGraph namesArr={firstNamesArr} scoresArr={winnerPostArr} title={graphPostTitle} />
-//   </div>
-
-//    {/* Podium Component */}
-//   <div style={{ marginTop: "50px" }}>
-//         <Podium winners={podiumData} />
-//   </div>
-
-
-//   {/* Scrollable List */}
-//   <div
-//     style={{
-//       backgroundImage:
-//         "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
-//       flex: "1", // Equal flex for scrollable list
-//       padding: "20px", // Add padding for styling
-//       overflowY: "scroll", // Enable vertical scrollbar
-//       maxWidth: "600px",
-//       boxSizing: "border-box",
-//       maxHeight: '600px',
-//       marginTop: '100px',
-//       borderRadius: '20px',
-//     }}
-//   >
-//     <ul>
-//       {allUsersRanked.map((item, i) => (
-//         <li
-//           key={i}
-//           style={{
-//             fontSize: "40px",
-//             backgroundColor: "rgba(255, 255, 255, 1)",
-//             opacity: "0.6",
-//             borderRadius: "7px",
-//             margin: "10px",
-//             maxHeight: '300px'
-//           }}
-//         >
-//           {i + 1}. {item}
-//         </li>
-//       ))}
-//     </ul>
-//   </div>
-// </main>
-
-    // <main
-    //   style={{
-    //     display: "flex",
-    //     flexDirection: "column",
-    //     alignItems: "center",
-    //     justifyContent: "flex-start",
-    //     height: "100vh",
-    //     backgroundImage: `url(${background.src})`,
-    //     backgroundSize: "100%",
-    //     backgroundRepeat: "no-repeat",
-    //   }}
-    // >
-    //   {/* Podium Component */}
-    //   <div style={{ marginTop: "50px" }}>
-    //     <Podium winners={podiumData} />
-    //   </div>
-
-    //   {/* Column for ranked users */}
-    //   <div
-    //     style={{
-    //       backgroundImage:
-    //         "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
-    //       margin: "0 auto",
-    //       display: "inline-block",
-    //       flex: 1,
-    //       fontSize: "40px",
-    //       borderRadius: "10px",
-    //       padding: "20px",
-    //       overflow: "scroll",
-    //       maxWidth: "600px",
-    //       boxSizing: "border-box",
-    //       marginTop: "50px",
-    //     }}
-    //   >
-    //     <ul>
-    //       {allUsersRanked.map((item, i) => (
-    //         <li
-    //           key={i}
-    //           style={{
-    //             fontSize: "40px",
-    //             backgroundColor: "rgba(255, 255, 255, 1)",
-    //             opacity: "0.6",
-    //             borderRadius: "7px",
-    //             margin: "10px",
-    //           }}
-    //         >
-    //           {i + 1}. {item}
-    //         </li>
-    //       ))}
-    //     </ul>
-    //   </div>
-    //   <div>
-    //     <BarGraph namesArr={firstNamesArr} scoresArr = {winnerCommentArr} title={graphCommentTitle}/>
-    //   </div>
-    //   <div>
-    //     <BarGraph namesArr={firstNamesArr} scoresArr = {winnerPostArr} title={graphPostTitle}/>
-    //   </div>
-    // </main>
   );
 }
