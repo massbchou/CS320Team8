@@ -2,10 +2,14 @@
 import { MongoClient } from "mongodb";
 import Image from "next/image";
 import Feature from "./feature.js";
-import background from "./images/background.png";
-import top_posts_algo from "./top_posts.js";
-import top_users_algo from "./top_users.js";
-import RangeChooser from "./userInput/RangeChooser.js";
+import top_posts_algo from "./top-posts/top_posts.js";
+import top_users_algo from "./most-active-users/top_users.js";
+import { Young_Serif } from "next/font/google";
+
+const youngSerif = Young_Serif({
+  subsets: ['latin'],
+  weight: '400',
+});
 
 export default async function Mongo() {
   // initialize mongoclient credentials
@@ -17,6 +21,8 @@ export default async function Mongo() {
   let topUsers;
   let topPhrases;
   let inputText = "";
+  let unansweredCount;
+  let unansweredTitles;
   let collectionDate = "";
   let farthestPastDate = "";
   // Create initially empty input text variable
@@ -35,6 +41,27 @@ export default async function Mongo() {
    
     // Get the number of days prior they want included
     let thresholdDaysPrior = userInput[0].date[2];
+    const collection = client.db("posts").collection(collectionDate);
+    // get collection "2022-09-15" from database "posts"
+
+    const unanswered = collection.find({type: "question", $nor: [{modAnsweredAt: {$exists: true}}, {comments: {$elemMatch: {endorsed: true}}}] });
+    let unansweredArr = await unanswered.toArray().then((arr) =>
+    arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
+    );
+    // find posts that are not either (a) answered by mods or (b) have endorsed comments !(a or b)
+
+    unansweredCount = unansweredArr.length;
+    // get the length of the original unanswered array
+
+    unansweredTitles = unansweredArr.map(e => e.title.substring(0, 18) + "...");
+    // get the titles of the oldest 5 unanswered posts
+    // .filter(e => !(e.substring(0, 3) === 'zzz'));
+    // ^^ use this to filter out the private posts
+
+    if(unansweredArr.length > 5){
+      unansweredTitles = unansweredTitles.slice(0, 5);
+    }
+    // if there are more than 5 unanswered posts, cut the list down to 5
 
     // let collectionDate = '2022-10-15';
     // let thresholdDaysPrior = 20;
@@ -214,7 +241,7 @@ export default async function Mongo() {
       topUsers = cacheUsers.topUsers;
     }
   } catch (e) {
-    console.log("There was an error in connecting to mongo");
+    console.log("There was an error in connecting to mongoDB");
     console.error(e);
   } finally {
     await client.close();
@@ -223,9 +250,10 @@ export default async function Mongo() {
   return (
     <main
       style={{
-        backgroundImage: `url(${background.src})`,
-        backgroundSize: "100%",
+        background: "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
+        backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
+        width: "100%",
         height: "100vh",
       }}
     >
@@ -247,7 +275,7 @@ export default async function Mongo() {
         ></Image>
         <span
           style={{
-            fontFamily: "Roboto",
+            fontFamily: youngSerif,
             textAlign: "center",
             fontSize: "30px",
           }}
@@ -289,11 +317,18 @@ export default async function Mongo() {
         <Feature
           hasButton={true}
           linkTo="most-active-redux"
+          totalCount={unansweredCount}
+          title="Unanswered Questions"
+          content={unansweredTitles}
+        ></Feature>
+        <Feature
+          hasButton = {true}
+          linkTo="top-posts"
           title="Top Posts"
           content={topPosts}
         ></Feature>
         <Feature
-          hasButton={true}
+          hasButton = {true}
           linkTo="most-active-users"
           title="Most Active Users"
           content={topUsers}

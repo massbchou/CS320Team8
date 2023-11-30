@@ -1,0 +1,17 @@
+Setup for the dependencies of the consolidation branch:
+
+After cloning the repository:
+
+1. Run `npm i` in the project's directory
+
+2. Run `npm i python-shell` and `npm i @material-ui/core` if those don't install automatically
+
+3. Install the latest version of Python here (https://www.python.org/downloads/) and select "add python to PATH" during install
+
+4. Install Rust here (https://www.rust-lang.org/tools/install), will need to install Visual Studio during Rust installation
+
+5. Run `pip install yake` anywhere in the command line to install the keyword extractor
+
+6. You should be able to now do an `npm run dev` and see the webpage without errors on `http://localhost:3000/`
+
+Font used: "Young Serif" (https://fonts.google.com/specimen/Young+Serif)

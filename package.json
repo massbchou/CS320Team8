@@ -12,12 +12,9 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
-    "antd": "^5.11.4",
-    "chart.js": "^4.4.0",
-    "DatePicker": "^2.0.0",
-    "focus": "^0.0.1",
-    "framer-motion": "^10.16.5",
-    "moment": "^2.29.4",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.18",
     "mongodb": "^6.1.0",
     "mongoose": "^8.0.0",
     "motion": "^10.16.4",
