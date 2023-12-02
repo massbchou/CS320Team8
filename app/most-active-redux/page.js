@@ -70,7 +70,7 @@ export default async function Page() {
         totalCount += indivCommentCount + 2 * indivPostCount;
       }
       connectUserToScore[j] = {
-        userId: allUsersList[j].author.id,
+        userID: allUsersList[j].author.id,
         firstName: allUsersList[j].author.firstName,
         lastName: allUsersList[j].author.lastName,
         fullName:

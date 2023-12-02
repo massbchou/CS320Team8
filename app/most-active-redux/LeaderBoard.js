@@ -107,23 +107,25 @@ const LeaderBoard = ({ connectUserToScore, allPostArr, allCommentArr }) => {
             >
               {i + 1}
             </span>
-            <Link href="/most-active-users" style={{
-                  color: 'black',
-                  fontFamily: "Young Serif",
-                  fontSize: "20px",
-                  textAlign: "center",
-                  margin: "6px",
-                  padding: "2px",
-                  backgroundColor: "rgba(255, 255, 255, 1)",
-                  opacity: "0.6",
-                  borderRadius: "7px",
-                  width: "70%",
-                }}>
-              <span
-                key={i + "c"}
-              >
-                {item.fullName}
-              </span>
+            <Link
+              href={{
+                pathname: "/member-stats",
+                query: { userID: item.userID, userName: item.fullName },
+              }}
+              style={{
+                color: "black",
+                fontFamily: "Young Serif",
+                fontSize: "20px",
+                textAlign: "center",
+                margin: "6px",
+                padding: "2px",
+                backgroundColor: "rgba(255, 255, 255, 1)",
+                opacity: "0.6",
+                borderRadius: "7px",
+                width: "70%",
+              }}
+            >
+              {item.fullName}
             </Link>
             <span
               key={i + "d"}
