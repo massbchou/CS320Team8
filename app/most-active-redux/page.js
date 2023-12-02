@@ -2,6 +2,7 @@ import top_users_algo from "../most-active-users/top_users";
 import { MongoClient } from "mongodb";
 import Podium from "../Podium";
 import BarGraph from "./BarGraph";
+import LeaderBoard from './LeaderBoard';
 
 export default async function Page() {
   const url =
@@ -57,7 +58,6 @@ export default async function Page() {
     let totalIndivComments;
     let totalIndivPosts;
     for (let j = 0; j < allUsersList.length; j++) {
-      //into the 5 data points one for linda one for alexander etc.
       totalCount = 0;
       totalIndivComments = 0;
       totalIndivPosts = 0;
@@ -161,160 +161,13 @@ export default async function Page() {
             title={graphCommentTitle}
           />
         </div>
-        {/* Scrollable List */}
-        <div
-          style={{
-            flex: "0 0 30%",
-            backgroundImage:
-              "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
-            padding: "20px",
-            overflowY: "scroll",
-            maxHeight: "600px",
-            maxWidth: "900px",
-            boxSizing: "border-box",
-            borderRadius: "20px",
-          }}
-        >
-          <div
-            style={{
-              textAlign: "center",
-              fontFamily: "Young Serif",
-              fontSize: "25px",
-              backgroundColor: "rgba(255, 255, 255, 0.70)",
-              borderRadius: "10px",
-              padding: "3px",
-              marginBottom: "9px",
-            }}
-          >
-            Leader Board
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div
-              style={{
-                flexBasis: "48%",
-                fontFamily: "Young Serif",
-                fontSize: "20px",
-                textAlign: "center",
-                margin: "6px",
-                padding: "1px",
-                backgroundColor: "rgba(255, 255, 255, 0.9)",
-                opacity: "0.8",
-                borderRadius: "7px",
-              }}
-            >
-              Name
-            </div>
-            <div
-              style={{
-                flexBasis: "48%",
-                fontFamily: "Young Serif",
-                fontSize: "20px",
-                textAlign: "center",
-                margin: "6px",
-                padding: "1px",
-                backgroundColor: "rgba(255, 255, 255, 0.9)",
-                opacity: "0.8",
-                borderRadius: "7px",
-              }}
-            >
-              Number of Posts
-            </div>
-
-            <div
-              style={{
-                flexBasis: "48%",
-                fontFamily: "Young Serif",
-                fontSize: "20px",
-                textAlign: "center",
-                margin: "6px",
-                padding: "1px",
-                backgroundColor: "rgba(255, 255, 255, 0.9)",
-                opacity: "0.8",
-                borderRadius: "7px",
-              }}
-            >
-              Number of Comments
-            </div>
-          </div>
-
-          <ul>
-            {connectUserToScore.map((item, i) => (
-              <div
-                key={i + "a"}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <span
-                  key={i + "b"}
-                  style={{
-                    fontFamily: "Young Serif",
-                    fontSize: "20px",
-                    textAlign: "center",
-                    margin: "6px",
-                    padding: "2px",
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                    opacity: "0.6",
-                    borderRadius: "7px",
-                    width: "10%",
-                  }}
-                >
-                  {i + 1}
-                </span>
-                <span
-                  key={i + "c"}
-                  style={{
-                    fontFamily: "Young Serif",
-                    fontSize: "20px",
-                    textAlign: "center",
-                    margin: "6px",
-                    padding: "2px",
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                    opacity: "0.6",
-                    borderRadius: "7px",
-                    width: "70%",
-                  }}
-                >
-                  {item.fullName}
-                </span>
-                <span
-                  key={i + "c"}
-                  style={{
-                    fontFamily: "Young Serif",
-                    fontSize: "20px",
-                    textAlign: "center",
-                    margin: "6px",
-                    padding: "2px",
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                    opacity: "0.6",
-                    borderRadius: "7px",
-                    width: "70%",
-                  }}
-                >
-                  {allPostArr[i]}
-                </span>
-                <span
-                  key={i + "c"}
-                  style={{
-                    fontFamily: "Young Serif",
-                    fontSize: "20px",
-                    textAlign: "center",
-                    margin: "6px",
-                    padding: "2px",
-                    backgroundColor: "rgba(255, 255, 255, 1)",
-                    opacity: "0.6",
-                    borderRadius: "7px",
-                    width: "70%",
-                  }}
-                >
-                  {allCommentArr[i]}
-                </span>
-              </div>
-            ))}
-          </ul>
+         {/* Scrollable List using LeaderBoard component */}
+         <div style={{ flex: "0 0 30%" }}>
+          <LeaderBoard
+            connectUserToScore={connectUserToScore}
+            allPostArr={allPostArr}
+            allCommentArr={allCommentArr}
+          />
         </div>
         {/* Podium */}
         <div style={{ flex: "0 0 30%", textAlign: "center" }}>
