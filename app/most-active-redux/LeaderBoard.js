@@ -1,7 +1,48 @@
 "use client";
-import Link from "next/link";
 
-const LeaderBoard = ({ connectUserToScore, allPostArr, allCommentArr }) => {
+import Link from "next/link";
+import { useState } from "react";
+
+function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
+  const [user, setUser] = useState([]);
+
+  const handleLinkClick = async (userID, userName) => {
+    console.log("User ID:", userID);
+    console.log("User Name:", userName);
+  
+    if (userID && userName) {
+      setUser([userID, userName]);
+      let firstName = userName.slice(0,userName.indexOf(" "));
+      console.log(firstName);
+      let lastName = userName.slice(userName.indexOf(" ")+1);
+      console.log(lastName);
+      const user = [userID, userName, firstName, lastName];
+      try {
+        const response = await fetch("/api/names", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user }),
+        });
+        if (response.ok) {
+          console.log("Name saved successfully");
+  
+          // API call successful, perform navigation
+          window.location.href = `/member-stats?userID=${userID}&userName=${userName}`;
+        } else {
+          console.error("Failed to save name");
+          // Handle failure if needed
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        // Handle other errors
+      }
+    } else {
+      setUser([]);
+    }
+  };
+
   return (
     <div
       style={{
@@ -123,6 +164,10 @@ const LeaderBoard = ({ connectUserToScore, allPostArr, allCommentArr }) => {
                 opacity: "0.6",
                 borderRadius: "7px",
                 width: "70%",
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                handleLinkClick(item.userID, item.fullName);
               }}
             >
               {item.fullName}
