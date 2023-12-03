@@ -4,6 +4,7 @@ import Podium from "../Podium";
 import BarGraph from "./BarGraph";
 import LeaderBoard from './LeaderBoard';
 import { Young_Serif } from "next/font/google";
+import { userInfo } from "os";
 
 const youngSerif = Young_Serif({
   subsets: ["latin"],
@@ -89,8 +90,11 @@ export default async function Page() {
       };
     }
     connectUserToScore.sort((a, b) => b.rank - a.rank);
+    connectUserToScore.forEach((userInfo, index) => {
+      userInfo.rank = index + 1;
+    });
+    allPostArr = connectUserToScore.map((userInfo) => userInfo.numPosts)
     allCommentArr = connectUserToScore.map((userInfo) => userInfo.numComments);
-    allPostArr = connectUserToScore.map((userInfo) => userInfo.numPosts);
     winnerCommentArr = allCommentArr.slice(0, 5);
     winnerPostArr = allPostArr.slice(0, 5);
   } catch (e) {
@@ -151,11 +155,10 @@ export default async function Page() {
           alignItems: "flex-start",
           width: "100%",
           marginTop: "50px", // Adjust as needed
-          padding: "20px",
         }}
       >
         {/* Bar Graphs */}
-        <div style={{ flex: "0 0 30%", fontFamily: youngSerif}}>
+        <div style={{ flex: "0 0 20%", fontFamily: youngSerif}}>
           <BarGraph
             namesArr={firstNamesArr}
             scoresArr={winnerPostArr}
@@ -170,15 +173,13 @@ export default async function Page() {
           />
         </div>
          {/* Scrollable List using LeaderBoard component */}
-         <div style={{ flex: "0 0 33%", fontFamily: youngSerif}}>
+         <div style={{ flex: "0 0 45%", fontFamily: youngSerif}}>
           <LeaderBoard
             connectUserToScore={connectUserToScore}
-            allPostArr={allPostArr}
-            allCommentArr={allCommentArr}
           />
         </div>
         {/* Podium */}
-        <div style={{ flex: "0 0 30%", textAlign: "center" }}>
+        <div style={{ flex: "0 0 20%", textAlign: "center" }}>
           <Podium winners={podiumData} />
         </div>
       </div>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Young_Serif } from "next/font/google";
+import { useEffect } from "react";
 
 const youngSerif = Young_Serif({
   subsets: ["latin"],
@@ -12,6 +13,37 @@ const youngSerif = Young_Serif({
 
 function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
   const [user, setUser] = useState([]);
+  const [sortBy, setSortBy] = useState('rank');
+  const [sortOrder, setSortOrder] = useState('asc'); // State to track sorting order
+
+  const handleSortBy = (criteria) => {
+    if (sortBy === criteria) {
+      // Toggle sorting order if same criterion is clicked
+      setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
+    } else {
+      // If a new criterion is clicked, set it as the sorting criterion
+      setSortBy(criteria);
+      setSortOrder('desc'); // Set default order as ascending for the new criterion
+    }
+  };
+
+  // Sorting logic based on different criteria
+  const sortUsers = () => {
+    if (sortBy === 'rank') {
+      connectUserToScore.sort((a, b) => (sortOrder === 'asc' ? a.rank - b.rank : b.rank - a.rank));
+    } else if (sortBy === 'numPosts') {
+      connectUserToScore.sort((a, b) => (sortOrder === 'asc' ? a.numPosts - b.numPosts : b.numPosts - a.numPosts));
+    } else if (sortBy === 'numComments') {
+      connectUserToScore.sort((a, b) => (sortOrder === 'asc' ? a.numComments - b.numComments : b.numComments - a.numComments));
+    } else if (sortBy === 'name') {
+      connectUserToScore.sort((a, b) => (sortOrder === 'asc' ? a.fullName.localeCompare(b.fullName) : b.fullName.localeCompare(a.fullName)));
+    }
+  };
+
+  useEffect(() => {
+    sortUsers();
+  }, [sortBy, sortOrder]);
+
 
   const handleLinkClick = async (userID, userName) => {
     console.log("User ID:", userID);
@@ -57,8 +89,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
           "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
         padding: "20px",
         overflowY: "scroll",
-        maxHeight: "600px",
-        maxWidth: "900px",
+        maxHeight: "800px",
         boxSizing: "border-box",
         borderRadius: "20px",
       }}
@@ -81,6 +112,23 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
         {/* Adjust styles and content as needed */}
         {/* Add header elements */}
         <div
+          onClick={() => handleSortBy('rank')}
+          style={{
+            flexBasis: "48%",
+            fontFamily: youngSerif,
+            fontSize: "20px",
+            textAlign: "center",
+            margin: "6px",
+            padding: "1px",
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            opacity: "0.8",
+            borderRadius: "7px",
+          }}
+        >
+          Rank
+        </div>
+        <div
+          onClick={() => handleSortBy('name')}
           style={{
             flexBasis: "48%",
             fontFamily: youngSerif,
@@ -96,6 +144,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
           Name
         </div>
         <div
+          onClick={() => handleSortBy('numPosts')}
           style={{
             flexBasis: "48%",
             fontFamily: youngSerif,
@@ -111,6 +160,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
           Number of Posts
         </div>
         <div
+          onClick={() => handleSortBy('numComments')}
           style={{
             flexBasis: "48%",
             fontFamily: youngSerif,
@@ -150,10 +200,10 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
                 backgroundColor: "rgba(255, 255, 255, 1)",
                 opacity: "0.6",
                 borderRadius: "7px",
-                width: "10%",
+                width: "70%",
               }}
             >
-              {i + 1}
+              {item.rank}
             </span>
             <Link
               href={{
@@ -193,7 +243,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
                 width: "70%",
               }}
             >
-              {allPostArr[i]}
+            {connectUserToScore.map((userInfo) => userInfo.numPosts)[i]}
             </span>
             <span
               key={i + "e"}
@@ -209,7 +259,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
                 width: "70%",
               }}
             >
-              {allCommentArr[i]}
+              {connectUserToScore.map((userInfo) => userInfo.numComments)[i]}
             </span>
           </div>
         ))}
