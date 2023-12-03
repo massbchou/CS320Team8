@@ -26,6 +26,7 @@ export default async function Mongo() {
   let unansweredTitles;
   let collectionDate = "";
   let farthestPastDate = "";
+  let thresholdDaysPrior;
   // Create initially empty input text variable
 
   try {
@@ -46,10 +47,14 @@ export default async function Mongo() {
     collectionDate = userInput[0].date[1];
 
     // Get the number of days prior they want included
-    let thresholdDaysPrior = userInput[0].date[2];
+    thresholdDaysPrior = userInput[0].date[2];
+
+    
+
     const collection = client.db("posts").collection(collectionDate);
     // get collection "2022-09-15" from database "posts"
 
+    
     const unanswered = collection.find({
       type: "question",
       $nor: [

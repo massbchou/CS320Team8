@@ -12,8 +12,14 @@ export async function POST(request) {
   const db = client.db("userInput");
   const collection = db.collection("dates");
 
-  // Insert the date into the MongoDB collection
-  await collection.insertOne({ date });
+  const existingUser = collection.find({});
+
+  if (existingUser) {
+    await collection.updateOne({}, { $set: { date: date } });
+  }
+
+  // If the collection gets deleted uncomment this to get it to have at least one in there
+  //await collection.insertOne({ date });
 
   client.close();
 

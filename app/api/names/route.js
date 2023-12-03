@@ -15,12 +15,13 @@ export async function POST(request) {
   const db = client.db("userInput");
   const collection = db.collection("userName");
   const existingUser = collection.find({});
-  console.log(existingUser);
 
   if (existingUser) {
     await collection.updateOne({}, { $set: { user: user } });
   }
 
+  // If the collection gets deleted uncomment this to get it to have at least one in there
+  //await collection.insertOne({ user });
   client.close();
   return Response.json({ user });
 }
