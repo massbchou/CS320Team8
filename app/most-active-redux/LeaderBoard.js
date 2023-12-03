@@ -2,6 +2,13 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { Young_Serif } from "next/font/google";
+
+const youngSerif = Young_Serif({
+  subsets: ["latin"],
+  weight: "400",
+});
+
 
 function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
   const [user, setUser] = useState([]);
@@ -59,7 +66,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
       <div
         style={{
           textAlign: "center",
-          fontFamily: "Young Serif",
+          fontFamily: youngSerif,
           fontSize: "25px",
           backgroundColor: "rgba(255, 255, 255, 0.70)",
           borderRadius: "10px",
@@ -76,7 +83,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
         <div
           style={{
             flexBasis: "48%",
-            fontFamily: "Young Serif",
+            fontFamily: youngSerif,
             fontSize: "20px",
             textAlign: "center",
             margin: "6px",
@@ -91,7 +98,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
         <div
           style={{
             flexBasis: "48%",
-            fontFamily: "Young Serif",
+            fontFamily: youngSerif,
             fontSize: "20px",
             textAlign: "center",
             margin: "6px",
@@ -106,7 +113,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
         <div
           style={{
             flexBasis: "48%",
-            fontFamily: "Young Serif",
+            fontFamily: youngSerif,
             fontSize: "20px",
             textAlign: "center",
             margin: "6px",
@@ -135,7 +142,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
             <span
               key={i + "b"}
               style={{
-                fontFamily: "Young Serif",
+                fontFamily: youngSerif,
                 fontSize: "20px",
                 textAlign: "center",
                 margin: "6px",
@@ -155,7 +162,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
               }}
               style={{
                 color: "black",
-                fontFamily: "Young Serif",
+                fontFamily: youngSerif,
                 fontSize: "20px",
                 textAlign: "center",
                 margin: "6px",
@@ -175,7 +182,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
             <span
               key={i + "d"}
               style={{
-                fontFamily: "Young Serif",
+                fontFamily: youngSerif,
                 fontSize: "20px",
                 textAlign: "center",
                 margin: "6px",
@@ -191,7 +198,7 @@ function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
             <span
               key={i + "e"}
               style={{
-                fontFamily: "Young Serif",
+                fontFamily: youngSerif,
                 fontSize: "20px",
                 textAlign: "center",
                 margin: "6px",

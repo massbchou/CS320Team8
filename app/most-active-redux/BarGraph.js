@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-const BarGraph = ({ namesArr, scoresArr, title }) => {
+const BarGraph = ({ namesArr, scoresArr, title, font}) => {
   const chartContainer = useRef(null);
   const chartInstance = useRef(null);
 
@@ -36,7 +36,8 @@ const BarGraph = ({ namesArr, scoresArr, title }) => {
             title: {
               display: true,
               text: title,
-              font: {
+              font:{
+                family: 'YoungSerif',
                 size: 20
               },
               color: 'black',

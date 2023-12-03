@@ -9,13 +9,18 @@ export async function POST(request) {
       useUnifiedTopology: true,
     },
   );
+
+  // Check if a document with the same user ID already exists
+
   const db = client.db("userInput");
   const collection = db.collection("userName");
+  const existingUser = collection.find({});
+  console.log(existingUser);
 
-  // Insert the date into the MongoDB collection
-  await collection.insertOne({ user });
+  if (existingUser) {
+    await collection.updateOne({}, { $set: { user: user } });
+  }
 
   client.close();
-
-  return Response.json({user});
+  return Response.json({ user });
 }

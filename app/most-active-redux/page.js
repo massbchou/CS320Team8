@@ -3,6 +3,12 @@ import { MongoClient } from "mongodb";
 import Podium from "../Podium";
 import BarGraph from "./BarGraph";
 import LeaderBoard from './LeaderBoard';
+import { Young_Serif } from "next/font/google";
+
+const youngSerif = Young_Serif({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export default async function Page() {
   const url =
@@ -149,20 +155,22 @@ export default async function Page() {
         }}
       >
         {/* Bar Graphs */}
-        <div style={{ flex: "0 0 30%" }}>
+        <div style={{ flex: "0 0 30%", fontFamily: youngSerif}}>
           <BarGraph
             namesArr={firstNamesArr}
             scoresArr={winnerPostArr}
             title={graphPostTitle}
+            font={youngSerif}
           />
           <BarGraph
             namesArr={firstNamesArr}
             scoresArr={winnerCommentArr}
             title={graphCommentTitle}
+            font={youngSerif}
           />
         </div>
          {/* Scrollable List using LeaderBoard component */}
-         <div style={{ flex: "0 0 30%" }}>
+         <div style={{ flex: "0 0 33%", fontFamily: youngSerif}}>
           <LeaderBoard
             connectUserToScore={connectUserToScore}
             allPostArr={allPostArr}

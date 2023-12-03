@@ -8,14 +8,10 @@ import StatsGraph from "./stats_graph.js";
 
 export default function SearchBar({dataSet}) {
   const searchParams = useSearchParams();
-
-
-  const userID = searchParams.get("userID");
   const userName = searchParams.get("userName");
 
   // This will be logged on the server during the initial render
   // and on the client on subsequent navigations.
-
 
   return (
     <main
@@ -99,7 +95,7 @@ export default function SearchBar({dataSet}) {
           ]}
         ></UserList>
         <SelectedUser
-          title={userName}
+          title={dataSet.userName}
           stats={{
             numPosts: 5,
             numTrendingPosts: 2,
@@ -110,7 +106,7 @@ export default function SearchBar({dataSet}) {
         <StatsGraph
           data={dataSet.dataArr}
           startDate={dataSet.startDate}
-          name={userName}
+          name={dataSet.userName}
         ></StatsGraph>
       </div>
     </main>

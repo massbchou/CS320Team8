@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import React, { createContext } from "react";
+import React from "react";
 
 export default function PodiumStep({ podium, winner }) {
   const offset = podium.length - winner.position;
