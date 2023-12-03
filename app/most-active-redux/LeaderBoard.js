@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Young_Serif } from "next/font/google";
-import { useEffect } from "react";
 
 const youngSerif = Young_Serif({
   subsets: ["latin"],
@@ -11,39 +10,35 @@ const youngSerif = Young_Serif({
 });
 
 
-function LeaderBoard({ connectUserToScore, allPostArr, allCommentArr }){
+function LeaderBoard({ connectUserToScore }){
   const [user, setUser] = useState([]);
   const [sortBy, setSortBy] = useState('rank');
-  const [sortOrder, setSortOrder] = useState('asc'); // State to track sorting order
+  const [sortOrder, setSortOrder] = useState('top'); // State to track sorting order
 
   const handleSortBy = (criteria) => {
     if (sortBy === criteria) {
       // Toggle sorting order if same criterion is clicked
-      setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
+      setSortOrder((prevOrder) => (prevOrder === 'top' ? 'bottom' : 'top'));
+      sortUsers();
     } else {
       // If a new criterion is clicked, set it as the sorting criterion
       setSortBy(criteria);
-      setSortOrder('desc'); // Set default order as ascending for the new criterion
+      setSortOrder('bottom'); // Set default order as ascending for the new criterion
     }
   };
 
   // Sorting logic based on different criteria
   const sortUsers = () => {
     if (sortBy === 'rank') {
-      connectUserToScore.sort((a, b) => (sortOrder === 'asc' ? a.rank - b.rank : b.rank - a.rank));
+      connectUserToScore.sort((a, b) => (sortOrder === 'top' ? a.rank - b.rank : b.rank - a.rank));
     } else if (sortBy === 'numPosts') {
-      connectUserToScore.sort((a, b) => (sortOrder === 'asc' ? a.numPosts - b.numPosts : b.numPosts - a.numPosts));
+      connectUserToScore.sort((a, b) => (sortOrder === 'top' ? b.numPosts - a.numPosts : a.numPosts - b.numPosts));
     } else if (sortBy === 'numComments') {
-      connectUserToScore.sort((a, b) => (sortOrder === 'asc' ? a.numComments - b.numComments : b.numComments - a.numComments));
+      connectUserToScore.sort((a, b) => (sortOrder === 'top' ? b.numComments - a.numComments: a.numComments - b.numComments));
     } else if (sortBy === 'name') {
-      connectUserToScore.sort((a, b) => (sortOrder === 'asc' ? a.fullName.localeCompare(b.fullName) : b.fullName.localeCompare(a.fullName)));
+      connectUserToScore.sort((a, b) => (sortOrder === 'top' ? a.fullName.localeCompare(b.fullName) : b.fullName.localeCompare(a.fullName)));
     }
   };
-
-  useEffect(() => {
-    sortUsers();
-  }, [sortBy, sortOrder]);
-
 
   const handleLinkClick = async (userID, userName) => {
     console.log("User ID:", userID);

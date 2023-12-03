@@ -179,7 +179,7 @@ export default async function Page() {
           />
         </div>
         {/* Podium */}
-        <div style={{ flex: "0 0 20%", textAlign: "center" }}>
+        <div style={{ flex: "0 0 20%", textAlign: "center",  marginRight: "40px" }}>
           <Podium winners={podiumData} />
         </div>
       </div>
