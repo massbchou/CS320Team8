@@ -8,6 +8,11 @@ import {
   CategoryScale,
   LinearScale,
 } from "chart.js";
+import { Young_Serif } from 'next/font/google';
+const youngSerif = Young_Serif({
+    subsets: ['latin'],
+    weight: '400',
+});
 
 /**
  * Goes through posts within start and end date and sums up:
@@ -152,6 +157,7 @@ export function renderForumActivityFeature(forumActivity = mp()) {
  *
  * @returns jsx block to add to page.js
  */
+
 export function renderForumActivityGraph(forumActivity = mp()) {
   // TODO: insert graph here
   /* 
@@ -173,5 +179,12 @@ export function renderForumActivityGraph(forumActivity = mp()) {
     ],
   };
   console.log(data);
-  return <LineChart>data={data}</LineChart>;
+  return (
+    <div style={{backgroundImage: 'linear-gradient(rgba(0, 224, 255, 0.45), rgba(240, 56, 255, 0.55))', borderRadius: '10px', padding: '20px', margin: '20px', width: '25%'}}>
+        <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+            <div style={{textAlign:'center', fontFamily: youngSerif, fontSize:'20px', backgroundColor:'rgba(255, 255, 255, 0.70)', borderRadius:'10px', width:'100%', padding:'6px', marginBottom:'9px', marginRight:'9px'}}>{"Forum Activity"}</div>
+        </div>
+        <div><LineChart>data={data}</LineChart></div>
+    </div>
+);
 }
