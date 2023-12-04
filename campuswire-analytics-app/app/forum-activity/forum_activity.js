@@ -166,8 +166,9 @@ export function renderForumActivityGraph(forumActivity = mp()) {
     ...for more properties see https://www.chartjs.org/docs/latest/charts/line.html
   }}
   */
-  const data = {
-    labels: forumActivity.map((chunk) => chunk.startDate),
+  const chartData = {
+    labels: forumActivity.map((chunk, i) => i),
+    // labels: forumActivity.map((chunk) => chunk.startDate),
     datasets: [
       {
         label: "Forum Activity",
