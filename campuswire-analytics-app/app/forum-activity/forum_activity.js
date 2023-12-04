@@ -186,5 +186,5 @@ export function renderForumActivityGraph(forumActivity = mp()) {
         </div>
         <div><LineChart>data={data}</LineChart></div>
     </div>
-);
+  );
 }
