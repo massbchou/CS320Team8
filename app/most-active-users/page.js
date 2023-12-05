@@ -1,6 +1,5 @@
-import background from "../images/background.png";
 import { MongoClient } from "mongodb";
-import top_users_algo from "../top_users.js";
+import top_users_algo from "./top_users.js";
 import Feature from "../feature.js";
 
 export default async function Page() {
@@ -41,13 +40,42 @@ export default async function Page() {
   return (
     <main
       style={{
-        backgroundImage: `url(${background.src})`,
+        background:
+          "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
         backgroundSize: "100%",
         backgroundRepeat: "no-repeat",
         height: "100vh",
       }}
     >
-      <header>Most Active Users</header>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: "20px",
+          fontSize: "20px",
+        }}
+      >
+        <a href="/" style={{ display: "inline-block" }}>
+          Return Home
+          <div style={{ display: "inline-block" }}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="-2 -2 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+              />
+            </svg>
+          </div>
+        </a>
+      </div>
       <div
         style={{
           display: "flex",

@@ -2,15 +2,19 @@
 import { MongoClient } from "mongodb";
 import Image from "next/image";
 import Feature from "./feature.js";
-import background from "./images/background.png";
 import "./globals.css";
-import top_posts_algo from "./top_posts.js";
-import top_users_algo from "./top_users.js";
 import {
   getForumActivity,
-  renderForumActivityFeature,
   renderForumActivityGraph,
 } from "./forum-activity/forum_activity.js";
+import top_posts_algo from "./top-posts/top_posts.js";
+import top_users_algo from "./most-active-users/top_users.js";
+import { Young_Serif } from "next/font/google";
+
+const youngSerif = Young_Serif({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export default async function Mongo() {
   // initialize mongoclient credentials
@@ -27,15 +31,6 @@ export default async function Mongo() {
   let forumActivity;
   // Create initially empty variables
 
-  /*Caching right now is set as one entry per date. So for '2022-09-15' there is one entry and if the collectionDate is set to that string, 
-  then no database query calls have to be made because it can just take array information saved at that specific collectionDate. 
-  However, MAX_DAYS is hard-coded to only allow posts from 20 days prior up to the collectionDate as being queried. 
-  I was thinking if we wanted to allow users to change this range to say only 7 days before the collectionDate or all possible days before the collectionDate our method currently wouldn't allow it. 
-  If the current if-else statement was changed to a if-elseif-else statement where the second if conditional checked if the collectionDate with whatever desired value of MAX_DAYS has been calculated before. 
-  If it has NOT been calculated before that means the same collectionDate has been calculated before, but with a different time range for allowing posts to count towards the calculation.
-  So, it should be calculated and stored as having the collectionDate as its collectionDate and the MAX_DAYS as its MAX_DAYS. 
-  If it HAS been calculated before that means both that collectionDay and MAX_DAYS combo has been calculated before and this is just the else statement we currently have.*/
-
   let collectionDate = "2022-12-15";
   // Set collection date
 
@@ -46,17 +41,19 @@ export default async function Mongo() {
     await client.connect();
     // Connect to cluster
 
-    const postsCollection = client.db("posts").collection(collectionDate);
+    const collection = client.db("posts").collection(collectionDate);
     // get collection "2022-09-15" from database "posts"
 
-    const unanswered = postsCollection.find({
+    const unanswered = collection.find({
       type: "question",
       $nor: [
         { modAnsweredAt: { $exists: true } },
         { comments: { $elemMatch: { endorsed: true } } },
       ],
     });
-    let unansweredArr = await unanswered.toArray();
+    let unansweredArr = await unanswered
+      .toArray()
+      .then((arr) => arr.filter((x) => !(x.body.substring(0, 3) === "zzz")));
     // find posts that are not either (a) answered by mods or (b) have endorsed comments !(a or b)
 
     unansweredCount = unansweredArr.length;
@@ -243,7 +240,7 @@ export default async function Mongo() {
     }
 
     // forum activity
-    const allPosts = await postsCollection.find().toArray();
+    const allPosts = await collection.find().toArray();
     const endDate = new Date(collectionDate);
     const beginDate = new Date(0);
     const delta = 7;
@@ -266,9 +263,8 @@ export default async function Mongo() {
   return (
     <main
       style={{
-        // backgroundImage: `url(${background.src})`,
         background:
-          "linear-gradient(140deg, rgba(2,0,36,1) 0%, rgba(255,173,252,1) 0%, rgba(255,255,255,1) 48%, rgba(136,255,243,1) 100%)",
+          "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         width: "100%",
@@ -293,7 +289,7 @@ export default async function Mongo() {
         ></Image>
         <span
           style={{
-            fontFamily: "Young Serif",
+            fontFamily: youngSerif,
             textAlign: "center",
             fontSize: "30px",
           }}
@@ -311,21 +307,18 @@ export default async function Mongo() {
       >
         <Feature
           totalCount={unansweredCount}
-          linkTo="unanswered-questions"
           title="Unanswered Questions"
           content={unansweredTitles}
         ></Feature>
         <Feature
+          hasButton={true}
           linkTo="top-posts"
           title="Top Posts"
           content={topPosts}
         ></Feature>
+        <Feature title="Trending Topics" content={topPhrases}></Feature>
         <Feature
-          linkTo="trending-topics"
-          title="Trending Topics"
-          content={topPhrases}
-        ></Feature>
-        <Feature
+          hasButton={true}
           linkTo="most-active-users"
           title="Most Active Users"
           content={topUsers}

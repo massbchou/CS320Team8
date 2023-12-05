@@ -1,18 +1,11 @@
 import LineChart from "@/components/LineChart";
 import Feature from "../feature";
 import mp from "../missingParameter";
-import {
-  LineController,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-} from "chart.js";
-import { Young_Serif } from "next/font/google";
-const youngSerif = Young_Serif({
-  subsets: ["latin"],
-  weight: "400",
-});
+// import { Young_Serif } from "next/font/google";
+// const youngSerif = Young_Serif({
+//   subsets: ["latin"],
+//   weight: "400",
+// });
 
 /**
  * Goes through posts within start and end date and sums up:
@@ -159,13 +152,12 @@ export function renderForumActivityFeature(forumActivity = mp()) {
  */
 
 export function renderForumActivityGraph(forumActivity = mp()) {
-  // TODO: insert graph here
-  /* 
-  LineChart takes in data: {labels: str[], datasets: {
-    data: number[]
-    ...for more properties see https://www.chartjs.org/docs/latest/charts/line.html
-  }}
-  */
+  /**
+   * LineChart takes in data: {labels: str[], datasets: {
+   *   data: number[]
+   *   ...for more properties see https://www.chartjs.org/docs/latest/charts/line.html
+   * }}
+   */
   const chartData = {
     labels: forumActivity.map((chunk, i) => i),
     // labels: forumActivity.map((chunk) => chunk.startDate),
@@ -201,7 +193,7 @@ export function renderForumActivityGraph(forumActivity = mp()) {
         <div
           style={{
             textAlign: "center",
-            fontFamily: youngSerif,
+            // fontFamily: youngSerif,
             fontSize: "20px",
             backgroundColor: "rgba(255, 255, 255, 0.70)",
             borderRadius: "10px",
