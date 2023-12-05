@@ -17,11 +17,6 @@ ChartJS.register(
   Tooltip,
 );
 
-const LineChart = ({ chartData }) => {
-  return (
-    <div>
-      <Line data={chartData} />
-    </div>
-  );
-};
-export default LineChart;
+export default function LineChart({ chartData }) {
+  return <Line data={chartData} />;
+}
