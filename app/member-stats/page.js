@@ -34,12 +34,11 @@ async function buildUserDataset(){
     let userToDisplay = client.db("userInput").collection("userName").find({}).sort({_id: -1}).limit(1);
     let userInput = await userToDisplay.toArray();
 
-    let firstName = userInput[0].user[2];
-    let lastName = userInput[0].user[3];
+    let userID = userInput[0].user[0];
     
     let usersCollection = client.db("users").collection("users");
 
-    const users = usersCollection.find({'author.firstName':firstName, 'author.lastName': lastName});
+    const users = usersCollection.find({'author.id':userID});
     let userObj = await users.toArray();
     userObj = userObj[0];
 
