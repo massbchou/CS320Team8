@@ -1,18 +1,10 @@
 "use client";
-
-import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import UserList from "./userlist.js";
 import SelectedUser from "./selected_user.js";
 import StatsGraph from "./stats_graph.js";
 
 export default function SearchBar({dataSet}) {
-  const searchParams = useSearchParams();
-  const userName = searchParams.get("userName");
-
-  // This will be logged on the server during the initial render
-  // and on the client on subsequent navigations.
-
   return (
     <main
       style={{

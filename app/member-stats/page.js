@@ -1,9 +1,9 @@
 import SearchBar from './search-bar'
 import { MongoClient } from "mongodb";
 
-export default async function Page() {
+export default async function Page(props) {
 
-  let dataSet = await buildUserDataset();
+  let dataSet = await buildUserDataset(props.searchParams.userID);
 
   return <main
     style={{
@@ -18,7 +18,7 @@ export default async function Page() {
   </main>
 }
 
-async function buildUserDataset(){
+async function buildUserDataset(id){
   // initialize MongoClient credentials
   const url = "mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/?retryWrites=true&w=majority";
   const client = new MongoClient(url);
@@ -31,16 +31,14 @@ async function buildUserDataset(){
     await client.connect();
     // Connect to cluster
 
-    let userToDisplay = client.db("userInput").collection("userName").find({}).sort({_id: -1}).limit(1);
-    let userInput = await userToDisplay.toArray();
+    const usersCollection = client.db("users").collection("users");
+    let userObj;
 
-    let userID = userInput[0].user[0];
-    
-    let usersCollection = client.db("users").collection("users");
-
-    const users = usersCollection.find({'author.id':userID});
-    let userObj = await users.toArray();
-    userObj = userObj[0];
+    if(id !== undefined){
+      userObj = await usersCollection.findOne({'author.id': id});
+    }else{
+      userObj = await usersCollection.findOne({});
+    }
 
     let entries = Object.entries(userObj);
     name = userObj.author.firstName + ' ' + userObj.author.lastName;
