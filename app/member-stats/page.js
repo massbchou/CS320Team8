@@ -1,5 +1,4 @@
 import { MongoClient } from "mongodb";
-import { useState } from 'react';
 import Image from "next/image";
 import UserList from "./userlist.js";
 import SelectedUser from "./selected_user.js";
@@ -122,7 +121,6 @@ async function buildUserDataset(){
       name: user.author.firstName + ' ' + user.author.lastName,
       id: user.author.id
     }));
-
   } catch (e) {
     console.error(e);
   } finally {
