@@ -41,7 +41,7 @@ export default async function Home() {
                 marginTop: "50px",
                 padding: "10px 20px",
                 fontSize: "40px",
-                backgroundColor: "#19DFFF", //pulled from campuswire logo
+                backgroundColor: "#0F84FF", //dark blue from campuswire logo
                 color: "black",
                 border: "none",
                 borderRadius: "8px",
