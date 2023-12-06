@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Young_Serif } from "next/font/google";
+import ColorChangingButton from ".//colorChangingButton";
 
 const youngSerif = Young_Serif({
   subsets: ["latin"],
@@ -35,22 +35,7 @@ export default async function Home() {
           }}
         >
           Welcome to <br></br> Campuswire Analytics <br></br>
-          <Link href="/home-page">
-            <button
-              style={{
-                marginTop: "50px",
-                padding: "10px 20px",
-                fontSize: "40px",
-                backgroundColor: "#0F84FF", //dark blue from campuswire logo
-                color: "black",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-              }}
-            >
-              Get Started
-            </button>
-          </Link>
+          <ColorChangingButton />
         </span>
         <Image
           src="/images/icon.png"
