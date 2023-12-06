@@ -49,12 +49,9 @@ export default async function Mongo() {
     // Get the number of days prior they want included
     thresholdDaysPrior = userInput[0].date[2];
 
-    
-
     const collection = client.db("posts").collection(collectionDate);
     // get collection "2022-09-15" from database "posts"
 
-    
     const unanswered = collection.find({
       type: "question",
       $nor: [
@@ -294,11 +291,36 @@ export default async function Mongo() {
           style={{
             fontFamily: youngSerif,
             textAlign: "center",
-            fontSize: "30px",
+            fontSize: "40px",
           }}
         >
           Campuswire Analytics
         </span>
+      </div>
+      <div
+        style={{
+          fontFamily: youngSerif,
+          fontWeight: "bold",
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "20px",
+        }}
+      >
+        <a
+          href={"most-active-redux"}
+          style={{
+            borderBottom: "3px solid #000",
+            marginRight: "30px",
+            textDecoration: "none",
+            color: "black",
+          }}
+        > Leaderboard</a>
+         <a
+    href={"member-stats"}
+    style={{ borderBottom: "3px solid #000", textDecoration: 'none', color: 'black' }}
+  >
+    Member Stats
+  </a>
       </div>
       <div
         style={{
@@ -318,8 +340,9 @@ export default async function Mongo() {
         >
           <div
             style={{
-              fontFamily: "Roboto",
-              fontSize: "20px",
+              fontFamily: youngSerif,
+              textAlign: "center",
+              fontSize: "18px",
             }}
           >
             Current Range: {farthestPastDate} to {collectionDate}
@@ -339,8 +362,6 @@ export default async function Mongo() {
         </div>
         <Feature title="Trending Topics" content={topPhrases}></Feature>
         <Feature
-          hasButton={true}
-          linkTo="most-active-redux"
           totalCount={unansweredCount}
           title="Unanswered Questions"
           content={unansweredTitles}
