@@ -1,12 +1,41 @@
 import { MongoClient } from "mongodb";
+import { useState } from 'react';
 import Image from "next/image";
 import UserList from "./userlist.js";
 import SelectedUser from "./selected_user.js";
 import StatsGraph from "./stats_graph.js";
 
-export default async function Page() {
+export default function Page() {
 
-  let dataSet = await buildUserDataset();
+  const [dataSet, setDataSet] = useState({ userNames: [], dataArr: [], startDate: null });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await buildUserDataset();
+      setDataSet(result);
+    };
+    fetchData();
+  }, []);
+
+  const [selectedUserData, setSelectedUserData] = useState(null);
+
+  const handleUserSelect = async (userId) => {
+    const url = "mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/?retryWrites=true&w=majority";
+    const client = new MongoClient(url);
+  
+    try {
+      await client.connect();
+      const usersCollection = client.db("users").collection("users");
+  
+      const user = await usersCollection.findOne({ "author.id": userId });
+  
+      setSelectedUserData(user);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      await client.close();
+    }
+  };
 
   return <main
     style={{
@@ -59,13 +88,13 @@ export default async function Page() {
       }}
     >
       <UserList
-        totalCount={121}
+        totalCount={dataSet.userNames.length}
         title="Forum Users"
-        users={['User #1', 'User #2', 'User #3', 'User #4', 'User #5', 'User #6', 'User #7', 'User #8', 'User #9', 'User #10', 'User #11', 'User #12', 'User #13', 'User #14', 'User #15', 'User #16', 'User #17']}
+        users={dataSet.userNames}
+        onUserSelect={handleUserSelect}
       ></UserList>
       <SelectedUser
-        title='User #1'
-        stats={{numPosts: 5, numTrendingPosts: 2, numUnansweredQuestions: 2, avgReplyTime: 35}}
+        userData={selectedUserData}
       ></SelectedUser>
       <StatsGraph data={dataSet.dataArr} startDate={dataSet.startDate} name={dataSet.userName}></StatsGraph>
     </div>
@@ -80,64 +109,19 @@ async function buildUserDataset(){
   let dataArr = [];
   let activityStartDate;
   let name;
+  let userNames = [];
 
   try {
     await client.connect();
-    // Connect to cluster
+    const usersCollection = client.db("users").collection("users");
+    const usersCursor = usersCollection.find({}, { projection: { "author.firstName": 1, "author.lastName": 1, "author.id": 1 } });
+    const usersList = await usersCursor.toArray();
 
-    let usersCollection = client.db("users").collection("users");
-
-    const users = usersCollection.find({});
-    let usersObjArr = await users.toArray();
-
-    let userObj = usersObjArr[36];
-
-    let entries = Object.entries(userObj);
-
-    name = userObj.author.firstName + ' ' + userObj.author.lastName;
-    activityStartDate = new Date(entries[2][0]);
-    let activityDate = new Date (activityStartDate);
-
-    let postsCollection = client.db("posts").collection('2022-12-15');
-
-    let i = 2;
-    while(i < entries.length){
-      if(userObj[activityDate.toISOString().substring(0, 10)] !== undefined){
-        let userActivityObj = userObj[activityDate.toISOString().substring(0, 10)];
-
-        let totalViews = 0;
-        let totalUnansweredQuestions = 0;
-        let totalTopPosts = 0;
-        for(let j = 0; j < userActivityObj.postIds.length; j++){
-          const post = await postsCollection.findOne({id: userActivityObj.postIds[j]});
-          totalViews += post.viewsCount;
-          if(post.type === 'question' && !(Object.hasOwn(post, 'modAnsweredAt') || post.comments.reduce((acc, comment) => {acc || comment.endorsed}, false))){
-            totalUnansweredQuestions++;
-          }
-          let postScore = 1 * post.uniqueViewsCount + 2 * (post.viewsCount - post.uniqueViewsCount) + 20 * post.comments.length + 50 * (post.likesCount ? post.likesCount : 0);
-          if(postScore >= 300){
-            totalTopPosts++;
-          }
-        }
-        dataArr.push({
-          numPosts: userActivityObj.postCount,
-          numComments: userActivityObj.commentCount,
-          numPostViews: totalViews,
-          numUnansweredQuestions: totalUnansweredQuestions,
-          numTopPosts: totalTopPosts,
-        });
-        i++;
-      }else{
-        dataArr.push({
-          numPosts: 0,
-          numComments: 0,
-          numPostViews: 0,
-          numUnansweredQuestions: 0,
-          numTopPosts: 0,
-        });
-      }
-      activityDate = new Date(activityDate.getTime() + (24 * 60 * 60 * 1000));
-    }
+    // Build an array of user names and their IDs
+    userNames = usersList.map(user => ({
+      name: user.author.firstName + ' ' + user.author.lastName,
+      id: user.author.id
+    }));
 
   } catch (e) {
     console.error(e);
@@ -149,5 +133,6 @@ async function buildUserDataset(){
     userName: name,
     dataArr: dataArr,
     startDate: activityStartDate,
+    userNames: userNames
   }
 }
