@@ -122,7 +122,6 @@ async function buildUserDataset(){
       name: user.author.firstName + ' ' + user.author.lastName,
       id: user.author.id
     }));
-
   } catch (e) {
     console.error(e);
   } finally {
