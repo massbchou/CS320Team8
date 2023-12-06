@@ -16,7 +16,7 @@ export default async function Home() {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         width: "100%",
-        height: "100vh",
+        height: "100%",
       }}
     >
       <div
@@ -30,17 +30,17 @@ export default async function Home() {
           style={{
             fontFamily: youngSerif,
             textAlign: "center",
-            fontSize: "75px",
+            fontSize: "55px",
             marginLeft: "100px",
           }}
         >
-          Welcome to <br></br> Campuswire Analytics
+          Welcome to <br></br> Campuswire Analytics <br></br>
           <Link href="/home-page">
             <button
               style={{
                 marginTop: "50px",
                 padding: "10px 20px",
-                fontSize: "50px",
+                fontSize: "40px",
                 backgroundColor: "#19DFFF", //pulled from campuswire logo
                 color: "black",
                 border: "none",
@@ -54,10 +54,10 @@ export default async function Home() {
         </span>
         <Image
           src="/images/icon.png"
-          width={500}
-          height={500}
+          width={400}
+          height={400}
           quality={100}
-          style={{ margin: "175px" }}
+          style={{ margin: "150px" }}
           unoptimized
           alt="campuswire logo"
         ></Image>
