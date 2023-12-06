@@ -159,13 +159,17 @@ export function renderForumActivityGraph(forumActivity = mp()) {
    * }}
    */
   const chartData = {
-    labels: forumActivity.map((chunk, i) => i),
-    // labels: forumActivity.map((chunk) => chunk.startDate),
+    // labels: forumActivity.map((chunk, i) => i),
+    labels: forumActivity.map((chunk, i) =>
+      new Date(new Date(chunk.startDate).getTime() + i * (24 * 60 * 60 * 1000))
+        .toISOString()
+        .substring(5, 10),
+    ),
     datasets: [
       {
         label: "Forum Activity",
         data: forumActivity.map((chunk) => chunk.score),
-        backgroundColor: "white",
+        backgroundColor: "rgb(97, 141, 255)",
         borderColor: "rgb(75, 192, 192)",
         tension: 0.2,
       },
