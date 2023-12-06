@@ -19,14 +19,21 @@ export default function UserList(props){
             </div>
             <div style={{display:'flex', justifyContent:'center', maxHeight:'90%', overflow:'auto',}}>
                 <List component="nav" sx={{display:'flex', flexDirection:'column', width:'85%'}}>
-                    {props.users.map((x, i) => (
+                    {props.users.map((user, i) => (
+                        <ListItemButton key={user.id} 
+                            onClick={() => props.onUserSelect(user.id)}
+                        >
+                            <ListItemText primary={user.name}/>
+                        </ListItemButton>
+                    ))}
+                    {/* {props.users.map((x, i) => (
                         <ListItemButton key={i} style={{fontFamily: youngSerif, fontSize:'17px', textAlign:'center', padding:'2px', margin:'7px 0px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.55', borderRadius:'7px', width:'100%'}}
                             //selected={selectedIndex === 0}
                             //onClick={(event) => handleListItemClick(event, 0)}
                         >
                             <ListItemText style={{fontFamily: youngSerif, fontSize:'17px', textAlign:'center'}} primary={x}/>
                         </ListItemButton>
-                    ))}
+                    ))} */}
                 </List>
             </div>
         </div>
