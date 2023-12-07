@@ -5,10 +5,11 @@ import Feature from "./feature.js";
 import top_posts_algo from "./top-posts/top_posts.js";
 import top_users_algo from "./most-active-users/top_users.js";
 import { Young_Serif } from "next/font/google";
+import RangeChooser from "./userInput/RangeChooser.js";
 
 const youngSerif = Young_Serif({
-  subsets: ['latin'],
-  weight: '400',
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export default async function Mongo() {
@@ -23,40 +24,65 @@ export default async function Mongo() {
   let inputText = "";
   let unansweredCount;
   let unansweredTitles;
-  // Create initially empty variables
-
-  let collectionDate = "2022-10-15";
-  // Set collection date
-
-  let thresholdDaysPrior = 10;
-  // Get the number of days prior they want included
+  let collectionDate = "";
+  let farthestPastDate = "";
+  let thresholdDaysPrior;
+  // Create initially empty input text variable
 
   try {
     await client.connect();
     // Connect to cluster
 
+    const userCollection = client
+      .db("userInput")
+      .collection("dates")
+      .find()
+      .sort({ _id: -1 })
+      .limit(1);
+    let userInput = await userCollection.toArray();
+
+    farthestPastDate = userInput[0].date[0];
+
+    // Set collection date
+    collectionDate = userInput[0].date[1];
+
+    // Get the number of days prior they want included
+    thresholdDaysPrior = userInput[0].date[2];
+
     const collection = client.db("posts").collection(collectionDate);
     // get collection "2022-09-15" from database "posts"
 
-    const unanswered = collection.find({type: "question", $nor: [{modAnsweredAt: {$exists: true}}, {comments: {$elemMatch: {endorsed: true}}}] });
-    let unansweredArr = await unanswered.toArray().then((arr) =>
-    arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
-    );
+    const unanswered = collection.find({
+      type: "question",
+      $nor: [
+        { modAnsweredAt: { $exists: true } },
+        { comments: { $elemMatch: { endorsed: true } } },
+      ],
+    });
+    let unansweredArr = await unanswered
+      .toArray()
+      .then((arr) => arr.filter((x) => !(x.body.substring(0, 3) === "zzz")));
     // find posts that are not either (a) answered by mods or (b) have endorsed comments !(a or b)
 
     unansweredCount = unansweredArr.length;
     // get the length of the original unanswered array
 
-    unansweredTitles = unansweredArr.map(e => e.title.substring(0, 18) + "...");
+    unansweredTitles = unansweredArr.map(
+      (e) => e.title.substring(0, 18) + "...",
+    );
     // get the titles of the oldest 5 unanswered posts
     // .filter(e => !(e.substring(0, 3) === 'zzz'));
     // ^^ use this to filter out the private posts
 
-    if(unansweredArr.length > 5){
+    if (unansweredArr.length > 5) {
       unansweredTitles = unansweredTitles.slice(0, 5);
     }
     // if there are more than 5 unanswered posts, cut the list down to 5
 
+    // let collectionDate = '2022-10-15';
+    // let thresholdDaysPrior = 20;
+
+    // State for collection date and threshold days
     let cacheCollection = client.db("caching").collection("trending topics");
     let cache = await cacheCollection.findOne({
       collectionDate: collectionDate,
@@ -80,7 +106,7 @@ export default async function Mongo() {
       let arr = await cursor.toArray();
       // Turn cursor into an array of post objects
 
-      arr = arr.filter((x) => !(x.body.substring(0, 3) === "zzz"));
+      arr = arr.filter((x) => x.body.substring(0, 3) !== "zzz");
       // Filter out all fake entries that start with 'zzz'
 
       arr.forEach(function (x) {
@@ -94,8 +120,8 @@ export default async function Mongo() {
       });
       // Remove all embedded images
 
-      for (let i = 0; i < arr.length; i++) {
-        inputText += arr[i].title + " " + arr[i].body + " ";
+      for (const element of arr) {
+        inputText += element.title + " " + element.body + " ";
       }
       // Generate concatenation of all remaining title and body texts
 
@@ -144,15 +170,16 @@ export default async function Mongo() {
         .collection(collectionDate)
         .find({ publishedAt: { $gt: compDate } });
       // Finds all posts made within the past MAX_DAYS_OLD days in relation to the collection date
-
-      topPosts = top_posts_algo(
-        await entry_data
-          .toArray()
-          .then((arr) =>
-            arr.filter((x) => !(x.body.substring(0, 3) === "zzz")),
-          ),
-        collectionDate,
-      );
+      let postData = await entry_data
+        .toArray()
+        .then((arr) => arr.filter((x) => x.body.substring(0, 3) !== "zzz"));
+      if (Object.keys(postData).length === 0) {
+        //there were no posts
+        console.log("there are no posts");
+        topPosts = [];
+      } else {
+        topPosts = top_posts_algo(postData, collectionDate);
+      }
       await cacheCollectionPosts.insertOne({
         collectionDate: collectionDate,
         thresholdDaysPrior: thresholdDaysPrior,
@@ -174,12 +201,11 @@ export default async function Mongo() {
 
     if (cacheUsers === null) {
       //if the entry does not exist generate it
-      const endDate = new Date(collectionDate);
+      let endDate = new Date(collectionDate);
       let beginDate = new Date(
         new Date(collectionDate).getTime() -
           1000 * 60 * 60 * 24 * thresholdDaysPrior,
       );
-
       // Finds all posts made by all users -- see students vs moderators in most-active-users/page.js
       let user_data = client.db("users").collection("users");
       // filter users by role, unless role is "all" which gets all users
@@ -200,7 +226,7 @@ export default async function Mongo() {
           if (["_id", "author"].includes(key)) continue;
 
           const date = new Date(key);
-          if (beginDate < date && date < endDate) {
+          if (beginDate <= date && date <= endDate) {
             //find what dates come before the end threshold (collectionDate), and after the begin threshold (20 days prior to collectionDate)
             filteredDocument[key] = entry[key]; //adds the date field if its within the date range (the field that stores the values postIds, commentIds, postCount, commentCount, totalCount)
           }
@@ -211,9 +237,12 @@ export default async function Mongo() {
       const filteredArray = filteredDocuments.filter(
         (doc) => Object.keys(doc).length > 2,
       );
-      //filters out all the entries that have no posts or comments because they have no date fields because they only have id and author fields
 
+      //filters out all the entries that have no posts or comments because they have no date fields because they only have id and author fields
       topUsers = top_users_algo(filteredArray, beginDate, endDate);
+      if (topUsers.length > 5) {
+        topUsers = topUsers.slice(0, 5);
+      }
       await cacheCollectionUsers.insertOne({
         collectionDate: collectionDate,
         thresholdDaysPrior: thresholdDaysPrior,
@@ -234,7 +263,8 @@ export default async function Mongo() {
   return (
     <main
       style={{
-        background: "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
+        background:
+          "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         width: "100%",
@@ -261,11 +291,36 @@ export default async function Mongo() {
           style={{
             fontFamily: youngSerif,
             textAlign: "center",
-            fontSize: "30px",
+            fontSize: "40px",
           }}
         >
           Campuswire Analytics
         </span>
+      </div>
+      <div
+        style={{
+          fontFamily: youngSerif,
+          fontWeight: "bold",
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "20px",
+        }}
+      >
+        <a
+          href={"most-active-redux"}
+          style={{
+            borderBottom: "3px solid #000",
+            marginRight: "30px",
+            textDecoration: "none",
+            color: "black",
+          }}
+        > Leaderboard</a>
+         <a
+    href={"member-stats"}
+    style={{ borderBottom: "3px solid #000", textDecoration: 'none', color: 'black' }}
+  >
+    Member Stats
+  </a>
       </div>
       <div
         style={{
@@ -275,23 +330,50 @@ export default async function Mongo() {
           margin: "10px",
         }}
       >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: youngSerif,
+              textAlign: "center",
+              fontSize: "18px",
+            }}
+          >
+            Current Range: {farthestPastDate} to {collectionDate}
+          </div>
+          <div
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
+              borderRadius: "10px",
+              padding: "20px",
+              margin: "20px",
+              width: "350px",
+            }}
+          >
+            <RangeChooser />
+          </div>
+        </div>
+        <Feature title="Trending Topics" content={topPhrases}></Feature>
         <Feature
           totalCount={unansweredCount}
           title="Unanswered Questions"
           content={unansweredTitles}
         ></Feature>
         <Feature
-          hasButton = {true}
+          hasButton={true}
           linkTo="top-posts"
           title="Top Posts"
           content={topPosts}
         ></Feature>
         <Feature
-          title="Trending Topics"
-          content={topPhrases}
-        ></Feature>
-        <Feature
-          hasButton = {true}
+          hasButton={true}
           linkTo="most-active-users"
           title="Most Active Users"
           content={topUsers}
