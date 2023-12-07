@@ -12,7 +12,7 @@ const ColorChangingButton = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentColorIndex((prevIndex) => (prevIndex + 1) % colors.length);
-    }, 2000); //2 seconds
+    }, 3000); //3 seconds, this is how often it switches
 
     return () => clearInterval(intervalId);
   }, []);
@@ -23,15 +23,15 @@ const ColorChangingButton = () => {
     <Link href="/home-page">
       <button
         style={{
-          marginTop: "50px",
+          marginTop: "40px",
           padding: "10px 20px",
           fontSize: "40px",
           backgroundColor: currentColor,
-          color: "black",
+          color: "white",
           border: "none",
           borderRadius: "8px",
           cursor: "pointer",
-          transition: "background-color 1s ease-in-out", //smooths out color change
+          transition: "background-color 3s ease-in-out", //smooths out color change, make the time longer to make the transition smoother
         }}
       >
         Get Started

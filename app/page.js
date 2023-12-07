@@ -30,11 +30,20 @@ export default async function Home() {
           style={{
             fontFamily: youngSerif,
             textAlign: "center",
-            fontSize: "55px",
+            fontSize: "50px",
             marginLeft: "100px",
           }}
         >
-          Welcome to <br></br> Campuswire Analytics <br></br>
+          Welcome to <br></br> Campuswire Analytics! <br></br>
+          <div
+            style={{
+              fontFamily: youngSerif,
+              textAlign: "center",
+              fontSize: "20px",
+              marginTop: "20px"
+            }}>
+            A tool for educators to visualize Campuswire trends and user data to better address student needs.
+          </div>
           <ColorChangingButton />
         </span>
         <Image
