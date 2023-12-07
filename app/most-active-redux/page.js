@@ -2,7 +2,14 @@ import top_users_algo from "../most-active-users/top_users";
 import { MongoClient } from "mongodb";
 import Podium from "../Podium";
 import BarGraph from "./BarGraph";
-import Image from "next/image";
+import LeaderBoard from './LeaderBoard';
+import { Young_Serif } from "next/font/google";
+import { userInfo } from "os";
+
+const youngSerif = Young_Serif({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export default async function Page() {
   const url =
@@ -10,7 +17,7 @@ export default async function Page() {
   const client = new MongoClient(url);
   const firstDay = new Date("2022-09-13");
   const lastDay = new Date("2022-12-17");
-  let allUsersRanked;
+  let podiumRanked;
   let podiumData;
   let firstNamesArr = [];
   let namesArr = [];
@@ -25,9 +32,10 @@ export default async function Page() {
     await client.connect();
     let userCollection = client.db("users").collection("users");
     let usersData = userCollection.find();
-    let usersList = await usersData.toArray();
-    allUsersRanked = top_users_algo(usersList, firstDay, lastDay);
-    podiumData = allUsersRanked
+    let podiumList = await usersData.toArray();
+    
+    podiumRanked = top_users_algo(podiumList, firstDay, lastDay);
+    podiumData = podiumRanked
       .slice(0, 5)
       .map((name, position) => ({ name, position }));
     for (let i = 0; i < 5; i++) {
@@ -47,50 +55,6 @@ export default async function Page() {
       );
     }
 
-    let contributionCollection = client.db("users").collection("users");
-    let queryConditions = [];
-
-    for (let i = 0; i < namesArr.length; i += 2) {
-      if (namesArr[i] && namesArr[i + 1]) {
-        queryConditions.push({
-          $and: [
-            { "author.firstName": namesArr[i] },
-            { "author.lastName": namesArr[i + 1] },
-          ],
-        });
-      }
-    }
-
-    let contributionData = contributionCollection.find({
-      $or: queryConditions,
-    });
-    let winnerList = await contributionData.toArray();
-
-    let count;
-    let num_posts;
-    let total_posts;
-    let total_comments;
-    let num_comments;
-    let winnerScore = [];
-
-    for(let j = 0; j < 5; j++){//into the 5 data points one for linda one for alexander etc.
-      count = 0;
-      total_posts = 0;
-      total_comments = 0;
-      for (let date in winnerList[j]) {
-        if (date === "_id" || date === "author") continue;
-        num_posts = winnerList[j][date].postCount;
-        total_posts += num_posts;
-        num_comments = winnerList[j][date].commentCount;
-        total_comments += num_comments;
-        count += 2 * num_posts + 1 * num_comments;
-      }
-      winnerScore[j] = {post: total_posts, comment: total_comments, score: count };
-    }
-    winnerScore.sort((a, b) => b.score - a.score);
-    winnerCommentArr = winnerScore.map((winnerInfo) => winnerInfo.comment);
-    winnerPostArr = winnerScore.map((winnerInfo) => winnerInfo.post);
-
     let allContributionCollection = client.db("users").collection("users");
     let allUsersScores = allContributionCollection.find({});
     let allUsersList = await allUsersScores.toArray();
@@ -100,8 +64,7 @@ export default async function Page() {
     let indivPostCount = 0;
     let totalIndivComments;
     let totalIndivPosts;
-  
-    for(let j = 0; j < allUsersList.length; j++){//into the 5 data points one for linda one for alexander etc.
+    for (let j = 0; j < allUsersList.length; j++) {
       totalCount = 0;
       totalIndivComments = 0;
       totalIndivPosts = 0;
@@ -111,13 +74,29 @@ export default async function Page() {
         indivPostCount = allUsersList[j][date].postCount;
         totalIndivComments += indivCommentCount;
         totalIndivPosts += indivPostCount;
-        totalCount += indivCommentCount+2*indivPostCount;
+        totalCount += indivCommentCount + 2 * indivPostCount;
       }
-      connectUserToScore[j] = ({rank: totalCount, numComments: totalIndivComments, numPosts: totalIndivPosts});
+      connectUserToScore[j] = {
+        userID: allUsersList[j].author.id,
+        firstName: allUsersList[j].author.firstName,
+        lastName: allUsersList[j].author.lastName,
+        fullName:
+          allUsersList[j].author.firstName +
+          " " +
+          allUsersList[j].author.lastName,
+        rank: totalCount,
+        numComments: totalIndivComments,
+        numPosts: totalIndivPosts,
+      };
     }
     connectUserToScore.sort((a, b) => b.rank - a.rank);
-    allCommentArr = connectUserToScore.map((userInfo) => userInfo.numComments);;
-    allPostArr = connectUserToScore.map((userInfo) => userInfo.numPosts);
+    connectUserToScore.forEach((userInfo, index) => {
+      userInfo.rank = index + 1;
+    });
+    allPostArr = connectUserToScore.map((userInfo) => userInfo.numPosts)
+    allCommentArr = connectUserToScore.map((userInfo) => userInfo.numComments);
+    winnerCommentArr = allCommentArr.slice(0, 5);
+    winnerPostArr = allPostArr.slice(0, 5);
   } catch (e) {
     console.log("There was an error in connecting to mongo");
     console.error(e);
@@ -126,96 +105,84 @@ export default async function Page() {
   }
 
   return (
-
     <main
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      height: "100vh",
-      background:
-      "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
-      backgroundSize: "cover",
-      backgroundRepeat: "no-repeat",
-    }}
-  >
-    <div style ={{
-        display: 'flex',
-        justifyContent: 'center',
-        paddingTop: '20px',
-        alignItems: 'center',
-        fontSize: "20px"
-      }}> 
-        <a href="/" style={{display: 'inline-block'}}>
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        height: "100vh",
+        background:
+          "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          paddingTop: "20px",
+          alignItems: "center",
+          fontSize: "20px",
+        }}
+      >
+        <a href="/" style={{ display: "inline-block" }}>
           Return Home
-          <div style={{display: 'inline-block'}}>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 -2 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-          </svg>
+          <div style={{ display: "inline-block" }}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="-2 -2 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+              />
+            </svg>
           </div>
         </a>
       </div>
 
-    {/* Flex container for graphs, podium, and scrollable list */}
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        width: "100%",
-        marginTop: "50px", // Adjust as needed
-        padding: "20px",
-      }}
-    >
-      {/* Bar Graphs */}
-      <div style={{ flex: "0 0 30%"}}>
-        <BarGraph namesArr={firstNamesArr} scoresArr={winnerPostArr} title={graphPostTitle} />
-        <BarGraph namesArr={firstNamesArr} scoresArr={winnerCommentArr} title={graphCommentTitle} />
-      </div>
-      {/* Scrollable List */}
+      {/* Flex container for graphs, podium, and scrollable list */}
       <div
         style={{
-          flex: "0 0 30%",
-          backgroundImage: "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
-          padding: "20px",
-          overflowY: "scroll",
-          maxHeight: '600px',
-          maxWidth: "900px",
-          boxSizing: "border-box",
-          borderRadius: "20px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          width: "100%",
+          marginTop: "50px", // Adjust as needed
         }}
       >
-        <div style={{textAlign:'center', fontFamily:'Young Serif', fontSize:'25px', backgroundColor:'rgba(255, 255, 255, 0.70)', borderRadius:'10px', padding:'3px', marginBottom:'9px'}}>Leader Board</div>
-
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-        <div style={{flexBasis: '48%', fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'1px', backgroundColor:'rgba(255, 255, 255, 0.9)', opacity:'0.8', borderRadius:'7px'}}>
-      Name
-    </div>
-    <div style={{flexBasis: '48%', fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'1px', backgroundColor:'rgba(255, 255, 255, 0.9)', opacity:'0.8', borderRadius:'7px'}}>
-      Number of Posts
-    </div>
-    
-    <div style={{flexBasis: '48%', fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'1px', backgroundColor:'rgba(255, 255, 255, 0.9)', opacity:'0.8', borderRadius:'7px'}}>
-      Number of Comments
-    </div>
-  </div>
-
-        <ul>
-          {allUsersRanked.map((item, i) => (
-            <div key={i + 'a'} style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-            <span key={i + 'b'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'10%'}}>{i + 1}</span>
-            <span key={i + 'c'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'70%'}}>{item}</span>
-            <span key={i + 'c'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'70%'}}>{allPostArr[i]}</span>
-            <span key={i + 'c'} style={{fontFamily:'Young Serif', fontSize:'20px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'70%'}}>{allCommentArr[i]}</span>
-          </div>           
-          ))}
-        </ul>
+        {/* Bar Graphs */}
+        <div style={{ flex: "0 0 20%", fontFamily: youngSerif}}>
+          <BarGraph
+            namesArr={firstNamesArr}
+            scoresArr={winnerPostArr}
+            title={graphPostTitle}
+            font={youngSerif}
+          />
+          <BarGraph
+            namesArr={firstNamesArr}
+            scoresArr={winnerCommentArr}
+            title={graphCommentTitle}
+            font={youngSerif}
+          />
+        </div>
+         {/* Scrollable List using LeaderBoard component */}
+         <div style={{ flex: "0 0 45%", fontFamily: youngSerif}}>
+          <LeaderBoard
+            connectUserToScore={connectUserToScore}
+          />
+        </div>
+        {/* Podium */}
+        <div style={{ flex: "0 0 20%", textAlign: "center",  marginRight: "40px" }}>
+          <Podium winners={podiumData} />
+        </div>
       </div>
-      {/* Podium */}
-      <div style={{ flex: "0 0 30%", textAlign: "center" }}>
-        <Podium winners={podiumData} />
-      </div>
-    </div>
-  </main>
+    </main>
   );
 }

@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-const BarGraph = ({ namesArr, scoresArr, title }) => {
+const BarGraph = ({ namesArr, scoresArr, title, font}) => {
   const chartContainer = useRef(null);
   const chartInstance = useRef(null);
 
@@ -21,8 +21,8 @@ const BarGraph = ({ namesArr, scoresArr, title }) => {
           datasets: [{
             label: 'Scores',
             data: scoresArr,
-            backgroundColor: 'rgba(75,192,192,1)',
-            borderColor: 'rgba(0,0,0,1)',
+            backgroundColor: 'rgba(146,234,254,1)',
+            borderColor: 'rgba(146,200,220,1)',
             borderWidth: 2,
           }]
         },
@@ -36,9 +36,11 @@ const BarGraph = ({ namesArr, scoresArr, title }) => {
             title: {
               display: true,
               text: title,
-              font: {
+              font:{
+                family: 'YoungSerif',
                 size: 20
-              }
+              },
+              color: 'black',
             },
             legend: {
               display: false
@@ -50,7 +52,7 @@ const BarGraph = ({ namesArr, scoresArr, title }) => {
   }, [namesArr, scoresArr]); // Added namesArr and scoresArr as dependencies to re-render on change
 
   return (
-    <div style={{width:'500px', height:'400px', marginRight:'60px', marginLeft:'60px', marginBottom:'60px'}}>
+    <div style={{width:'500px', height:'400px', marginRight:'60px', marginLeft:'60px', marginBottom:'60px', color:'black'}}>
       <canvas ref={chartContainer} width="400" height="200"></canvas>
     </div>
   );

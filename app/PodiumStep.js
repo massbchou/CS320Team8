@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import React, { createContext } from "react";
+import React from "react";
 
 export default function PodiumStep({ podium, winner }) {
   const offset = podium.length - winner.position;
@@ -45,7 +45,7 @@ export default function PodiumStep({ podium, winner }) {
           borderTopLeftRadius: ".5rem",
           borderTopRightRadius: ".5rem",
           borderColor: "rgba(190,24,93,1)",
-          backgroundColor: "rgba(219,39,119,1)",
+          backgroundColor: "rgba(247,113,250,1)",
           marginBottom: -1,
           filter: `opacity(${0.1 + offset / podium.length})`,
         }}
