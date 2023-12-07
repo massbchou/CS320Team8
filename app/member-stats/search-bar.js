@@ -4,7 +4,7 @@ import UserList from "./userlist.js";
 import SelectedUser from "./selected_user.js";
 import StatsGraph from "./stats_graph.js";
 
-export default function SearchBar({dataSet}) {
+export default function SearchBar({ dataSet }) {
   return (
     <main
       style={{
@@ -15,7 +15,7 @@ export default function SearchBar({dataSet}) {
         width: "100%",
         height: "100vh",
       }}
-    >  
+    >
       <div
         style={{
           display: "flex",

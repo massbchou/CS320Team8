@@ -9,46 +9,57 @@ const youngSerif = Young_Serif({
   weight: "400",
 });
 
-
-function LeaderBoard({ connectUserToScore }){
+function LeaderBoard({ connectUserToScore }) {
   const [user, setUser] = useState([]);
-  const [sortBy, setSortBy] = useState('rank');
-  const [sortOrder, setSortOrder] = useState('top'); // State to track sorting order
+  const [sortBy, setSortBy] = useState("rank");
+  const [sortOrder, setSortOrder] = useState("top"); // State to track sorting order
 
   const handleSortBy = (criteria) => {
     if (sortBy === criteria) {
       // Toggle sorting order if same criterion is clicked
-      setSortOrder((prevOrder) => (prevOrder === 'top' ? 'bottom' : 'top'));
+      setSortOrder((prevOrder) => (prevOrder === "top" ? "bottom" : "top"));
       sortUsers();
     } else {
       // If a new criterion is clicked, set it as the sorting criterion
       setSortBy(criteria);
-      setSortOrder('bottom'); // Set default order as ascending for the new criterion
+      setSortOrder("bottom"); // Set default order as ascending for the new criterion
     }
   };
 
   // Sorting logic based on different criteria
   const sortUsers = () => {
-    if (sortBy === 'rank') {
-      connectUserToScore.sort((a, b) => (sortOrder === 'top' ? a.rank - b.rank : b.rank - a.rank));
-    } else if (sortBy === 'numPosts') {
-      connectUserToScore.sort((a, b) => (sortOrder === 'top' ? b.numPosts - a.numPosts : a.numPosts - b.numPosts));
-    } else if (sortBy === 'numComments') {
-      connectUserToScore.sort((a, b) => (sortOrder === 'top' ? b.numComments - a.numComments: a.numComments - b.numComments));
-    } else if (sortBy === 'name') {
-      connectUserToScore.sort((a, b) => (sortOrder === 'top' ? a.fullName.localeCompare(b.fullName) : b.fullName.localeCompare(a.fullName)));
+    if (sortBy === "rank") {
+      connectUserToScore.sort((a, b) =>
+        sortOrder === "top" ? a.rank - b.rank : b.rank - a.rank,
+      );
+    } else if (sortBy === "numPosts") {
+      connectUserToScore.sort((a, b) =>
+        sortOrder === "top" ? b.numPosts - a.numPosts : a.numPosts - b.numPosts,
+      );
+    } else if (sortBy === "numComments") {
+      connectUserToScore.sort((a, b) =>
+        sortOrder === "top"
+          ? b.numComments - a.numComments
+          : a.numComments - b.numComments,
+      );
+    } else if (sortBy === "name") {
+      connectUserToScore.sort((a, b) =>
+        sortOrder === "top"
+          ? a.fullName.localeCompare(b.fullName)
+          : b.fullName.localeCompare(a.fullName),
+      );
     }
   };
 
   const handleLinkClick = async (userID, userName) => {
     console.log("User ID:", userID);
     console.log("User Name:", userName);
-  
+
     if (userID && userName) {
       setUser([userID, userName]);
-      let firstName = userName.slice(0,userName.indexOf(" "));
+      let firstName = userName.slice(0, userName.indexOf(" "));
       console.log(firstName);
-      let lastName = userName.slice(userName.indexOf(" ")+1);
+      let lastName = userName.slice(userName.indexOf(" ") + 1);
       console.log(lastName);
       const user = [userID, userName, firstName, lastName];
       try {
@@ -61,7 +72,7 @@ function LeaderBoard({ connectUserToScore }){
         });
         if (response.ok) {
           console.log("Name saved successfully");
-  
+
           // API call successful, perform navigation
           window.location.href = `/member-stats?userID=${userID}&userName=${userName}`;
         } else {
@@ -107,7 +118,7 @@ function LeaderBoard({ connectUserToScore }){
         {/* Adjust styles and content as needed */}
         {/* Add header elements */}
         <div
-          onClick={() => handleSortBy('rank')}
+          onClick={() => handleSortBy("rank")}
           style={{
             flexBasis: "48%",
             fontFamily: youngSerif,
@@ -123,7 +134,7 @@ function LeaderBoard({ connectUserToScore }){
           Rank
         </div>
         <div
-          onClick={() => handleSortBy('name')}
+          onClick={() => handleSortBy("name")}
           style={{
             flexBasis: "48%",
             fontFamily: youngSerif,
@@ -139,7 +150,7 @@ function LeaderBoard({ connectUserToScore }){
           Name
         </div>
         <div
-          onClick={() => handleSortBy('numPosts')}
+          onClick={() => handleSortBy("numPosts")}
           style={{
             flexBasis: "48%",
             fontFamily: youngSerif,
@@ -155,7 +166,7 @@ function LeaderBoard({ connectUserToScore }){
           Number of Posts
         </div>
         <div
-          onClick={() => handleSortBy('numComments')}
+          onClick={() => handleSortBy("numComments")}
           style={{
             flexBasis: "48%",
             fontFamily: youngSerif,
@@ -238,7 +249,7 @@ function LeaderBoard({ connectUserToScore }){
                 width: "70%",
               }}
             >
-            {connectUserToScore.map((userInfo) => userInfo.numPosts)[i]}
+              {connectUserToScore.map((userInfo) => userInfo.numPosts)[i]}
             </span>
             <span
               key={i + "e"}
@@ -261,6 +272,6 @@ function LeaderBoard({ connectUserToScore }){
       </ul>
     </div>
   );
-};
+}
 
 export default LeaderBoard;

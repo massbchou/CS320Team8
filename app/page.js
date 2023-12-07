@@ -40,9 +40,11 @@ export default async function Home() {
               fontFamily: youngSerif,
               textAlign: "center",
               fontSize: "20px",
-              marginTop: "20px"
-            }}>
-            A tool for educators to visualize Campuswire trends and user data to better address student needs.
+              marginTop: "20px",
+            }}
+          >
+            A tool for educators to visualize Campuswire trends and user data to
+            better address student needs.
           </div>
           <ColorChangingButton />
         </span>

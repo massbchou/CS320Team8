@@ -23,5 +23,5 @@ export async function POST(request) {
 
   client.close();
 
-  return Response.json({date});
+  return Response.json({ date });
 }
