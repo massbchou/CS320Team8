@@ -3,10 +3,8 @@ import { MongoClient } from "mongodb";
 import Image from "next/image";
 import Feature from "./feature.js";
 import "./globals.css";
-import {
-  getForumActivity,
-  renderForumActivityGraph,
-} from "./forum-activity/forum_activity.js";
+import { getForumActivity } from "./forum-activity/forum_activity.js";
+import { ActivityGraph } from "./forum-activity/activity_graph.js";
 import top_posts_algo from "./top-posts/top_posts.js";
 import top_users_algo from "./most-active-users/top_users.js";
 import { Young_Serif } from "next/font/google";
@@ -29,6 +27,7 @@ export default async function Mongo() {
   let unansweredCount;
   let unansweredTitles;
   let forumActivity;
+  const startDate = new Date(2022, 8, 15);
   // Create initially empty variables
 
   let collectionDate = "2022-12-15";
@@ -242,16 +241,30 @@ export default async function Mongo() {
     // forum activity
     const allPosts = await collection.find().toArray();
     const endDate = new Date(collectionDate);
-    const beginDate = new Date(0);
-    const delta = 7;
+    // const startDate = new Date(2022, 8, 15);
+    // const delta = 7;
     // forumActivity = getForumActivity(allPosts, beginDate, endDate, delta);
-    forumActivity = getForumActivity(
-      allPosts,
-      beginDate,
-      endDate,
-      delta,
-      "post",
-    );
+    forumActivity = getForumActivity(allPosts, startDate, endDate);
+    // console.log(forumActivity);
+    // chartData = {
+    //   // labels: forumActivity.map((chunk, i) => i),
+    //   labels: forumActivity.map((chunk, i) =>
+    //     new Date(
+    //       new Date(chunk.startDate).getTime() + i * (24 * 60 * 60 * 1000),
+    //     )
+    //       .toISOString()
+    //       .substring(5, 10),
+    //   ),
+    //   datasets: [
+    //     {
+    //       label: "Forum Activity",
+    //       data: forumActivity.map((chunk) => chunk.score),
+    //       backgroundColor: "rgb(97, 141, 255)",
+    //       borderColor: "rgb(75, 192, 192)",
+    //       tension: 0.2,
+    //     },
+    //   ],
+    // };
     // forumActivity = getForumActivity(allPosts, beginDate, endDate, delta, "comment");
   } catch (e) {
     // console.log("There was an error in connecting to mongoDB");
@@ -323,7 +336,7 @@ export default async function Mongo() {
           title="Most Active Users"
           content={topUsers}
         ></Feature>
-        {renderForumActivityGraph(forumActivity)}
+        <ActivityGraph data={forumActivity} startDate={startDate} />
       </div>
     </main>
   );
