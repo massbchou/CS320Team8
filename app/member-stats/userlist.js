@@ -18,7 +18,13 @@ export default function UserList(props){
                 <List component="nav" sx={{display:'flex', flexDirection:'column', width:'85%'}}>
                     {props.userList.map((user) => (
                         <ListItemButton style={{fontFamily: youngSerif, fontSize:'17px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, .9)', opacity:'0.6', borderRadius:'7px'}} href={"/member-stats?userID=" + user.id} key={user.id}>
-                            <ListItemText primary={user.name}/>
+                            <ListItemText primary={(user.role === 'moderator') ? 
+                            <div>
+                                <div>{user.name}</div>
+                                <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                                    <div style={{borderRadius:'15px', backgroundColor:'rgba(0, 132, 255, .7)', width:'50%'}}>Moderator</div>
+                                </div>
+                            </div> : <div>{user.name}</div>}/>
                         </ListItemButton>
                     ))}
                 </List>
