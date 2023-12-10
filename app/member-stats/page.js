@@ -89,6 +89,8 @@ async function buildUserDataset(userID){
   let activityStartDate;
   let name;
   let userRole;
+  let averageResponseTime = 0;
+  let firstResponderCount = 0;
 
   try {
     await client.connect();
@@ -152,6 +154,11 @@ async function buildUserDataset(userID){
       activityDate = new Date(activityDate.getTime() + (24 * 60 * 60 * 1000));
     }
 
+    if (userRole === 'moderator') {
+      const statsforMods = await calculateModeratorStats(userID, client);
+      averageResponseTime = statsforMods.averageResponseTime;
+      firstResponderCount = statsforMods.firstResponderCount;
+    }
   } catch (e) {
     console.error(e);
   } finally {
@@ -163,10 +170,50 @@ async function buildUserDataset(userID){
     dataArr: dataArr,
     startDate: activityStartDate,
     userRole: userRole,
+    averageResponseTime: averageResponseTime,
+    firstResponderCount: firstResponderCount,
   }
 }
 
-async function buildUserList(){
+async function calculateModeratorStats(userID, client) {
+  const collections = await client.db("posts").listCollections({}, { nameOnly: true }).toArray();
+  const collectionNames = collections.map(col => col.name);
+
+  let totalResponseTime = 0;
+  let firstResponderCount = 0;
+
+  for (const collectionName of collectionNames) {
+    const postsCollection = client.db("posts").collection(collectionName);
+    const moderatorPostsCursor = postsCollection.find({
+      'author.id': userID,
+      'comments.0': { $exists: true }
+    });
+
+    const moderatorPosts = await moderatorPostsCursor.toArray();
+
+    for (const post of moderatorPosts) {
+      if (post.comments && post.comments.length > 0) {
+        const firstComment = post.comments[0];
+        if (firstComment && firstComment.author && firstComment.author.id === userID) {
+          const postDate = new Date(post.publishedAt);
+          const responseDate = new Date(firstComment.publishedAt);
+          const responseTime = (responseDate - postDate) / 60000;
+          totalResponseTime += responseTime;
+          firstResponderCount++;
+        }
+      }
+    }
+  }
+
+  const averageResponseTime = firstResponderCount ? totalResponseTime / firstResponderCount : 0;
+
+  return {
+    averageResponseTime: parseFloat(averageResponseTime),
+    firstResponderCount
+  };
+}
+
+async function buildUserList() {
   // initialize MongoClient credentials
   const url = "mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/?retryWrites=true&w=majority";
   const client = new MongoClient(url);
