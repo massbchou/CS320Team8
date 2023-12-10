@@ -22,7 +22,7 @@ All of these features are implemented on the frontend through a React `<Feature>
 
 #### Member Statistics Page
 The app also includes a page for course staff to use to view activity statistics for individual members in aggregate and over time
-- **User List**: a component that displays list of forum users that are clickable to update the entire page to view stats for that user.  Moderators are marked with a tag to differentiate them from students.
+- **User List**: a component that displays a list of forum users that are clickable to update the entire page to view stats for that user.  Moderators are marked with a tag to differentiate them from students.
 - **Selected User Window**: a window to display aggregate statistics for the currently selected user.  Tracked metrics include their number of posts, top posts, comments, post views, and unanswered quesitons, and for moderators, it also includes their average response time and the number of first respondent incidents.
 - **Stats Graph**: a Chart.js graph component to display the selected user's activity over time.  The graph tracks all of the non-moderator specific metrics in the selected user window on a daily basis.  Graph controls include the ability to toggle each metric's visibility within the graph, time denomination switching (Weekly, Monthly, and All Time), and interval switching (switching to the previous or next interval, ex. previous/next week on weekly view)
 
