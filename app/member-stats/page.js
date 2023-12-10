@@ -176,30 +176,26 @@ async function buildUserDataset(userID){
 }
 
 async function calculateModeratorStats(userID, client) {
-  const collections = await client.db("posts").listCollections({}, { nameOnly: true }).toArray();
-  const collectionNames = collections.map(col => col.name);
+  const collection = client.db("posts").collection("2022-12-15");
 
   let totalResponseTime = 0;
   let firstResponderCount = 0;
 
-  for (const collectionName of collectionNames) {
-    const postsCollection = client.db("posts").collection(collectionName);
-    const moderatorPostsCursor = postsCollection.find({
-      'comments.0.author.id': userID,
-    });
+  const moderatorPostsCursor = collection.find({
+    'comments.0.author.id': userID,
+  });
 
-    const moderatorPosts = await moderatorPostsCursor.toArray();
+  const moderatorPosts = await moderatorPostsCursor.toArray();
 
-    for (const post of moderatorPosts) {
-      if (post.comments && post.comments.length > 0) {
-        const firstComment = post.comments[0];
-        if (firstComment && firstComment.author && firstComment.author.id === userID) {
-          const postDate = new Date(post.publishedAt);
-          const responseDate = new Date(firstComment.publishedAt);
-          const responseTime = (responseDate - postDate) / 60000;
-          totalResponseTime += responseTime;
-          firstResponderCount++;
-        }
+  for (const post of moderatorPosts) {
+    if (post.comments && post.comments.length > 0) {
+      const firstComment = post.comments[0];
+      if (firstComment && firstComment.author && firstComment.author.id === userID) {
+        const postDate = new Date(post.publishedAt);
+        const responseDate = new Date(firstComment.publishedAt);
+        const responseTime = (responseDate - postDate) / 60000;
+        totalResponseTime += responseTime;
+        firstResponderCount++;
       }
     }
   }
