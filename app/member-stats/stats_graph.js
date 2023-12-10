@@ -126,11 +126,12 @@ export default function StatsGraph(props){
           if(event.target.value === props.data.length){ // if the target value is 'All Time':
             setCurrentDayIndex(0); // set the setCurrentDayIndex to the first day of that user's activity
             setShowIntervalButtons(false); // hide the interval switching buttons
+            setLabels(generateLabels(new Date(props.startDate), event.target.value));
           }else{
             setShowIntervalButtons(true); // otherwise, show the buttons
+            setLabels(generateLabels(new Date(currentLabels[0]), event.target.value));
           }
           setInterval(event.target.value);
-          setLabels(generateLabels(new Date(currentLabels[0]), event.target.value));
           // switch the interval and generate the new labels
         }}
       >
