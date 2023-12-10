@@ -34,11 +34,11 @@ export default function SelectedUser(props) {
             {(props.userDataset.userRole === 'moderator') ? <div>
             <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'7px'}}>
                 <span style={{fontFamily: youngSerif, fontSize:'17px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(0, 132, 255, .7)', opacity:'0.6', borderRadius:'7px', width:'85%'}}>Average response time (in minutes): </span>
-                <span style={{fontFamily: youngSerif, fontSize:'17px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(0, 132, 255, .7)', opacity:'0.6', borderRadius:'7px', width:'15%'}}>{0}</span>
+                <span style={{fontFamily: youngSerif, fontSize:'17px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(0, 132, 255, .7)', opacity:'0.6', borderRadius:'7px', width:'15%'}}>{props.userDataset.averageResponseTime}</span>
             </div>
             <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'7px'}}>
                 <span style={{fontFamily: youngSerif, fontSize:'17px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(0, 132, 255, .7)', opacity:'0.6', borderRadius:'7px', width:'85%'}}>Number of first respondent incidents: </span>
-                <span style={{fontFamily: youngSerif, fontSize:'17px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(0, 132, 255, .7)', opacity:'0.6', borderRadius:'7px', width:'15%'}}>{0}</span>
+                <span style={{fontFamily: youngSerif, fontSize:'17px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(0, 132, 255, .7)', opacity:'0.6', borderRadius:'7px', width:'15%'}}>{props.userDataset.firstResponderCount}</span>
             </div></div> : null}
         </div>
     )
