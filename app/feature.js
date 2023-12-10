@@ -27,7 +27,3 @@ export default function Feature(props){
         </div>
     )
 }
-
-
-// Unanswered questions total count consideration: {(props.totalCount === undefined) ? '' : <div style={{textAlign:'center', fontFamily:'Young Serif', fontSize:'20px', backgroundColor:'rgba(255, 255, 255, 0.70)', borderRadius:'10px', width:'15%', padding:'6px', marginBottom:'9px'}}>{props.totalCount}</div>}
-// Our definition of what constitutes an unanswered question might need to be reworked

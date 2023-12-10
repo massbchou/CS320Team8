@@ -6,7 +6,7 @@ const youngSerif = Young_Serif({
     subsets: ['latin'],
     weight: '400',
   });
-// Returns a component for a list of users in alphabetical order
+// returns a component for a list of users in the order returned by the database
 export default function UserList(props){
     return (
         <div style={{backgroundImage: 'linear-gradient(rgba(0, 224, 255, 0.45), rgba(240, 56, 255, 0.55))', borderRadius: '10px', padding: '20px', margin: '20px', width: '18%', height: '70vh'}}>
@@ -26,9 +26,3 @@ export default function UserList(props){
         </div>
     )
 }
-
-/*
-<div key={i + 'a'} style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
-    <span key={i + 'b'} style={{fontFamily: youngSerif, fontSize:'17px', textAlign:'center', margin:'6px', padding:'2px', backgroundColor:'rgba(255, 255, 255, 1)', opacity:'0.6', borderRadius:'7px', width:'90%'}}>{x}</span>
-</div>
-*/
