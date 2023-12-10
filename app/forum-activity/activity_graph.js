@@ -68,6 +68,11 @@ export function ActivityGraph({ data, startDate } = mp()) {
 
   let postsData;
   let commentsData;
+  let isAllTime = false;
+
+  if(currentInterval == data.length){
+    isAllTime = true;
+  }
 
   if (currentDayIndex < 0) {
     postsData = [];
@@ -87,13 +92,18 @@ export function ActivityGraph({ data, startDate } = mp()) {
       {
         label: "Posts",
         data: postsData,
-        backgroundColor: "rgba(0, 224, 255, 0.75)",
+        borderColor: "rgba(240, 56, 255, 0.5)",
+        backgroundColor: "rgba(240, 56, 255)",
       },
       {
         label: "Comments",
         data: commentsData,
-        backgroundColor: "rgba(0, 132, 255, 0.75)",
+        borderColor: "rgba(0, 132, 255, 0.5)",
+        backgroundColor: "rgba(0, 132, 255)",
       },
+      //dark blue: rgba(0, 132, 255, 0.75)
+      //cyan: rgba(0, 224, 255, 0.75)
+      //pink: rgba(240, 56, 255)
     ],
   };
 
@@ -188,6 +198,7 @@ export function ActivityGraph({ data, startDate } = mp()) {
             );
           }}
           style={{
+            display: isAllTime ? "none" : null,
             backgroundColor: "rgba(255, 255, 255, 0.5)",
             marginTop: "10px",
           }}
@@ -223,6 +234,7 @@ export function ActivityGraph({ data, startDate } = mp()) {
             );
           }}
           style={{
+            display: isAllTime ? "none" : null,
             backgroundColor: "rgba(255, 255, 255, 0.5)",
             marginTop: "10px",
           }}
@@ -246,6 +258,9 @@ export function ActivityGraph({ data, startDate } = mp()) {
             label="Interval"
             onChange={(event) => {
               setInterval(event.target.value);
+              if(event.target.value === data.length){ // if the target value is 'All Time':
+                setCurrentDayIndex(0); // set the setCurrentDayIndex to the first day of that user's activity
+              }
               setLabels(
                 generateLabels(
                   new Date(currentLabels[0]).getTime(),
@@ -256,7 +271,7 @@ export function ActivityGraph({ data, startDate } = mp()) {
           >
             <MenuItem value={7}>Weekly</MenuItem>
             <MenuItem value={30}>Monthly</MenuItem>
-            <MenuItem value={99}>All Time</MenuItem>
+            <MenuItem value={data.length}>All Time</MenuItem>
           </Select>
         </FormControl>
       </div>
