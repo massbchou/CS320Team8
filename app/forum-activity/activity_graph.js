@@ -260,13 +260,21 @@ export function ActivityGraph({ data, startDate } = mp()) {
               setInterval(event.target.value);
               if(event.target.value === data.length){ // if the target value is 'All Time':
                 setCurrentDayIndex(0); // set the setCurrentDayIndex to the first day of that user's activity
+                setLabels(
+                  generateLabels(
+                    new Date(startDate).getTime(),
+                    event.target.value,
+                  ),
+                );
               }
-              setLabels(
-                generateLabels(
-                  new Date(currentLabels[0]).getTime(),
-                  event.target.value,
-                ),
-              );
+              else{
+                setLabels(
+                  generateLabels(
+                    new Date(currentLabels[0]).getTime(),
+                    event.target.value,
+                  ),
+                );
+              }
             }}
           >
             <MenuItem value={7}>Weekly</MenuItem>
