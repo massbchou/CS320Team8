@@ -11,7 +11,6 @@ function cutoff_string(name_to_cut) {
     return name_to_cut + "...";
   }
 }
-
 function days_old(createdAtStr, collectionDate) {
   const post_date = new Date(createdAtStr);
   const current_day = new Date(collectionDate);
@@ -19,8 +18,12 @@ function days_old(createdAtStr, collectionDate) {
   return Math.floor(days_diff);
 }
 
-function top_posts_algo(data) {
+function top_posts_algo(data, collectionDate) {
   //Score = (1) * uniqueViews + (2) * repeatedViews + (20) * totalComments + (50) * totalLikes
+  let top_posts = [];
+  if (Object.keys(data).length === 0) {
+    return top_posts;
+  }
   let Score = [data.length];
   for (let i = 0; i < data.length; i++) {
     let entry = data[i];
@@ -29,7 +32,7 @@ function top_posts_algo(data) {
     let num_comments = entry.comments.length;
     //if there is not a likesCount field the likes for the post are set to 0
     let num_likes = entry.likesCount ? entry.likesCount : 0;
-    let decay_days = days_old(entry.createdAt);
+    let decay_days = days_old(entry.createdAt, collectionDate);
     //Create an object {entry: data, score: #}
     Score[i] = {
       entry: entry,
@@ -46,8 +49,8 @@ function top_posts_algo(data) {
     return b["score"] - a["score"];
   });
   let ranked_posts = Score.map((pair) => pair["entry"]);
-  let top_posts = ranked_posts
-    .filter((res, i) => i < 5)
+  top_posts = ranked_posts
+    .filter((_, i) => i < 5)
     .map((res) => cutoff_string(res.title));
   return top_posts;
 }

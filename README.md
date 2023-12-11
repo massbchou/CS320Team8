@@ -1,10 +1,12 @@
 ## Campuswire Analytics Dashboard
 
 ### Description
+
 This is an analytics dashboard built for a popular class forum website called Campuswire with the aim of giving course staff the data analytics they need to efficiently monitor and manage their forum.
 
 ### Tech stack
-The dashboard is a web application built with [Next.js](https://nextjs.org/docs), a [React](https://react.dev/) frontend framework.  The team utilized [MongoDB](https://www.mongodb.com/) for the databases that store the forum post data as well as for the cache for our various features.
+
+The dashboard is a web application built with [Next.js](https://nextjs.org/docs), a [React](https://react.dev/) frontend framework. The team utilized [MongoDB](https://www.mongodb.com/) for the databases that store the forum post data as well as for the cache for our various features.
 
 ### Features
 #### Overview Page
@@ -32,9 +34,10 @@ The app also includes a page for course staff to use to view activity statistics
 
 #### Caching
 
-The team has implemented caching functionality for our features such that when a list of values has to be generated for a specific post collection date, it first checks the caching database to see if that value is already in cache.  If it is, it simply returns the cached values for display, and if it isn't, it generates and caches them for next time.  This has given our app a noticable performance increase.
+The team has implemented caching functionality for our features such that when a list of values has to be generated for a specific post collection date, it first checks the caching database to see if that value is already in cache. If it is, it simply returns the cached values for display, and if it isn't, it generates and caches them for next time. This has given our app a noticable performance increase.
 
 ### Local Setup
+
 - Clone the repository into a local folder
 - Run `npm i` in the project directory to install necessary dependencies
 - See `requirements.txt` for other necessary dependencies on your local machine
