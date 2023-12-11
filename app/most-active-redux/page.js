@@ -2,7 +2,7 @@ import top_users_algo from "../most-active-users/top_users";
 import { MongoClient } from "mongodb";
 import Podium from "../Podium";
 import BarGraph from "./BarGraph";
-import LeaderBoard from './LeaderBoard';
+import LeaderBoard from "./LeaderBoard";
 import { Young_Serif } from "next/font/google";
 import { userInfo } from "os";
 
@@ -33,7 +33,7 @@ export default async function Page() {
     let userCollection = client.db("users").collection("users");
     let usersData = userCollection.find();
     let podiumList = await usersData.toArray();
-    
+
     podiumRanked = top_users_algo(podiumList, firstDay, lastDay);
     podiumData = podiumRanked
       .slice(0, 5)
@@ -93,7 +93,7 @@ export default async function Page() {
     connectUserToScore.forEach((userInfo, index) => {
       userInfo.rank = index + 1;
     });
-    allPostArr = connectUserToScore.map((userInfo) => userInfo.numPosts)
+    allPostArr = connectUserToScore.map((userInfo) => userInfo.numPosts);
     allCommentArr = connectUserToScore.map((userInfo) => userInfo.numComments);
     winnerCommentArr = allCommentArr.slice(0, 5);
     winnerPostArr = allPostArr.slice(0, 5);
@@ -158,7 +158,7 @@ export default async function Page() {
         }}
       >
         {/* Bar Graphs */}
-        <div style={{ flex: "0 0 20%", fontFamily: youngSerif}}>
+        <div style={{ flex: "0 0 20%", fontFamily: youngSerif }}>
           <BarGraph
             namesArr={firstNamesArr}
             scoresArr={winnerPostArr}
@@ -172,14 +172,14 @@ export default async function Page() {
             font={youngSerif}
           />
         </div>
-         {/* Scrollable List using LeaderBoard component */}
-         <div style={{ flex: "0 0 45%", fontFamily: youngSerif}}>
-          <LeaderBoard
-            connectUserToScore={connectUserToScore}
-          />
+        {/* Scrollable List using LeaderBoard component */}
+        <div style={{ flex: "0 0 45%", fontFamily: youngSerif }}>
+          <LeaderBoard connectUserToScore={connectUserToScore} />
         </div>
         {/* Podium */}
-        <div style={{ flex: "0 0 20%", textAlign: "center",  marginRight: "40px" }}>
+        <div
+          style={{ flex: "0 0 20%", textAlign: "center", marginRight: "40px" }}
+        >
           <Podium winners={podiumData} />
         </div>
       </div>

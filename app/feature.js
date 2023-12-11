@@ -33,7 +33,6 @@ export default function Feature(props) {
     margin: "20px",
     width: "18%",
   };
-  
 
   if (props.hasButton) {
     return (

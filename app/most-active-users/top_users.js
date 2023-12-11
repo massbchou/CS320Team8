@@ -51,7 +51,12 @@ function top_users_algo(usersList, start, end) {
       //Score = 2*num_posts + 1*num_comments
       count += 2 * num_posts + 1 * num_comments;
     }
-    authors[i] = { full_name: author_name, post: total_posts, comment: total_comments, engagement_count: count };
+    authors[i] = {
+      full_name: author_name,
+      post: total_posts,
+      comment: total_comments,
+      engagement_count: count,
+    };
   }
   //Now order based on descending post number
   authors.sort((a, b) => b.engagement_count - a.engagement_count);
