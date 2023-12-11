@@ -51,26 +51,26 @@ function generateLabels(startDate, interval) {
  * x-axis: timeline
  * y-axis: forum activity score
  *
- * @returns jsx block to add to page.js
+ * Features:
+ * - Interval switching with dropdown: weekly, monthly, all time
+ * - Interval range switching with left and right arrows
+ * - Filtering to see only posts, comments, or both
+ * @returns jsx component containing graph
  */
-export function ActivityGraph({ data, startDate } = mp()) {
-  /**
-   * LineChart takes in data: {labels: str[], datasets: {
-   *   data: number[]
-   *   ...for more properties see https://www.chartjs.org/docs/latest/charts/line.html
-   * }}
-   */
+export function ActivityGraph({ data, startDate, endDate } = mp()) {
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
   const [currentInterval, setInterval] = useState(7);
   const [currentLabels, setLabels] = useState(
     generateLabels(startDate, currentInterval),
   );
+  // const [leftDisabled, setLeftDisabled] = useState(false);
+  // const [rightDisabled, setRightDisabled] = useState(false);
 
   let postsData;
   let commentsData;
   let isAllTime = false;
 
-  if(currentInterval == data.length){
+  if (currentInterval === data.length) {
     isAllTime = true;
   }
 
@@ -121,7 +121,6 @@ export function ActivityGraph({ data, startDate } = mp()) {
     "November",
     "December",
   ];
-  console.log(chartData);
 
   const options = {
     responsive: true,
@@ -134,43 +133,11 @@ export function ActivityGraph({ data, startDate } = mp()) {
         text: "Forum Activity",
       },
     },
+    tooltips: {
+      mode: "index",
+    },
   };
   return (
-    // <div
-    //   style={{
-    //     backgroundImage:
-    //       "linear-gradient(rgba(0, 224, 255, 0.45), rgba(240, 56, 255, 0.55))",
-    //     borderRadius: "10px",
-    //     padding: "20px",
-    //     margin: "20px",
-    //     width: "25%",
-    //   }}
-    // >
-    //   <div
-    //     style={{
-    //       display: "flex",
-    //       justifyContent: "center",
-    //       alignItems: "center",
-    //     }}
-    //   >
-    //     <div
-    //       style={{
-    //         textAlign: "center",
-    //         // fontFamily: youngSerif,
-    //         fontSize: "20px",
-    //         backgroundColor: "rgba(255, 255, 255, 0.70)",
-    //         borderRadius: "10px",
-    //         width: "100%",
-    //         padding: "6px",
-    //         marginBottom: "9px",
-    //         marginRight: "9px",
-    //       }}
-    //     >
-    //       {"Forum Activity"}
-    //     </div>
-    //   </div>
-    //   <Line options={options} data={chartData} />
-    // </div>
     <div
       style={{
         backgroundImage:
@@ -196,12 +163,15 @@ export function ActivityGraph({ data, startDate } = mp()) {
                 currentInterval,
               ),
             );
+            // if (currentDayIndex === 0) setLeftDisabled(true);
+            // else setLeftDisabled(false);
           }}
           style={{
             display: isAllTime ? "none" : null,
             backgroundColor: "rgba(255, 255, 255, 0.5)",
             marginTop: "10px",
           }}
+          // disabled={leftDisabled}
         >
           <ChevronLeftIcon />
         </Button>
@@ -232,12 +202,15 @@ export function ActivityGraph({ data, startDate } = mp()) {
                 currentInterval,
               ),
             );
+            // if (currentDayIndex === 0) setRightDisabled(true);
+            // else setRightDisabled(false);
           }}
           style={{
             display: isAllTime ? "none" : null,
             backgroundColor: "rgba(255, 255, 255, 0.5)",
             marginTop: "10px",
           }}
+          // disabled={rightDisabled}
         >
           <ChevronRightIcon />
         </Button>
@@ -258,7 +231,8 @@ export function ActivityGraph({ data, startDate } = mp()) {
             label="Interval"
             onChange={(event) => {
               setInterval(event.target.value);
-              if(event.target.value === data.length){ // if the target value is 'All Time':
+              if (event.target.value === data.length) {
+                // if the target value is 'All Time':
                 setCurrentDayIndex(0); // set the setCurrentDayIndex to the first day of that user's activity
                 setLabels(
                   generateLabels(
@@ -266,8 +240,7 @@ export function ActivityGraph({ data, startDate } = mp()) {
                     event.target.value,
                   ),
                 );
-              }
-              else{
+              } else {
                 setLabels(
                   generateLabels(
                     new Date(currentLabels[0]).getTime(),
