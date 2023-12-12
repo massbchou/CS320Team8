@@ -133,7 +133,7 @@ export default async function Mongo() {
 
       await PythonShell.run("./app/keyword_extractor.py", {
         mode: "json",
-        pythonPath: "py",
+        pythonPath: "python",
         args: [inputText],
       }).then((msg) => {
         topPhrases = msg[0];
@@ -261,7 +261,6 @@ export default async function Mongo() {
     endDate = new Date(collectionDate);
     forumActivity = getForumActivity(allPosts, startDate, endDate);
   } catch (e) {
-    console.log("There was an error in connecting to mongoDB");
     console.error(e);
   } finally {
     await client.close();

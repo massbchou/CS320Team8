@@ -98,7 +98,6 @@ export default async function Page() {
     winnerCommentArr = allCommentArr.slice(0, 5);
     winnerPostArr = allPostArr.slice(0, 5);
   } catch (e) {
-    console.log("There was an error in connecting to mongo");
     console.error(e);
   } finally {
     await client.close();

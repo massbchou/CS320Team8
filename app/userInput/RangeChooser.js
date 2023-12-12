@@ -5,7 +5,7 @@ const { RangePicker } = DatePicker;
 
 function RangeChooser() {
   const [dates, setDates] = useState([]);
-  console.log(dates);
+  // console.log(dates);
 
   const getYearMonthDay = (date) => {
     let year = date.getFullYear(); // Get the year (YYYY)
