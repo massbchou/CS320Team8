@@ -16,7 +16,7 @@ export default async function Home() {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         width: "100%",
-        height: "100%",
+        height: "100vh",
       }}
     >
       <div

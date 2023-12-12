@@ -56,7 +56,7 @@ export default async function Page() {
           fontSize: "20px",
         }}
       >
-        <a href="/" style={{ display: "inline-block" }}>
+        <a href="/home-page" style={{ display: "inline-block" }}>
           Return Home
           <div style={{ display: "inline-block" }}>
             <svg
