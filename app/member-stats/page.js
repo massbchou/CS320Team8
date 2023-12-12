@@ -53,7 +53,7 @@ export default async function Page(props) {
     <div style={{
         fontSize: '20px',
     }}>Member Statistics</div>
-    <a href="/" style={{display: 'inline-block', marginTop:'7px'}}>
+    <a href="/home-page" style={{display: 'inline-block', marginTop:'7px'}}>
       Return Home
       <div style={{display: 'inline-block'}}>
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 -2 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
