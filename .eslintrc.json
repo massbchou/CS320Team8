@@ -6,7 +6,6 @@
     "prettier"
   ],
   "rules": {
-    "camelcase": "warn",
     "eqeqeq": "error"
   }
 }

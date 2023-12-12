@@ -56,3 +56,42 @@ export function getForumActivity(allPosts = mp(), start = mp(), end = mp()) {
       })
   );
 }
+
+/**
+ * Gets next minDate (minDate + delta) depending on delta:
+ * - 1: daily -> simply add delta
+ * - 7: weekly -> start on monday of week
+ * - 30: monthly -> start on first day of month
+ * - else: default to weekly
+ * @param {Date} next
+ * @param {7 | 30 | 365} delta
+ * @returns {Date} new date
+ */
+export function getNextMinDate(date = mp(), delta = mp()) {
+  const next = new Date(date);
+  next.setUTCDate(next.getUTCDate() + delta);
+  return getFirstDate(next, delta);
+}
+/**
+ * Gets first date of interval depending on delta
+ * - 1: daily -> same date
+ * - 7: weekly -> start on monday of week
+ * - 30: monthly -> start on first day of month
+ * - else: default to weekly
+ * @param {Date} date
+ * @param {7 | 30 | 365} delta
+ * @returns {Date} first date of interval
+ */
+export function getFirstDate(date = mp(), delta = mp()) {
+  if (delta === 7) {
+    // weekly, get monday of week
+    const day = date.getUTCDay(); // # of day in week (sunday = 0, saturday = 7)
+    const monday = date.getUTCDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
+    date.setUTCDate(monday);
+  } else if (delta >= 30) {
+    // monthly, get first day of month
+    date.setUTCDate(1);
+  }
+  // else daily, simply return date
+  return date;
+}

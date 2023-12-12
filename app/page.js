@@ -241,33 +241,8 @@ export default async function Mongo() {
     // forum activity
     const allPosts = await collection.find().toArray();
     const endDate = new Date(collectionDate);
-    // const startDate = new Date(2022, 8, 15);
-    // const delta = 7;
-    // forumActivity = getForumActivity(allPosts, beginDate, endDate, delta);
     forumActivity = getForumActivity(allPosts, startDate, endDate);
-    // console.log(forumActivity);
-    // chartData = {
-    //   // labels: forumActivity.map((chunk, i) => i),
-    //   labels: forumActivity.map((chunk, i) =>
-    //     new Date(
-    //       new Date(chunk.startDate).getTime() + i * (24 * 60 * 60 * 1000),
-    //     )
-    //       .toISOString()
-    //       .substring(5, 10),
-    //   ),
-    //   datasets: [
-    //     {
-    //       label: "Forum Activity",
-    //       data: forumActivity.map((chunk) => chunk.score),
-    //       backgroundColor: "rgb(97, 141, 255)",
-    //       borderColor: "rgb(75, 192, 192)",
-    //       tension: 0.2,
-    //     },
-    //   ],
-    // };
-    // forumActivity = getForumActivity(allPosts, beginDate, endDate, delta, "comment");
   } catch (e) {
-    // console.log("There was an error in connecting to mongoDB");
     console.error(e);
   } finally {
     await client.close();
