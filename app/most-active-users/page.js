@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import top_users_algo from "./top_users.js";
+import top_users_algo from "../most-active-users/top_users";
 import Feature from "../feature.js";
 
 export default async function Page() {
@@ -23,15 +23,15 @@ export default async function Page() {
     const dec1 = new Date("2022-12-01");
     const dec31 = new Date("2022-12-31");
     // beginning of semester (<=sep 15) to oct 1
-    topStudents1 = top_users_algo(studentList, sep1, oct1);
+    topStudents1 = top_users_algo(studentList, sep1, oct1).slice(0, 5);
     // oct 1 to dec 1
-    topStudents2 = top_users_algo(studentList, oct1, dec1);
+    topStudents2 = top_users_algo(studentList, oct1, dec1).slice(0, 5);
     // oct 1 to end of semester (>=dec 15)
-    topStudents3 = top_users_algo(studentList, oct1, dec31);
+    topStudents3 = top_users_algo(studentList, oct1, dec31).slice(0, 5);
     // mods for entire semester
-    topMods = top_users_algo(await modData.toArray(), sep1, dec31);
+    topMods = top_users_algo(await modData.toArray(), sep1, dec31).slice(0, 5);
   } catch (e) {
-    console.log("There was an error in connecting to mongoDB");
+    console.log("There was an error in connecting to mongo");
     console.error(e);
   } finally {
     await client.close();
@@ -42,7 +42,7 @@ export default async function Page() {
       style={{
         background:
           "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
-        backgroundSize: "100%",
+        backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         height: "100vh",
       }}
@@ -51,12 +51,12 @@ export default async function Page() {
         style={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
           paddingTop: "20px",
+          alignItems: "center",
           fontSize: "20px",
         }}
       >
-        <a href="/" style={{ display: "inline-block" }}>
+        <a href="/home-page" style={{ display: "inline-block" }}>
           Return Home
           <div style={{ display: "inline-block" }}>
             <svg
@@ -99,6 +99,7 @@ export default async function Page() {
           title="Most Active Students: dec 1 - end of semester (dec 15)"
           content={topStudents3}
         ></Feature>
+
         <Feature
           linkTo="most-active-users"
           title="Most Active Mods"

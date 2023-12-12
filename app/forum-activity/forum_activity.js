@@ -2,7 +2,7 @@ import mp from "../missingParameter";
 
 /**
  * Takes in an array of posts and gets the number of posts and comments for each day
- * Filters posts between start and end dates, both inclusive
+ * Filters posts between start and end dates (inclusive)
  * Each day is represented as an object {numPosts: int, numComments: int}
  * @param {post[]} allPosts
  * @param {Date} start

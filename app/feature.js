@@ -1,8 +1,7 @@
 "use client";
-// import Link from 'next/link';
-// import Button from '@mui/material/Button';
 import React, { useState } from "react";
 import { Young_Serif } from "next/font/google";
+
 const youngSerif = Young_Serif({
   subsets: ["latin"],
   weight: "400",
@@ -38,7 +37,10 @@ export default function Feature(props) {
   if (props.hasButton) {
     return (
       <div
-        style={containerStyle}
+        style={{
+          ...containerStyle,
+          cursor: isHovered ? "pointer" : "initial", // Change cursor to pointer when hovered
+        }}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
         onClick={handleOnClick(props.linkTo)}
@@ -109,11 +111,6 @@ export default function Feature(props) {
             </span>
           </div>
         ))}
-        {/* <div style={{display:'flex', justifyContent:'center', alignItems:'center', margin:'6px', color:'rgba(255, 255, 255, 1)', opacity:'0.6'}}>
-                    <Link href={"/" + props.linkTo}>
-                        <Button size="small" variant="contained">...</Button>
-                    </Link>
-                </div> */}
       </div>
     );
   } else {
@@ -208,6 +205,3 @@ export default function Feature(props) {
     );
   }
 }
-
-// Unanswered questions total count consideration: {(props.totalCount === undefined) ? '' : <div style={{textAlign:'center', fontFamily:'Young Serif', fontSize:'20px', backgroundColor:'rgba(255, 255, 255, 0.70)', borderRadius:'10px', width:'15%', padding:'6px', marginBottom:'9px'}}>{props.totalCount}</div>}
-// Our definition of what constitutes an unanswered question might need to be reworked
