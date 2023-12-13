@@ -8,6 +8,7 @@ import { Young_Serif } from "next/font/google";
 import RangeChooser from "../userInput/RangeChooser.js";
 import { getForumActivity } from "../forum-activity/forum_activity.js";
 import dynamic from 'next/dynamic';
+import SubHeader from "../SubHeader.js";
 
 const youngSerif = Young_Serif({
   subsets: ["latin"],
@@ -328,6 +329,7 @@ export default async function Page() {
             >
               Campuswire Analytics
             </span>
+            <SubHeader/>
           </div>
         </div>
       </div>
@@ -350,8 +352,6 @@ export default async function Page() {
         >
           <Feature title="Trending Topics" content={topPhrases}></Feature>
           <Feature
-            hasButton={true}
-            linkTo="most-active-redux"
             totalCount={unansweredCount}
             title="Unanswered Questions"
             content={unansweredTitles}
