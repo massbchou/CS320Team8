@@ -31,7 +31,6 @@ export default async function Page() {
     // mods for entire semester
     topMods = top_users_algo(await modData.toArray(), sep1, dec31).slice(0, 5);
   } catch (e) {
-    console.log("There was an error in connecting to mongo");
     console.error(e);
   } finally {
     await client.close();

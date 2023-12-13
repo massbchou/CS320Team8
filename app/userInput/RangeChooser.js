@@ -5,7 +5,7 @@ const { RangePicker } = DatePicker;
 
 function RangeChooser() {
   const [dates, setDates] = useState([]);
-  console.log(dates);
+  // console.log(dates);
 
   const getYearMonthDay = (date) => {
     let year = date.getFullYear(); // Get the year (YYYY)
@@ -64,7 +64,7 @@ function RangeChooser() {
   };
 
   return (
-    <div style={{ margin: 20, cursor: "pointer" }}>
+    <div style={{ margin: '20px', cursor: "pointer" }}>
       <RangePicker onChange={handleDateChange} disabledDate={disabledDate} />
       {dates.length > 0 && (
         <div>
