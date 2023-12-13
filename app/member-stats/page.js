@@ -1,9 +1,14 @@
-import SearchBar from './search-bar'
 import { MongoClient } from "mongodb";
+import Image from "next/image";
+import UserList from "./userlist.js";
+import SelectedUser from "./selected_user.js";
+import StatsGraph from "./stats_graph.js";
 
 export default async function Page(props) {
 
-  let dataSet = await buildUserDataset(props.searchParams.userID);
+  let userDataset = await buildUserDataset(props.searchParams.userID);
+
+  let userList = await buildUserList();
 
   return <main
     style={{
@@ -14,11 +19,68 @@ export default async function Page(props) {
       height: "100vh",
     }}
   >
-    <SearchBar dataSet={dataSet}/>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Image
+        src="/images/icon.png"
+        width={90}
+        height={90}
+        quality={100}
+        style={{ margin: "10px" }}
+        unoptimized
+        alt=""
+      ></Image>
+      <span
+        style={{
+          textAlign: "center",
+          fontSize: "30px",
+        }}
+      >
+        Campuswire Analytics
+      </span>
+    </div>
+    <div style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column",
+    }}>
+    <div style={{
+        fontSize: '20px',
+    }}>Member Statistics</div>
+    <a href="/home-page" style={{display: 'inline-block', marginTop:'7px'}}>
+      Return Home
+      <div style={{display: 'inline-block'}}>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2 -2 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+      </svg>
+      </div>
+    </a>
+    </div>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        margin: "10px",
+      }}
+    >
+      <UserList
+        userList={userList}
+      ></UserList>
+      <SelectedUser
+        userDataset={userDataset}
+      ></SelectedUser>
+      <StatsGraph data={userDataset.dataArr} startDate={userDataset.startDate} name={userDataset.userName}></StatsGraph>
+    </div>
   </main>
 }
 
-async function buildUserDataset(id){
+async function buildUserDataset(userID){
   // initialize MongoClient credentials
   const url = "mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/?retryWrites=true&w=majority";
   const client = new MongoClient(url);
@@ -26,6 +88,9 @@ async function buildUserDataset(id){
   let dataArr = [];
   let activityStartDate;
   let name;
+  let userRole;
+  let averageResponseTime = 0;
+  let firstResponderCount = 0;
 
   try {
     await client.connect();
@@ -34,22 +99,24 @@ async function buildUserDataset(id){
     const usersCollection = client.db("users").collection("users");
     let userObj;
 
-    if(id !== undefined){
-      userObj = await usersCollection.findOne({'author.id': id});
+    if(userID !== undefined){
+      userObj = await usersCollection.findOne({"author.id": userID});
     }else{
       userObj = await usersCollection.findOne({});
     }
 
+    userRole = userObj.author.role;
+
     let entries = Object.entries(userObj);
+
     name = userObj.author.firstName + ' ' + userObj.author.lastName;
     activityStartDate = new Date(entries[2][0]);
     let activityDate = new Date (activityStartDate);
 
     let postsCollection = client.db("posts").collection('2022-12-15');
+
     let i = 2;
-
     while(i < entries.length){
-
       if(userObj[activityDate.toISOString().substring(0, 10)] !== undefined){
         let userActivityObj = userObj[activityDate.toISOString().substring(0, 10)];
 
@@ -87,6 +154,11 @@ async function buildUserDataset(id){
       activityDate = new Date(activityDate.getTime() + (24 * 60 * 60 * 1000));
     }
 
+    if (userRole === 'moderator') {
+      const statsforMods = await calculateModeratorStats(userID, client);
+      averageResponseTime = statsforMods.averageResponseTime;
+      firstResponderCount = statsforMods.firstResponderCount;
+    }
   } catch (e) {
     console.error(e);
   } finally {
@@ -97,5 +169,69 @@ async function buildUserDataset(id){
     userName: name,
     dataArr: dataArr,
     startDate: activityStartDate,
+    userRole: userRole,
+    averageResponseTime: averageResponseTime,
+    firstResponderCount: firstResponderCount,
   }
+}
+
+async function calculateModeratorStats(userID, client) {
+  const collection = client.db("posts").collection("2022-12-15");
+
+  let totalResponseTime = 0;
+  let firstResponderCount = 0;
+
+  const moderatorPostsCursor = collection.find({
+    'comments.0.author.id': userID,
+  });
+
+  const moderatorPosts = await moderatorPostsCursor.toArray();
+
+  for (const post of moderatorPosts) {
+    if (post.comments && post.comments.length > 0) {
+      const firstComment = post.comments[0];
+      if (firstComment && firstComment.author && firstComment.author.id === userID) {
+        const postDate = new Date(post.publishedAt);
+        const responseDate = new Date(firstComment.publishedAt);
+        const responseTime = (responseDate - postDate) / 60000;
+        totalResponseTime += responseTime;
+        firstResponderCount++;
+      }
+    }
+  }
+
+  const averageResponseTime = firstResponderCount ? parseFloat((totalResponseTime / firstResponderCount).toFixed(2)) : 0;
+
+  return {
+    averageResponseTime: parseFloat(averageResponseTime),
+    firstResponderCount
+  };
+}
+
+async function buildUserList() {
+  // initialize MongoClient credentials
+  const url = "mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/?retryWrites=true&w=majority";
+  const client = new MongoClient(url);
+
+  let users = [];
+
+  try {
+    await client.connect();
+    const usersCollection = client.db("users").collection("users");
+    const usersCursor = usersCollection.find({}, { projection: { "author.firstName": 1, "author.lastName": 1, "author.id": 1, "author.role": 1} });
+    const usersList = await usersCursor.toArray();
+
+    // Build an array of user names and their IDs
+    users = usersList.map(user => ({
+      name: user.author.firstName + ' ' + user.author.lastName,
+      id: user.author.id,
+      role: user.author.role,
+    }));
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await client.close();
+  }
+
+  return users;
 }

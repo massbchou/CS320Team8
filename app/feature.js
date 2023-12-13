@@ -33,7 +33,6 @@ export default function Feature(props) {
     margin: "20px",
     width: "18%",
   };
-  
 
   if (props.hasButton) {
     return (
@@ -41,6 +40,7 @@ export default function Feature(props) {
         style={{
           ...containerStyle,
           cursor: isHovered ? "pointer" : "initial", // Change cursor to pointer when hovered
+          border: isHovered ? "2px solid black" : "none",
         }}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
