@@ -64,7 +64,7 @@ function RangeChooser() {
   };
 
   return (
-    <div style={{ margin: 20, cursor: "pointer" }}>
+    <div style={{ margin: '20px', cursor: "pointer" }}>
       <RangePicker onChange={handleDateChange} disabledDate={disabledDate} />
       {dates.length > 0 && (
         <div>

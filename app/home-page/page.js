@@ -311,7 +311,6 @@ export default async function Page() {
           justifyContent: "center",
           alignItems: "center",
           flexDirection: 'column',
-          margin: "10px",
         }}
       >
         <div
@@ -362,7 +361,6 @@ export default async function Page() {
                 "linear-gradient(rgba(0, 242, 255, 0.45), rgba(255, 0, 242, 0.55))",
               borderRadius: "10px",
               padding: "5px",
-              margin: "10px",
               width: "350px",
             }}
           >
@@ -372,6 +370,7 @@ export default async function Page() {
             style={{
               fontFamily: "Montserrat",
               fontSize: "17px",
+              margin:'10px',
             }}
           >
             Current Range: {farthestPastDate} to {collectionDate}
