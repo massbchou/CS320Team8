@@ -276,7 +276,7 @@ export default async function Page() {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         width: "100%",
-        height: "100vh",
+        height: "100%",
       }}
     >
       <div
@@ -310,9 +310,44 @@ export default async function Page() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          flexDirection: 'column',
           margin: "10px",
         }}
       >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width:'100%',
+          }}
+        >
+          <Feature title="Trending Topics" content={topPhrases}></Feature>
+          <Feature
+            hasButton={true}
+            linkTo="most-active-redux"
+            totalCount={unansweredCount}
+            title="Unanswered Questions"
+            content={unansweredTitles}
+          ></Feature>
+          <Feature
+            hasButton={true}
+            linkTo="top-posts"
+            title="Top Posts"
+            content={topPosts}
+          ></Feature>
+          <Feature
+            hasButton={true}
+            linkTo="most-active-users"
+            title="Most Active Users"
+            content={topUsers}
+          ></Feature>
+        </div>
+        <ActivityGraph
+            data={forumActivity}
+            startDate={startDate}
+            endDate={endDate}
+          />
         <div
           style={{
             display: "flex",
@@ -323,50 +358,25 @@ export default async function Page() {
         >
           <div
             style={{
-              fontFamily: "Roboto",
-              fontSize: "20px",
-            }}
-          >
-            Current Range: {farthestPastDate} to {collectionDate}
-          </div>
-          <div
-            style={{
               backgroundImage:
-                "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
+                "linear-gradient(rgba(0, 242, 255, 0.45), rgba(255, 0, 242, 0.55))",
               borderRadius: "10px",
-              padding: "20px",
-              margin: "20px",
+              padding: "5px",
+              margin: "10px",
               width: "350px",
             }}
           >
             <RangeChooser />
           </div>
+          <div
+            style={{
+              fontFamily: "Montserrat",
+              fontSize: "17px",
+            }}
+          >
+            Current Range: {farthestPastDate} to {collectionDate}
+          </div>
         </div>
-        <Feature title="Trending Topics" content={topPhrases}></Feature>
-        <Feature
-          hasButton={true}
-          linkTo="most-active-redux"
-          totalCount={unansweredCount}
-          title="Unanswered Questions"
-          content={unansweredTitles}
-        ></Feature>
-        <Feature
-          hasButton={true}
-          linkTo="top-posts"
-          title="Top Posts"
-          content={topPosts}
-        ></Feature>
-        <Feature
-          hasButton={true}
-          linkTo="most-active-users"
-          title="Most Active Users"
-          content={topUsers}
-        ></Feature>
-        <ActivityGraph
-          data={forumActivity}
-          startDate={startDate}
-          endDate={endDate}
-        />
       </div>
     </main>
   );
