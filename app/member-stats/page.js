@@ -1,13 +1,15 @@
 import { MongoClient } from "mongodb";
 import Image from "next/image";
-import UserList from "./userlist.js";
-import SelectedUser from "./selected_user.js";
-import StatsGraph from "./stats_graph.js";
+import dynamic from 'next/dynamic'
 
 export default async function Page(props) {
   let userDataset = await buildUserDataset(props.searchParams.userID);
 
   let userList = await buildUserList();
+
+  const UserList = dynamic(() => import('./userlist.js'), { ssr: false })
+  const SelectedUser = dynamic(() => import('./selected_user.js'), { ssr: false })
+  const StatsGraph = dynamic(() => import('./stats_graph.js'), { ssr: false })
 
   return (
     <main

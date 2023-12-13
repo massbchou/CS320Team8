@@ -7,14 +7,16 @@ import top_users_algo from "../most-active-users/top_users.js";
 import { Young_Serif } from "next/font/google";
 import RangeChooser from "../userInput/RangeChooser.js";
 import { getForumActivity } from "../forum-activity/forum_activity.js";
-import { ActivityGraph } from "../forum-activity/activity_graph.js";
+import dynamic from 'next/dynamic';
 
 const youngSerif = Young_Serif({
   subsets: ["latin"],
   weight: "400",
 });
 
-export default async function Mongo() {
+export default async function Page() {
+  const ActivityGraph = dynamic(() => import('../forum-activity/activity_graph.js'), { ssr: false })
+
   // initialize mongoclient credentials
   const url =
     "mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/?retryWrites=true&w=majority";

@@ -57,7 +57,7 @@ function generateLabels(startDate, interval) {
  * - Filtering to see only posts, comments, or both
  * @returns jsx component containing graph
  */
-export function ActivityGraph({ data, startDate, endDate } = mp()) {
+export default function ActivityGraph({ data, startDate, endDate } = mp()) {
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
   const [currentInterval, setInterval] = useState(7);
   const [currentLabels, setLabels] = useState(
