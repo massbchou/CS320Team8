@@ -298,30 +298,109 @@ export default async function Mongo() {
         </span>
       </div>
       <div
+  style={{
+    fontFamily: youngSerif,
+    fontWeight: "bold",
+    display: "flex",
+    justifyContent: "center",
+    fontSize: "20px",
+    position: "relative",
+    color: "black",
+    marginBottom: "10px",
+  }}
+>
+  <div style={{ position: "relative" }}>
+    <a
+      href={"most-active-redux"}
+      style={{
+        marginRight: "30px",
+        textDecoration: "none",
+        color: "black",
+        position: "relative",
+      }}
+    >
+      Leaderboard
+    </a>
+    <a
+      href={"member-stats"}
+      style={{
+        textDecoration: "none",
+        color: "black",
+        position: "relative",
+      }}
+    >
+      Member Stats
+    </a>
+    <span
+      style={{
+        position: "absolute",
+        bottom: "-3px", // Adjust this value to position the line
+        left: 0,
+        width: "100%",
+        height: "3px", // Adjust line thickness
+        background:
+          "linear-gradient(to right, rgba(0, 224, 255, 0.45), rgba(240, 56, 255, 0.55))",
+      }}
+    ></span>
+  </div>
+</div>
+
+      {/* <div
         style={{
           fontFamily: youngSerif,
           fontWeight: "bold",
           display: "flex",
           justifyContent: "center",
           fontSize: "20px",
+          position: "relative",
+          color: "black",
+          marginBottom: "10px",
         }}
       >
         <a
           href={"most-active-redux"}
           style={{
-            borderBottom: "3px solid #000",
             marginRight: "30px",
             textDecoration: "none",
             color: "black",
+            position: "relative",
           }}
-        > Leaderboard</a>
-         <a
-    href={"member-stats"}
-    style={{ borderBottom: "3px solid #000", textDecoration: 'none', color: 'black' }}
-  >
-    Member Stats
-  </a>
-      </div>
+        >
+          Leaderboard
+          <span
+            style={{
+              position: "absolute",
+              bottom: "-3px", // Adjust this value to position the line
+              left: "0",
+              width: "100%",
+              height: "3px", // Adjust line thickness
+              background:
+                "linear-gradient(to right, rgba(0, 224, 255, 0.45), rgba(240, 56, 255, 0.55))",
+            }}
+          ></span>
+        </a>
+        <a
+          href={"member-stats"}
+          style={{
+            textDecoration: "none",
+            color: "black",
+            position: "relative",
+          }}
+        >
+          Member Stats
+          <span
+            style={{
+              position: "absolute",
+              bottom: "-3px", // Adjust this value to position the line
+              left: "0",
+              width: "100%",
+              height: "3px", // Adjust line thickness
+              background:
+                "linear-gradient(to right, rgba(0, 224, 255, 0.45), rgba(240, 56, 255, 0.55))", // Cyan to Pink
+            }}
+          ></span>
+        </a>
+      </div> */}
       <div
         style={{
           display: "flex",
