@@ -1,5 +1,5 @@
 import React from "react";
-import Feature from "./feature";
+import Feature from "../app/feature.js";
 import { MongoClient } from "mongodb";
 import top_users_algo from "../top_users.js";
 

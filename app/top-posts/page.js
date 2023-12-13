@@ -208,7 +208,6 @@ export default async function Page() {
       topPostsOfAllTime = cacheAllPosts.topPosts;
     }
   } catch (e) {
-    console.log("There was an error in connecting to mongo");
     console.error(e);
   } finally {
     await client.close();
