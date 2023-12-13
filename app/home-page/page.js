@@ -328,7 +328,6 @@ export default async function Page() {
             >
               Campuswire Analytics
             </span>
-           <SubHeader/>
           </div>
         </div>
       </div>
