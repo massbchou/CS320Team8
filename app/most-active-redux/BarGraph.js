@@ -56,15 +56,12 @@ const BarGraph = ({ namesArr, scoresArr, title, font }) => {
   return (
     <div
       style={{
-        width: "500px",
-        height: "400px",
-        marginRight: "60px",
-        marginLeft: "60px",
-        marginBottom: "60px",
+        width: "50%",
+        height: "500px",
         color: "black",
       }}
     >
-      <canvas ref={chartContainer} width="400" height="200"></canvas>
+      <canvas ref={chartContainer} width="400" height="300"></canvas>
     </div>
   );
 };
