@@ -1,5 +1,6 @@
 "use client";
 import mp from "../missingParameter";
+import { getFirstDate } from "./forum_activity";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -58,6 +59,10 @@ function generateLabels(startDate, interval) {
  * @returns jsx component containing graph
  */
 export default function ActivityGraph({ data, startDate, endDate } = mp()) {
+  // move startDate to beginning of month
+  let firstPostDate = startDate;
+  startDate = getFirstDate(startDate, 30);
+
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
   const [currentInterval, setInterval] = useState(7);
   const [currentLabels, setLabels] = useState(
@@ -121,6 +126,13 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
     "November",
     "December",
   ];
+  const monthIndices = [
+    "2022-09-01",
+    "2022-10-01",
+    "2022-11-01",
+    "2022-12-01",
+  ].map((month) => data.map((date) => date.date).indexOf(month));
+  console.log(monthIndices);
 
   const options = {
     responsive: true,
@@ -231,8 +243,8 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
             label="Interval"
             onChange={(event) => {
               setInterval(event.target.value);
-              if (event.target.value === data.length) {
-                // if the target value is 'All Time':
+              if (event.target.value !== 0) {
+                // if the target value is either 'Monthly' or 'All Time':
                 setCurrentDayIndex(0); // set the setCurrentDayIndex to the first day of that user's activity
                 setLabels(
                   generateLabels(
