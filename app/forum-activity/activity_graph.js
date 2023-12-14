@@ -63,10 +63,13 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
   let firstPostDate = startDate;
   startDate = getFirstDate(startDate, 30);
 
-  const [currentDayIndex, setCurrentDayIndex] = useState(0);
+  const [currentDayIndex, setCurrentDayIndex] = useState(14);
   const [currentInterval, setInterval] = useState(7);
   const [currentLabels, setLabels] = useState(
-    generateLabels(startDate, currentInterval),
+    generateLabels(new Date(
+      new Date(startDate).getTime() +
+        2 * currentInterval * 24 * 60 * 60 * 1000,
+    ), currentInterval),
   );
   // const [leftDisabled, setLeftDisabled] = useState(false);
   // const [rightDisabled, setRightDisabled] = useState(false);
@@ -75,7 +78,7 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
   let commentsData;
   let isAllTime = false;
 
-  if (currentInterval === data.length) {
+  if (currentInterval === data.length - 14) {
     isAllTime = true;
   }
 
@@ -191,9 +194,7 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
           {currentInterval === 7
             ? "Week of " + currentLabels[0].substring(5, 10)
             : currentInterval === 30
-            ? months[new Date(currentLabels[0].substring(0, 10)).getMonth()] +
-              " - " +
-              months[
+            ? months[
                 new Date(
                   currentLabels[currentInterval - 1].substring(0, 10),
                 ).getMonth()
@@ -243,8 +244,18 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
             label="Interval"
             onChange={(event) => {
               setInterval(event.target.value);
-              if (event.target.value !== 0) {
-                // if the target value is either 'Monthly' or 'All Time':
+              if (event.target.value == 7) {
+                setCurrentDayIndex(14);
+                setLabels(
+                  generateLabels(new Date(
+                    new Date(startDate).getTime() +
+                      14 * 24 * 60 * 60 * 1000,
+                  ), event.target.value,
+                  ),
+                );
+              }
+              else if (event.target.value == 30) {
+                // if the target value is 'Monthly':
                 setCurrentDayIndex(0); // set the setCurrentDayIndex to the first day of that user's activity
                 setLabels(
                   generateLabels(
@@ -252,19 +263,23 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
                     event.target.value,
                   ),
                 );
-              } else {
+              } 
+              else {
+                // if the target value is 'All Time':
+                setCurrentDayIndex(14); // set the setCurrentDayIndex to the first day of that user's activity
                 setLabels(
-                  generateLabels(
-                    new Date(currentLabels[0]).getTime(),
-                    event.target.value,
+                  generateLabels(new Date(
+                    new Date(startDate).getTime() +
+                      14 * 24 * 60 * 60 * 1000,
+                  ), event.target.value,
                   ),
                 );
-              }
+              } 
             }}
           >
             <MenuItem value={7}>Weekly</MenuItem>
             <MenuItem value={30}>Monthly</MenuItem>
-            <MenuItem value={data.length}>All Time</MenuItem>
+            <MenuItem value={data.length - 14}>All Time</MenuItem>
           </Select>
         </FormControl>
       </div>
