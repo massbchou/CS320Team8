@@ -106,6 +106,10 @@ export default async function Page() {
   return (
     <main
       style={{
+        width: "100vw",
+        overflowX: "auto", 
+        height: "100vh",
+        overflowY: "auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
