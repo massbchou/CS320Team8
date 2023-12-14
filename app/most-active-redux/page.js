@@ -1,14 +1,14 @@
 import top_users_algo from "../most-active-users/top_users";
 import { MongoClient } from "mongodb";
-import Podium from "../Podium";
+import Podium from "./Podium";
 import BarGraph from "./BarGraph";
 import LeaderBoard from "./LeaderBoard";
-import { Young_Serif } from "next/font/google";
+// import { Young_Serif } from "next/font/google";
 
-const youngSerif = Young_Serif({
-  subsets: ["latin"],
-  weight: "400",
-});
+// const youngSerif = Young_Serif({
+//   subsets: ["latin"],
+//   weight: "400",
+// });
 
 /**
  * Async function representing a page displaying a leaderboard, some graphs, and a podium
@@ -129,7 +129,6 @@ export default async function Page() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        height: "100vh",
         background:
           "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
         backgroundSize: "cover",
@@ -183,7 +182,7 @@ export default async function Page() {
             flexDirection: "column", // Ensure stacking elements vertically
             alignItems: "center", // Center items horizontally
             width: "100%",
-            fontFamily: youngSerif,
+            // fontFamily: youngSerif,
             fontSize: "30px",
           }}
         >
@@ -198,14 +197,14 @@ export default async function Page() {
               namesArr={firstNamesArr}
               scoresArr={winnerPostArr}
               title={graphPostTitle}
-              font={youngSerif}
+              // font={youngSerif}
             />
             <div style={{ margin: "30px" }}></div>
             <BarGraph
               namesArr={firstNamesArr}
               scoresArr={winnerCommentArr}
               title={graphCommentTitle}
-              font={youngSerif}
+              // font={youngSerif}
             />
           </div>
           <div
@@ -223,7 +222,7 @@ export default async function Page() {
         </div>
         <div style={{ margin: "30px" }}></div>
         {/* Scrollable List using LeaderBoard component */}
-        <div style={{ flex: "0 0 50%", fontFamily: youngSerif }}>
+        <div style={{ flex: "0 0 50%" /* fontFamily: youngSerif */ }}>
           <LeaderBoard connectUserToScore={connectUserToScore} />
         </div>
       </div>

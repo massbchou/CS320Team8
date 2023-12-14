@@ -3,20 +3,21 @@ import mp from "../missingParameter";
 /**
  * Takes in an array of posts and gets the number of posts and comments for each day
  * Filters posts between start and end dates (inclusive)
- * Each day is represented as an object {numPosts: int, numComments: int}
+ * Each day is represented as an object {numPosts: int, numComments: int, date: string}
  *
  * Note: Uses UTC date functions for standardization
  *
  * @param {post[]} allPosts
  * @param {Date} start
  * @param {Date} end
- * @returns {{numPosts: int, numComments: int}[]}
+ * @returns {{numPosts: int, numComments: int, date: string}[]}
  * array of objects for each date containing number of posts and comments
+ * days from the beginning of the first month to the start date are padded with empty defaults
  */
 export function getForumActivity(allPosts = mp(), start = mp(), end = mp()) {
   let currentDate = new Date(3000, 0, 1); // init with arbitrary maximum date 3000-01-01
   let prevIdx = 0;
-  let resPosts = allPosts
+  const resPosts = allPosts
     // filter posts within start and end publishedAt time
     .filter((post) => {
       const postDate = new Date(post.publishedAt.slice(0, 10)); // yyyy-mm-dd
@@ -76,33 +77,16 @@ export function getForumActivity(allPosts = mp(), start = mp(), end = mp()) {
       return date;
     });
 
-  // fill days from start to beginning of month with empty default
+  // pad days from start to beginning of month with empty default
   const beginningDates = [];
   for (let day = start.getUTCDate() - 1; day > 0; --day) {
-    const skippedDate = new Date(start);
-    skippedDate.setUTCDate(start.getUTCDate() - day);
-    beginningDates.push({ date: skippedDate.toISOString().substring(0, 10) });
+    const padDate = new Date(start);
+    padDate.setUTCDate(start.getUTCDate() - day);
+    beginningDates.push({ date: padDate.toISOString().substring(0, 10) });
   }
-  resPosts = beginningDates.concat(resPosts);
-  // console.log(resPosts);
-  return resPosts;
+  return beginningDates.concat(resPosts);
 }
 
-/**
- * Gets next minDate (minDate + delta) depending on delta:
- * - 1: daily -> simply add delta
- * - 7: weekly -> start on monday of week
- * - 30: monthly -> start on first day of month
- * - else: default to weekly
- * @param {Date} next
- * @param {7 | 30 | 365} delta
- * @returns {Date} new date
- */
-export function getNextMinDate(date = mp(), delta = mp()) {
-  const next = new Date(date);
-  next.setUTCDate(next.getUTCDate() + delta);
-  return getFirstDate(next, delta);
-}
 /**
  * Gets first date of interval depending on delta
  * - 1: daily -> same date
