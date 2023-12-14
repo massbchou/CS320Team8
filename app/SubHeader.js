@@ -28,14 +28,15 @@ export default function SubHeader() {
   };
 
   const leftLinkStyle = {
-    marginRight: "30px",
     textDecoration: "none",
     color: "black",
+    padding: "8px",
   };
 
   const rightLinkStyle = {
     textDecoration: "none",
     color: "black",
+    padding: "8px",
   };
 
   const highlightedStyle = {
@@ -60,39 +61,47 @@ export default function SubHeader() {
           fontWeight: "bold",
           fontSize: "20px",
           color: "black",
-          marginBottom: "10px",
+          marginBottom: "8px",
+          width:'80%',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-evenly",
         }}
       >
-        <a
-          href={"most-active-redux"}
-          style={Object.assign(
-            {},
-            leftLinkStyle,
-            isLeftHovered && highlightedStyle,
-          )}
-          onMouseOver={handleLeftMouseOver}
-          onMouseOut={handleLeftMouseOut}
-        >
-          Leaderboard
-        </a>
-        <a
-          href={"member-stats"}
-          style={Object.assign(
-            {},
-            rightLinkStyle,
-            isRightHovered && highlightedStyle,
-          )}
-          onMouseOver={handleRightMouseOver}
-          onMouseOut={handleRightMouseOut}
-        >
-          Member Stats
-        </a>
+        <div style={{width:'200px'}}>
+          <a
+            href={"most-active-redux"}
+            style={Object.assign(
+              {},
+              leftLinkStyle,
+              isLeftHovered && highlightedStyle,
+            )}
+            onMouseOver={handleLeftMouseOver}
+            onMouseOut={handleLeftMouseOut}
+          >
+            Leaderboard
+          </a>
+        </div>
+        <div style={{width:'200px'}}>
+          <a
+            href={"member-stats"}
+            style={Object.assign(
+              {},
+              rightLinkStyle,
+              isRightHovered && highlightedStyle,
+            )}
+            onMouseOver={handleRightMouseOver}
+            onMouseOut={handleRightMouseOut}
+          >
+            Member Stats
+          </a>
+        </div>
       </div>
       <span
         style={{
           position: "relative",
-          width: "100%",
-          height: "5px", // Adjust line thickness
+          width: "85%",
+          height: "4px", // Adjust line thickness
           background:
             "linear-gradient(to right, rgba(0, 224, 255, 0.45), rgba(240, 56, 255, 0.55))",
         }}
