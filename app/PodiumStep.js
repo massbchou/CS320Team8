@@ -2,7 +2,11 @@
 import { motion } from "framer-motion";
 import React from "react";
 
+//This code was adapted from https://medium.com/geekculture/how-to-animate-a-winners-podium-88fab739e686
+
+//Returns two motion components
 export default function PodiumStep({ podium, winner }) {
+  // Calculate the offset based on podium length and winner's position
   const offset = podium.length - winner.position;
 
   return (
@@ -14,6 +18,7 @@ export default function PodiumStep({ podium, winner }) {
         alignItems: "center",
       }}
     >
+      {/* Animated component for winner's name */}
       <motion.div
         style={{
           alignSelf: "center",
@@ -34,9 +39,10 @@ export default function PodiumStep({ podium, winner }) {
           hidden: { opacity: 0 },
         }}
       >
+        {/* Displays the winner's name */}
         {winner.name}
       </motion.div>
-
+      {/* Animated component for the podium step */}
       <motion.div
         style={{
           width: "4rem",
@@ -65,6 +71,7 @@ export default function PodiumStep({ podium, winner }) {
         }}
       >
         <span style={{ color: "white", alignSelf: "flex-end" }}>
+          {/* Displays the position number on the podium */}
           {winner.position + 1}
         </span>
       </motion.div>
