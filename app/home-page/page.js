@@ -7,7 +7,7 @@ import top_users_algo from "../most-active-users/top_users.js";
 import { Young_Serif } from "next/font/google";
 import RangeChooser from "../userInput/RangeChooser.js";
 import { getForumActivity } from "../forum-activity/forum_activity.js";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
 const youngSerif = Young_Serif({
   subsets: ["latin"],
@@ -15,7 +15,10 @@ const youngSerif = Young_Serif({
 });
 
 export default async function Page() {
-  const ActivityGraph = dynamic(() => import('../forum-activity/activity_graph.js'), { ssr: false })
+  const ActivityGraph = dynamic(
+    () => import("../forum-activity/activity_graph.js"),
+    { ssr: false },
+  );
 
   // initialize mongoclient credentials
   const url =
@@ -310,7 +313,7 @@ export default async function Page() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          flexDirection: 'column',
+          flexDirection: "column",
         }}
       >
         <div
@@ -318,7 +321,7 @@ export default async function Page() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            width:'100%',
+            width: "100%",
           }}
         >
           <Feature title="Trending Topics" content={topPhrases}></Feature>
@@ -343,10 +346,10 @@ export default async function Page() {
           ></Feature>
         </div>
         <ActivityGraph
-            data={forumActivity}
-            startDate={startDate}
-            endDate={endDate}
-          />
+          data={forumActivity}
+          startDate={startDate}
+          endDate={endDate}
+        />
         <div
           style={{
             display: "flex",
@@ -370,7 +373,7 @@ export default async function Page() {
             style={{
               fontFamily: "Montserrat",
               fontSize: "17px",
-              margin:'10px',
+              margin: "10px",
             }}
           >
             Current Range: {farthestPastDate} to {collectionDate}
