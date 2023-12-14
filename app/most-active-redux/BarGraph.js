@@ -56,7 +56,7 @@ const BarGraph = ({ namesArr, scoresArr, title, font }) => {
   return (
     <div
       style={{
-        width: "400px",
+        width: "60%",
         height: "500px",
         color: "black",
       }}

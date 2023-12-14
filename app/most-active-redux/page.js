@@ -203,6 +203,7 @@ export default async function Page() {
             <Podium winners={podiumData} />
           </div>
         </div>
+        <div style={{margin:'30px'}}></div>
         {/* Scrollable List using LeaderBoard component */}
         <div style={{ flex: "0 0 50%", fontFamily: youngSerif }}>
           <LeaderBoard connectUserToScore={connectUserToScore} />
