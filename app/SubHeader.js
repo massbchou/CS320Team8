@@ -40,7 +40,7 @@ export default function SubHeader() {
   };
 
   const highlightedStyle = {
-    borderRadius: "5px", 
+    borderRadius: "5px",
     padding: "8px",
     background:
       "linear-gradient(to right, rgba(0, 224, 255, 0.45), rgba(240, 56, 255, 0.55))", // Change this to your desired highlight color
@@ -62,13 +62,13 @@ export default function SubHeader() {
           fontSize: "20px",
           color: "black",
           marginBottom: "8px",
-          width:'80%',
+          width: "80%",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-evenly",
         }}
       >
-        <div style={{width:'200px'}}>
+        <div style={{ width: "200px" }}>
           <a
             href={"most-active-redux"}
             style={Object.assign(
@@ -82,7 +82,7 @@ export default function SubHeader() {
             Leaderboard
           </a>
         </div>
-        <div style={{width:'200px'}}>
+        <div style={{ width: "200px" }}>
           <a
             href={"member-stats"}
             style={Object.assign(

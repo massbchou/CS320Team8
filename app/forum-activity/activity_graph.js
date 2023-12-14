@@ -58,18 +58,25 @@ function generateLabels(startDate, interval) {
  * - Filtering to see only posts, comments, or both
  * @returns jsx component containing graph
  */
-export default function ActivityGraph({ data, startDate, endDate } = mp()) {
+export default function ActivityGraph({ data, startDate, startOffset } = mp()) {
   // move startDate to beginning of month
-  let firstPostDate = startDate;
   startDate = getFirstDate(startDate, 30);
+  // let firstPostDate = startDate;
+  // firstPostDate = getFirstDate(startDate, 30);
+  // const firstPostIndex = data
+  //   .map((day) => day.date)
+  //   .indexOf(firstPostDate.toISOString().substring(0, 10));
+  // console.log("hi", firstPostIndex);
 
-  const [currentDayIndex, setCurrentDayIndex] = useState(14);
+  const [currentDayIndex, setCurrentDayIndex] = useState(startOffset);
   const [currentInterval, setInterval] = useState(7);
   const [currentLabels, setLabels] = useState(
-    generateLabels(new Date(
-      new Date(startDate).getTime() +
-        2 * currentInterval * 24 * 60 * 60 * 1000,
-    ), currentInterval),
+    generateLabels(
+      new Date(
+        new Date(startDate).getTime() + startOffset * 24 * 60 * 60 * 1000,
+      ),
+      currentInterval,
+    ),
   );
   // const [leftDisabled, setLeftDisabled] = useState(false);
   // const [rightDisabled, setRightDisabled] = useState(false);
@@ -78,7 +85,7 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
   let commentsData;
   let isAllTime = false;
 
-  if (currentInterval === data.length - 14) {
+  if (currentInterval === data.length - startOffset) {
     isAllTime = true;
   }
 
@@ -102,12 +109,14 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
         data: postsData,
         borderColor: "rgba(240, 56, 255, 0.5)",
         backgroundColor: "rgba(240, 56, 255)",
+        tension: 0.1,
       },
       {
         label: "Comments",
         data: commentsData,
         borderColor: "rgba(0, 132, 255, 0.5)",
         backgroundColor: "rgba(0, 132, 255)",
+        tension: 0.1,
       },
       //dark blue: rgba(0, 132, 255, 0.75)
       //cyan: rgba(0, 224, 255, 0.75)
@@ -129,13 +138,6 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
     "November",
     "December",
   ];
-  const monthIndices = [
-    "2022-09-01",
-    "2022-10-01",
-    "2022-11-01",
-    "2022-12-01",
-  ].map((month) => data.map((date) => date.date).indexOf(month));
-  console.log(monthIndices);
 
   const options = {
     responsive: true,
@@ -244,17 +246,18 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
             label="Interval"
             onChange={(event) => {
               setInterval(event.target.value);
-              if (event.target.value == 7) {
-                setCurrentDayIndex(14);
+              if (event.target.value === 7) {
+                setCurrentDayIndex(startOffset);
                 setLabels(
-                  generateLabels(new Date(
-                    new Date(startDate).getTime() +
-                      14 * 24 * 60 * 60 * 1000,
-                  ), event.target.value,
+                  generateLabels(
+                    new Date(
+                      new Date(startDate).getTime() +
+                        startOffset * 24 * 60 * 60 * 1000,
+                    ),
+                    event.target.value,
                   ),
                 );
-              }
-              else if (event.target.value == 30) {
+              } else if (event.target.value === 30) {
                 // if the target value is 'Monthly':
                 setCurrentDayIndex(0); // set the setCurrentDayIndex to the first day of that user's activity
                 setLabels(
@@ -263,23 +266,24 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
                     event.target.value,
                   ),
                 );
-              } 
-              else {
+              } else {
                 // if the target value is 'All Time':
-                setCurrentDayIndex(14); // set the setCurrentDayIndex to the first day of that user's activity
+                setCurrentDayIndex(startOffset); // set the setCurrentDayIndex to the first day of that user's activity
                 setLabels(
-                  generateLabels(new Date(
-                    new Date(startDate).getTime() +
-                      14 * 24 * 60 * 60 * 1000,
-                  ), event.target.value,
+                  generateLabels(
+                    new Date(
+                      new Date(startDate).getTime() +
+                        startOffset * 24 * 60 * 60 * 1000,
+                    ),
+                    event.target.value,
                   ),
                 );
-              } 
+              }
             }}
           >
             <MenuItem value={7}>Weekly</MenuItem>
             <MenuItem value={30}>Monthly</MenuItem>
-            <MenuItem value={data.length - 14}>All Time</MenuItem>
+            <MenuItem value={data.length - startOffset}>All Time</MenuItem>
           </Select>
         </FormControl>
       </div>

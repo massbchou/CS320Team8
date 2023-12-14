@@ -7,7 +7,7 @@ import top_users_algo from "../most-active-users/top_users.js";
 import { Young_Serif } from "next/font/google";
 import RangeChooser from "../userInput/RangeChooser.js";
 import { getForumActivity } from "../forum-activity/forum_activity.js";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 import SubHeader from "../SubHeader.js";
 
 const youngSerif = Young_Serif({
@@ -34,7 +34,7 @@ export default async function Page() {
   let unansweredTitles;
   let collectionDate = "";
   let farthestPastDate = "";
-  let forumActivity, startDate, endDate;
+  let forumActivity, startDate, endDate, startOffset;
   // Create initially empty input text variable
 
   try {
@@ -266,6 +266,8 @@ export default async function Page() {
     startDate = new Date(farthestPastDate);
     endDate = new Date(collectionDate);
     forumActivity = getForumActivity(allPosts, startDate, endDate);
+    startOffset = startDate.getUTCDate() - new Date("2022-09-01").getUTCDate();
+    console.log(startOffset);
   } catch (e) {
     console.error(e);
   } finally {
@@ -276,7 +278,7 @@ export default async function Page() {
     <main
       style={{
         width: "100vw",
-        overflowX: "auto", 
+        overflowX: "auto",
         height: "100vh",
         overflowY: "auto",
         background:
@@ -332,7 +334,7 @@ export default async function Page() {
             >
               Campuswire Analytics
             </span>
-            <SubHeader/>
+            <SubHeader />
           </div>
         </div>
       </div>
@@ -375,7 +377,7 @@ export default async function Page() {
         <ActivityGraph
           data={forumActivity}
           startDate={startDate}
-          endDate={endDate}
+          startOffset={startOffset}
         />
         <div
           style={{

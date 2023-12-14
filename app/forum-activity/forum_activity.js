@@ -81,7 +81,7 @@ export function getForumActivity(allPosts = mp(), start = mp(), end = mp()) {
   for (let day = start.getUTCDate() - 1; day > 0; --day) {
     const skippedDate = new Date(start);
     skippedDate.setUTCDate(start.getUTCDate() - day);
-    beginningDates.push({});
+    beginningDates.push({ date: skippedDate.toISOString().substring(0, 10) });
   }
   resPosts = beginningDates.concat(resPosts);
   // console.log(resPosts);
