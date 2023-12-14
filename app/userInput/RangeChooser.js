@@ -19,8 +19,10 @@ function RangeChooser() {
 
   const disabledDate = (current) => {
     const currentDate = current ? current.valueOf() : 0;
-    const startDate = new Date("2022-09-16").valueOf();
-    const endDate = new Date("2022-12-17").valueOf();
+    const startDate = new Date("2022-09-15").valueOf();
+    const endDate = new Date("2022-12-16").valueOf();
+    // const startDate = new Date("2022-09-16").valueOf();
+    // const endDate = new Date("2022-12-17").valueOf();
     return currentDate < startDate || currentDate > endDate;
   };
 
@@ -64,7 +66,7 @@ function RangeChooser() {
   };
 
   return (
-    <div style={{ margin: '20px', cursor: "pointer" }}>
+    <div style={{ margin: "20px", cursor: "pointer" }}>
       <RangePicker onChange={handleDateChange} disabledDate={disabledDate} />
       {dates.length > 0 && (
         <div>

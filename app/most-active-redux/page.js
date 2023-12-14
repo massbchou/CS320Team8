@@ -107,7 +107,7 @@ export default async function Page() {
     <main
       style={{
         width: "100vw",
-        overflowX: "auto", 
+        overflowX: "auto",
         height: "100vh",
         overflowY: "auto",
         display: "flex",
@@ -184,7 +184,7 @@ export default async function Page() {
               title={graphPostTitle}
               font={youngSerif}
             />
-            <div style={{margin:'30px'}}></div>
+            <div style={{ margin: "30px" }}></div>
             <BarGraph
               namesArr={firstNamesArr}
               scoresArr={winnerCommentArr}
@@ -201,13 +201,11 @@ export default async function Page() {
               justifyContent: "center",
             }}
           >
-            <div style={{ marginBottom: "40px" }}>
-              Winners of the Semester
-            </div>
+            <div style={{ marginBottom: "40px" }}>Winners of the Semester</div>
             <Podium winners={podiumData} />
           </div>
         </div>
-        <div style={{margin:'30px'}}></div>
+        <div style={{ margin: "30px" }}></div>
         {/* Scrollable List using LeaderBoard component */}
         <div style={{ flex: "0 0 50%", fontFamily: youngSerif }}>
           <LeaderBoard connectUserToScore={connectUserToScore} />

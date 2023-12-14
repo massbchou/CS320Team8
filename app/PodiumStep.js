@@ -27,7 +27,7 @@ export default function PodiumStep({ podium, winner }) {
           visible: {
             opacity: 1,
             transition: {
-              delay: (offset + 1),
+              delay: offset + 1,
               duration: 0.25,
             },
           },

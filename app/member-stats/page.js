@@ -1,20 +1,22 @@
 import { MongoClient } from "mongodb";
 import Image from "next/image";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 
 export default async function Page(props) {
   let userDataset = await buildUserDataset(props.searchParams.userID);
 
   let userList = await buildUserList();
 
-  const UserList = dynamic(() => import('./userlist.js'), { ssr: false })
-  const SelectedUser = dynamic(() => import('./selected_user.js'), { ssr: false })
-  const StatsGraph = dynamic(() => import('./stats_graph.js'), { ssr: false })
+  const UserList = dynamic(() => import("./userlist.js"), { ssr: false });
+  const SelectedUser = dynamic(() => import("./selected_user.js"), {
+    ssr: false,
+  });
+  const StatsGraph = dynamic(() => import("./stats_graph.js"), { ssr: false });
 
   return (
     <main
       style={{
-        overflowX: "auto", 
+        overflowX: "auto",
         overflowY: "auto",
         background:
           "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",

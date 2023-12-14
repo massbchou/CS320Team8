@@ -1,5 +1,6 @@
 "use client";
 import mp from "../missingParameter";
+import { getFirstDate } from "./forum_activity";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -57,11 +58,25 @@ function generateLabels(startDate, interval) {
  * - Filtering to see only posts, comments, or both
  * @returns jsx component containing graph
  */
-export default function ActivityGraph({ data, startDate, endDate } = mp()) {
-  const [currentDayIndex, setCurrentDayIndex] = useState(0);
+export default function ActivityGraph({ data, startDate, startOffset } = mp()) {
+  // move startDate to beginning of month
+  startDate = getFirstDate(startDate, 30);
+  // let firstPostDate = startDate;
+  // firstPostDate = getFirstDate(startDate, 30);
+  // const firstPostIndex = data
+  //   .map((day) => day.date)
+  //   .indexOf(firstPostDate.toISOString().substring(0, 10));
+  // console.log("hi", firstPostIndex);
+
+  const [currentDayIndex, setCurrentDayIndex] = useState(startOffset);
   const [currentInterval, setInterval] = useState(7);
   const [currentLabels, setLabels] = useState(
-    generateLabels(startDate, currentInterval),
+    generateLabels(
+      new Date(
+        new Date(startDate).getTime() + startOffset * 24 * 60 * 60 * 1000,
+      ),
+      currentInterval,
+    ),
   );
   // const [leftDisabled, setLeftDisabled] = useState(false);
   // const [rightDisabled, setRightDisabled] = useState(false);
@@ -70,7 +85,7 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
   let commentsData;
   let isAllTime = false;
 
-  if (currentInterval === data.length) {
+  if (currentInterval === data.length - startOffset) {
     isAllTime = true;
   }
 
@@ -94,12 +109,14 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
         data: postsData,
         borderColor: "rgba(240, 56, 255, 0.5)",
         backgroundColor: "rgba(240, 56, 255)",
+        tension: 0.1,
       },
       {
         label: "Comments",
         data: commentsData,
         borderColor: "rgba(0, 132, 255, 0.5)",
         backgroundColor: "rgba(0, 132, 255)",
+        tension: 0.1,
       },
       //dark blue: rgba(0, 132, 255, 0.75)
       //cyan: rgba(0, 224, 255, 0.75)
@@ -179,9 +196,7 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
           {currentInterval === 7
             ? "Week of " + currentLabels[0].substring(5, 10)
             : currentInterval === 30
-            ? months[new Date(currentLabels[0].substring(0, 10)).getMonth()] +
-              " - " +
-              months[
+            ? months[
                 new Date(
                   currentLabels[currentInterval - 1].substring(0, 10),
                 ).getMonth()
@@ -231,8 +246,19 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
             label="Interval"
             onChange={(event) => {
               setInterval(event.target.value);
-              if (event.target.value === data.length) {
-                // if the target value is 'All Time':
+              if (event.target.value === 7) {
+                setCurrentDayIndex(startOffset);
+                setLabels(
+                  generateLabels(
+                    new Date(
+                      new Date(startDate).getTime() +
+                        startOffset * 24 * 60 * 60 * 1000,
+                    ),
+                    event.target.value,
+                  ),
+                );
+              } else if (event.target.value === 30) {
+                // if the target value is 'Monthly':
                 setCurrentDayIndex(0); // set the setCurrentDayIndex to the first day of that user's activity
                 setLabels(
                   generateLabels(
@@ -241,9 +267,14 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
                   ),
                 );
               } else {
+                // if the target value is 'All Time':
+                setCurrentDayIndex(startOffset); // set the setCurrentDayIndex to the first day of that user's activity
                 setLabels(
                   generateLabels(
-                    new Date(currentLabels[0]).getTime(),
+                    new Date(
+                      new Date(startDate).getTime() +
+                        startOffset * 24 * 60 * 60 * 1000,
+                    ),
                     event.target.value,
                   ),
                 );
@@ -252,7 +283,7 @@ export default function ActivityGraph({ data, startDate, endDate } = mp()) {
           >
             <MenuItem value={7}>Weekly</MenuItem>
             <MenuItem value={30}>Monthly</MenuItem>
-            <MenuItem value={data.length}>All Time</MenuItem>
+            <MenuItem value={data.length - startOffset}>All Time</MenuItem>
           </Select>
         </FormControl>
       </div>
