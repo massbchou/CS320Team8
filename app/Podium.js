@@ -16,8 +16,8 @@ export default function Podium({ winners }) {
         justifyItems: "center",
         alignContent: "flex-end",
         alignItems: "flex-end",
-        borderBottom: "1px solid #e5e7eb",
         height: 250,
+        width: 350,
       }}
     >
       {podium.map((winner) => (

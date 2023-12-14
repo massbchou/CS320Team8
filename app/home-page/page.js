@@ -8,6 +8,7 @@ import { Young_Serif } from "next/font/google";
 import RangeChooser from "../userInput/RangeChooser.js";
 import { getForumActivity } from "../forum-activity/forum_activity.js";
 import dynamic from 'next/dynamic';
+import SubHeader from "../SubHeader.js";
 
 const youngSerif = Young_Serif({
   subsets: ["latin"],
@@ -271,6 +272,10 @@ export default async function Page() {
   return (
     <main
       style={{
+        width: "100vw",
+        overflowX: "auto", 
+        height: "100vh",
+        overflowY: "auto",
         background:
           "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
         backgroundSize: "cover",
@@ -282,29 +287,53 @@ export default async function Page() {
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
           alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Image
-          src="/images/icon.png"
-          width={90}
-          height={90}
-          quality={100}
-          style={{ margin: "10px" }}
-          unoptimized
-          alt=""
-        ></Image>
-        <span
+        <div
           style={{
-            fontFamily: youngSerif,
-            textAlign: "center",
-            fontSize: "30px",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "flex-start", // Align items to the top
           }}
         >
-          Campuswire Analytics
-        </span>
+          <div>
+            <Image
+              src="/images/icon.png"
+              width={120}
+              height={120}
+              quality={100}
+              style={{ margin: "10px" }}
+              unoptimized
+              alt=""
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+              marginLeft: "20px", // Adjust margin between image and text columns
+            }}
+          >
+            <span
+              style={{
+                fontFamily: youngSerif,
+                textAlign: "center",
+                fontSize: "40px",
+                marginTop: "20px",
+                marginBottom: "10px",
+              }}
+            >
+              Campuswire Analytics
+            </span>
+            <SubHeader/>
+          </div>
+        </div>
       </div>
+
       <div
         style={{
           display: "flex",
@@ -323,8 +352,6 @@ export default async function Page() {
         >
           <Feature title="Trending Topics" content={topPhrases}></Feature>
           <Feature
-            hasButton={true}
-            linkTo="most-active-redux"
             totalCount={unansweredCount}
             title="Unanswered Questions"
             content={unansweredTitles}

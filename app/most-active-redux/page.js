@@ -106,6 +106,10 @@ export default async function Page() {
   return (
     <main
       style={{
+        width: "100vw",
+        overflowX: "auto", 
+        height: "100vh",
+        overflowY: "auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -153,33 +157,60 @@ export default async function Page() {
           justifyContent: "space-between",
           alignItems: "flex-start",
           width: "100%",
-          marginTop: "50px", // Adjust as needed
+          marginTop: "30px",
         }}
       >
         {/* Bar Graphs */}
-        <div style={{ flex: "0 0 20%", fontFamily: youngSerif }}>
-          <BarGraph
-            namesArr={firstNamesArr}
-            scoresArr={winnerPostArr}
-            title={graphPostTitle}
-            font={youngSerif}
-          />
-          <BarGraph
-            namesArr={firstNamesArr}
-            scoresArr={winnerCommentArr}
-            title={graphCommentTitle}
-            font={youngSerif}
-          />
-        </div>
-        {/* Scrollable List using LeaderBoard component */}
-        <div style={{ flex: "0 0 45%", fontFamily: youngSerif }}>
-          <LeaderBoard connectUserToScore={connectUserToScore} />
-        </div>
-        {/* Podium */}
         <div
-          style={{ flex: "0 0 20%", textAlign: "center", marginRight: "40px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column", // Ensure stacking elements vertically
+            alignItems: "center", // Center items horizontally
+            width: "100%",
+            fontFamily: youngSerif,
+            fontSize: "30px",
+          }}
         >
-          <Podium winners={podiumData} />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row", // Ensure stacking elements vertically
+              alignItems: "center", // Center items horizontally
+            }}
+          >
+            <BarGraph
+              namesArr={firstNamesArr}
+              scoresArr={winnerPostArr}
+              title={graphPostTitle}
+              font={youngSerif}
+            />
+            <div style={{margin:'30px'}}></div>
+            <BarGraph
+              namesArr={firstNamesArr}
+              scoresArr={winnerCommentArr}
+              title={graphCommentTitle}
+              font={youngSerif}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              width: "100%",
+              justifyContent: "center",
+            }}
+          >
+            <div style={{ marginBottom: "40px" }}>
+              Winners of the Semester
+            </div>
+            <Podium winners={podiumData} />
+          </div>
+        </div>
+        <div style={{margin:'30px'}}></div>
+        {/* Scrollable List using LeaderBoard component */}
+        <div style={{ flex: "0 0 50%", fontFamily: youngSerif }}>
+          <LeaderBoard connectUserToScore={connectUserToScore} />
         </div>
       </div>
     </main>

@@ -40,6 +40,7 @@ export default function Feature(props) {
         style={{
           ...containerStyle,
           cursor: isHovered ? "pointer" : "initial", // Change cursor to pointer when hovered
+          border: isHovered ? "2px solid black" : "none",
         }}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}

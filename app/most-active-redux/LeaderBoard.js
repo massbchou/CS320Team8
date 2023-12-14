@@ -95,7 +95,7 @@ function LeaderBoard({ connectUserToScore }) {
           "linear-gradient(rgba(0, 242, 255, 0.65), rgba(255, 0, 242, 0.65))",
         padding: "20px",
         overflowY: "scroll",
-        maxHeight: "800px",
+        maxHeight: "900px",
         boxSizing: "border-box",
         borderRadius: "20px",
       }}
