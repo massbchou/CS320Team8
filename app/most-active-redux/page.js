@@ -4,19 +4,26 @@ import Podium from "../Podium";
 import BarGraph from "./BarGraph";
 import LeaderBoard from "./LeaderBoard";
 import { Young_Serif } from "next/font/google";
-import { userInfo } from "os";
 
 const youngSerif = Young_Serif({
   subsets: ["latin"],
   weight: "400",
 });
 
+/**
+ * Async function representing a page displaying a leaderboard, some graphs, and a podium
+ * Retrieves and displays information about all users in the leaderboard including their name,
+ * rank, number of posts made, and number of comments made.
+ */
 export default async function Page() {
+  // MongoDB connection details
   const url =
     "mongodb+srv://team8s:rattigan320fa23@campuswire.x730pf7.mongodb.net/?retryWrites=true&w=majority";
   const client = new MongoClient(url);
+  // Define the date range for the semester
   const firstDay = new Date("2022-09-13");
   const lastDay = new Date("2022-12-17");
+  // Initialize variables to hold data
   let podiumRanked;
   let podiumData;
   let firstNamesArr = [];
@@ -29,15 +36,19 @@ export default async function Page() {
   const graphCommentTitle = "Number of Comments Made by Top Contributors";
   const graphPostTitle = "Number of Posts Made by Top Contributors";
   try {
+    // Connect to MongoDB
     await client.connect();
+    // Retrieve user data
     let userCollection = client.db("users").collection("users");
     let usersData = userCollection.find();
     let podiumList = await usersData.toArray();
 
+    // Calculate and process top users within the date range
     podiumRanked = top_users_algo(podiumList, firstDay, lastDay);
     podiumData = podiumRanked
       .slice(0, 5)
       .map((name, position) => ({ name, position }));
+    //get the full names of the 5 members who will go on the podium
     for (let i = 0; i < 5; i++) {
       namesArr.push(
         podiumData[i].name.substring(0, podiumData[i].name.indexOf(" ")),
@@ -49,6 +60,7 @@ export default async function Page() {
         ),
       );
     }
+    //get only the first names of the 5 members who will go on the podium
     for (let i = 0; i < 5; i++) {
       firstNamesArr.push(
         podiumData[i].name.substring(0, podiumData[i].name.indexOf(" ")),
@@ -64,6 +76,7 @@ export default async function Page() {
     let indivPostCount = 0;
     let totalIndivComments;
     let totalIndivPosts;
+    //for all users calculate their rank, full name, number of posts, and number of comments
     for (let j = 0; j < allUsersList.length; j++) {
       totalCount = 0;
       totalIndivComments = 0;
@@ -89,7 +102,9 @@ export default async function Page() {
         numPosts: totalIndivPosts,
       };
     }
+    //sort them by rank from lowest to highest
     connectUserToScore.sort((a, b) => b.rank - a.rank);
+    //make it so instead of counting from 0 it counts from 1
     connectUserToScore.forEach((userInfo, index) => {
       userInfo.rank = index + 1;
     });
@@ -100,6 +115,7 @@ export default async function Page() {
   } catch (e) {
     console.error(e);
   } finally {
+    // Close MongoDB connection
     await client.close();
   }
 

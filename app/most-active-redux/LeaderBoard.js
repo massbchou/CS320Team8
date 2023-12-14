@@ -9,11 +9,19 @@ const youngSerif = Young_Serif({
   weight: "400",
 });
 
+/**
+ * Creates a leaderboard component based on the information being passed in
+ * @param {Array} connectUserToScore - Array containing user scores and details.
+ */
 function LeaderBoard({ connectUserToScore }) {
   const [user, setUser] = useState([]);
   const [sortBy, setSortBy] = useState("rank");
   const [sortOrder, setSortOrder] = useState("top"); // State to track sorting order
 
+  /**
+   * Handles the sorting criteria.
+   * @param {string} criteria - The sorting criteria.
+   */
   const handleSortBy = (criteria) => {
     if (sortBy === criteria) {
       // Toggle sorting order if same criterion is clicked
@@ -29,20 +37,24 @@ function LeaderBoard({ connectUserToScore }) {
   // Sorting logic based on different criteria
   const sortUsers = () => {
     if (sortBy === "rank") {
+      //sorts in ascending order if 'top', otherwise sort descending order
       connectUserToScore.sort((a, b) =>
         sortOrder === "top" ? a.rank - b.rank : b.rank - a.rank,
       );
     } else if (sortBy === "numPosts") {
+      //sorts in descending order if 'top', otherwise sort ascending order
       connectUserToScore.sort((a, b) =>
         sortOrder === "top" ? b.numPosts - a.numPosts : a.numPosts - b.numPosts,
       );
     } else if (sortBy === "numComments") {
+      //sorts in descending order if 'top', otherwise sort ascending order
       connectUserToScore.sort((a, b) =>
         sortOrder === "top"
           ? b.numComments - a.numComments
           : a.numComments - b.numComments,
       );
     } else if (sortBy === "name") {
+      //sorts in ascending order if 'top', otherwise sort descending order
       connectUserToScore.sort((a, b) =>
         sortOrder === "top"
           ? a.fullName.localeCompare(b.fullName)
@@ -51,6 +63,11 @@ function LeaderBoard({ connectUserToScore }) {
     }
   };
 
+  /**
+   * Handles the click event on user links.
+   * @param {string} userID - The ID of the user.
+   * @param {string} userName - The name of the user.
+   */
   const handleLinkClick = async (userID, userName) => {
     console.log("User ID:", userID);
     console.log("User Name:", userName);
@@ -63,6 +80,7 @@ function LeaderBoard({ connectUserToScore }) {
       console.log(lastName);
       const user = [userID, userName, firstName, lastName];
       try {
+        //make a post request updating the MongoDB database userInput collection userName
         const response = await fetch("/api/names", {
           method: "POST",
           headers: {
@@ -73,7 +91,7 @@ function LeaderBoard({ connectUserToScore }) {
         if (response.ok) {
           console.log("Name saved successfully");
 
-          // API call successful, perform navigation
+          // API call successful, perform navigation to the URL using the userID and userName
           window.location.href = `/member-stats?userID=${userID}&userName=${userName}`;
         } else {
           console.error("Failed to save name");

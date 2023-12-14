@@ -2,6 +2,13 @@
 import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
+/**
+ * Creates a BarGraph component displaying a bar chart using Chart.js library.
+ * @param {Array} namesArr - Array containing names for labels on the X-axis.
+ * @param {Array} scoresArr - Array containing data values for the bars.
+ * @param {string} title - Title of the bar chart.
+ * @param {string} font - Font family for the title.
+ */
 const BarGraph = ({ namesArr, scoresArr, title, font }) => {
   const chartContainer = useRef(null);
   const chartInstance = useRef(null);
@@ -51,7 +58,7 @@ const BarGraph = ({ namesArr, scoresArr, title, font }) => {
         },
       });
     }
-  }, [namesArr, scoresArr]); // Added namesArr and scoresArr as dependencies to re-render on change
+  }, [namesArr, scoresArr]);
 
   return (
     <div
