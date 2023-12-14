@@ -8,7 +8,7 @@ import mp from "../missingParameter";
  * @param {Date} start
  * @param {Date} end
  * @returns {{numPosts: int, numComments: int}[]}
- * array of objects containing number of posts and comments
+ * array of objects for each date containing number of posts and comments
  */
 export function getForumActivity(allPosts = mp(), start = mp(), end = mp()) {
   let currentDate = new Date(3000, 0, 1); // init with arbitrary maximum date 3000-01-01
@@ -18,8 +18,10 @@ export function getForumActivity(allPosts = mp(), start = mp(), end = mp()) {
       // filter posts within start and end publishedAt time
       .filter((post) => {
         const postDate = new Date(post.publishedAt.slice(0, 10)); // yyyy-mm-dd
-        // get date of first post
-        if (postDate < currentDate) currentDate = postDate;
+        // get date of first post (not before start)
+        if (postDate < currentDate && postDate >= start) currentDate = postDate;
+        const next = new Date(end);
+        next.setUTCDate(next.getUTCDate());
         return start <= postDate && postDate <= end;
       })
 
@@ -31,12 +33,27 @@ export function getForumActivity(allPosts = mp(), start = mp(), end = mp()) {
         const postDate = new Date(post.publishedAt.slice(0, 10));
         // current post is after current date, get next date
         // or is last post
-        if (postDate > currentDate || i === relPosts.length) {
+        if (postDate > currentDate || i === relPosts.length - 1) {
           curDate.push({
             posts: relPosts.slice(prevIdx, i + 1),
             numPosts: 0,
             numComments: 0,
           });
+
+          // if some dates had no posts, fill in with empty default
+          const oneDay = 24 * 60 * 60 * 1000;
+          const numDaysBetween = Math.round(
+            Math.abs((postDate - currentDate) / oneDay),
+          );
+          for (let day = numDaysBetween - 1; day > 0; --day) {
+            const skippedDate = new Date(postDate);
+            skippedDate.setUTCDate(postDate.getUTCDate() - day);
+            curDate.push({
+              posts: [],
+              numPosts: 0,
+              numComments: 0,
+            });
+          }
           // update current date
           currentDate = postDate;
           prevIdx = i;
