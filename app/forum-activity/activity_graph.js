@@ -33,6 +33,12 @@ ChartJS.register(
   Legend,
 );
 
+/**
+ * Generates labels for graph from startDate to startDate + interval
+ * @param {string} startDate
+ * @param {number} interval
+ * @returns {string[]} array of labels
+ */
 function generateLabels(startDate, interval) {
   let newLabels = [];
 
@@ -56,17 +62,13 @@ function generateLabels(startDate, interval) {
  * - Interval switching with dropdown: weekly, monthly, all time
  * - Interval range switching with left and right arrows
  * - Filtering to see only posts, comments, or both
+ * @param {{data: dateObj[], startDate: Date | string, startOffset: number}} props
  * @returns jsx component containing graph
  */
 export default function ActivityGraph({ data, startDate, startOffset } = mp()) {
   // move startDate to beginning of month
+  // allows for monthly view to show all days from mm-01 to mm-30/31
   startDate = getFirstDate(startDate, 30);
-  // let firstPostDate = startDate;
-  // firstPostDate = getFirstDate(startDate, 30);
-  // const firstPostIndex = data
-  //   .map((day) => day.date)
-  //   .indexOf(firstPostDate.toISOString().substring(0, 10));
-  // console.log("hi", firstPostIndex);
 
   const [currentDayIndex, setCurrentDayIndex] = useState(startOffset);
   const [currentInterval, setInterval] = useState(7);
@@ -78,8 +80,6 @@ export default function ActivityGraph({ data, startDate, startOffset } = mp()) {
       currentInterval,
     ),
   );
-  // const [leftDisabled, setLeftDisabled] = useState(false);
-  // const [rightDisabled, setRightDisabled] = useState(false);
 
   let postsData;
   let commentsData;
@@ -154,6 +154,7 @@ export default function ActivityGraph({ data, startDate, startOffset } = mp()) {
       mode: "index",
     },
   };
+
   return (
     <div
       style={{
@@ -180,15 +181,12 @@ export default function ActivityGraph({ data, startDate, startOffset } = mp()) {
                 currentInterval,
               ),
             );
-            // if (currentDayIndex === 0) setLeftDisabled(true);
-            // else setLeftDisabled(false);
           }}
           style={{
             display: isAllTime ? "none" : null,
             backgroundColor: "rgba(255, 255, 255, 0.5)",
             marginTop: "10px",
           }}
-          // disabled={leftDisabled}
         >
           <ChevronLeftIcon />
         </Button>
@@ -217,15 +215,12 @@ export default function ActivityGraph({ data, startDate, startOffset } = mp()) {
                 currentInterval,
               ),
             );
-            // if (currentDayIndex === 0) setRightDisabled(true);
-            // else setRightDisabled(false);
           }}
           style={{
             display: isAllTime ? "none" : null,
             backgroundColor: "rgba(255, 255, 255, 0.5)",
             marginTop: "10px",
           }}
-          // disabled={rightDisabled}
         >
           <ChevronRightIcon />
         </Button>

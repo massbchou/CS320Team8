@@ -4,16 +4,16 @@ import Image from "next/image";
 import Feature from "../feature.js";
 import top_posts_algo from "../top-posts/top_posts.js";
 import top_users_algo from "../most-active-users/top_users.js";
-import { Young_Serif } from "next/font/google";
 import RangeChooser from "../userInput/RangeChooser.js";
 import { getForumActivity } from "../forum-activity/forum_activity.js";
 import dynamic from "next/dynamic";
-import SubHeader from "../SubHeader.js";
+import SubHeader from "./SubHeader.js";
+// import { Young_Serif } from "next/font/google";
 
-const youngSerif = Young_Serif({
-  subsets: ["latin"],
-  weight: "400",
-});
+// const youngSerif = Young_Serif({
+//   subsets: ["latin"],
+//   weight: "400",
+// });
 
 export default async function Page() {
   const ActivityGraph = dynamic(
@@ -267,7 +267,6 @@ export default async function Page() {
     endDate = new Date(collectionDate);
     forumActivity = getForumActivity(allPosts, startDate, endDate);
     startOffset = startDate.getUTCDate() - new Date("2022-09-01").getUTCDate();
-    console.log(startOffset);
   } catch (e) {
     console.error(e);
   } finally {
@@ -285,8 +284,6 @@ export default async function Page() {
           "radial-gradient(ellipse at center top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%), linear-gradient(140deg, rgba(240, 56, 255, .5) 0%, rgba(255,255,255, .5) 50%, rgba(0, 224, 255, .5) 100%)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
-        width: "100%",
-        height: "100%",
       }}
     >
       <div
@@ -325,7 +322,7 @@ export default async function Page() {
           >
             <span
               style={{
-                fontFamily: youngSerif,
+                // fontFamily: youngSerif,
                 textAlign: "center",
                 fontSize: "40px",
                 marginTop: "20px",

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   background: "linear-gradient(140deg, rgba(2,0,36,1) 0%, rgba(255,173,252,1) 0%, rgba(255,255,255,1) 48%, rgba(136,255,243,1) 100%)";
 }
 
@@ -10,7 +10,7 @@
   :root {
     background: "linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(19,9,121,1) 50%, rgba(66,0,255,1) 100%);";
   }
-}
+} */
 
 /*:root {
   --foreground-rgb: 0, 0, 0;

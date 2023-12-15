@@ -3,7 +3,6 @@ import "@testing-library/react";
 // import { MongoClient } from "mongodb";
 import {
   getForumActivity,
-  nextMinDate,
   getFirstDate,
 } from "../app/forum-activity/forum_activity";
 import postsList from "../database/testPosts.json";
@@ -48,9 +47,3 @@ describe("getFirstDate gets first date of interval", () => {
   });
   test("for days it should do nothing", () => {});
 });
-
-describe("nextMinDate gets next first date of interval", () => {});
-
-describe("getForumActivity", () => {});
-
-/* component tests */
