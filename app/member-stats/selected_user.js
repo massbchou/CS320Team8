@@ -3,7 +3,11 @@ const youngSerif = Young_Serif({
   subsets: ["latin"],
   weight: "400",
 });
-// returns a component showcasing the overall statistics for some selected user
+/*
+returns a component showcasing the overall statistics for some selected user
+includes dispalys for metrics: posts, top posts, comments, post views, and unanswered questions
+also includes average response time and number of first repondent incidents for mods
+*/
 export default function SelectedUser(props) {
   return (
     <div

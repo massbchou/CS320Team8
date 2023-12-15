@@ -30,7 +30,6 @@ export default function UserList(props) {
         <div
           style={{
             textAlign: "center",
-            fontFamily: youngSerif,
             fontSize: "20px",
             backgroundColor: "rgba(255, 255, 255, 0.70)",
             borderRadius: "10px",
@@ -45,7 +44,6 @@ export default function UserList(props) {
         <div
           style={{
             textAlign: "center",
-            fontFamily: "Young Serif",
             fontSize: "20px",
             backgroundColor: "rgba(255, 255, 255, 0.70)",
             borderRadius: "10px",
@@ -69,10 +67,9 @@ export default function UserList(props) {
           component="nav"
           sx={{ display: "flex", flexDirection: "column", width: "85%" }}
         >
-          {props.userList.map((user) => (
+          {props.userList.map((user) => ( // Maps each user to a <ListItemButton> component that redirects on click to that user's page
             <ListItemButton
               style={{
-                fontFamily: youngSerif,
                 fontSize: "17px",
                 textAlign: "center",
                 margin: "6px",
