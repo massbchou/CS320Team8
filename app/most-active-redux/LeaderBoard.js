@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Young_Serif } from "next/font/google";
+// import { Young_Serif } from "next/font/google";
 
-const youngSerif = Young_Serif({
-  subsets: ["latin"],
-  weight: "400",
-});
+// const youngSerif = Young_Serif({
+//   subsets: ["latin"],
+//   weight: "400",
+// });
 
 /**
  * Creates a leaderboard component based on the information being passed in
@@ -121,7 +121,7 @@ function LeaderBoard({ connectUserToScore }) {
       <div
         style={{
           textAlign: "center",
-          fontFamily: youngSerif,
+          // fontFamily: youngSerif,
           fontSize: "25px",
           backgroundColor: "rgba(255, 255, 255, 0.70)",
           borderRadius: "10px",
@@ -139,7 +139,7 @@ function LeaderBoard({ connectUserToScore }) {
           onClick={() => handleSortBy("rank")}
           style={{
             flexBasis: "48%",
-            fontFamily: youngSerif,
+            // fontFamily: youngSerif,
             fontSize: "20px",
             textAlign: "center",
             margin: "6px",
@@ -155,7 +155,7 @@ function LeaderBoard({ connectUserToScore }) {
           onClick={() => handleSortBy("name")}
           style={{
             flexBasis: "48%",
-            fontFamily: youngSerif,
+            // fontFamily: youngSerif,
             fontSize: "20px",
             textAlign: "center",
             margin: "6px",
@@ -171,7 +171,7 @@ function LeaderBoard({ connectUserToScore }) {
           onClick={() => handleSortBy("numPosts")}
           style={{
             flexBasis: "48%",
-            fontFamily: youngSerif,
+            // fontFamily: youngSerif,
             fontSize: "20px",
             textAlign: "center",
             margin: "6px",
@@ -187,7 +187,7 @@ function LeaderBoard({ connectUserToScore }) {
           onClick={() => handleSortBy("numComments")}
           style={{
             flexBasis: "48%",
-            fontFamily: youngSerif,
+            // fontFamily: youngSerif,
             fontSize: "20px",
             textAlign: "center",
             margin: "6px",
@@ -216,7 +216,7 @@ function LeaderBoard({ connectUserToScore }) {
             <span
               key={i + "b"}
               style={{
-                fontFamily: youngSerif,
+                // fontFamily: youngSerif,
                 fontSize: "20px",
                 textAlign: "center",
                 margin: "6px",
@@ -236,7 +236,7 @@ function LeaderBoard({ connectUserToScore }) {
               }}
               style={{
                 color: "black",
-                fontFamily: youngSerif,
+                // fontFamily: youngSerif,
                 fontSize: "20px",
                 textAlign: "center",
                 margin: "6px",
@@ -256,7 +256,7 @@ function LeaderBoard({ connectUserToScore }) {
             <span
               key={i + "d"}
               style={{
-                fontFamily: youngSerif,
+                // fontFamily: youngSerif,
                 fontSize: "20px",
                 textAlign: "center",
                 margin: "6px",
@@ -272,7 +272,7 @@ function LeaderBoard({ connectUserToScore }) {
             <span
               key={i + "e"}
               style={{
-                fontFamily: youngSerif,
+                // fontFamily: youngSerif,
                 fontSize: "20px",
                 textAlign: "center",
                 margin: "6px",

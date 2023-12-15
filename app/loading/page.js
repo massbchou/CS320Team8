@@ -1,5 +1,8 @@
 import { CircularProgress } from "@mui/material";
 
+/**
+ * Just a dummy page to showcase the loading spinner :)
+ */
 export default function Page() {
   return (
     <div

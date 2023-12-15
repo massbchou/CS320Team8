@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { Young_Serif } from "next/font/google";
 import ColorChangingButton from ".//colorChangingButton";
+// import { Young_Serif } from "next/font/google";
 
-const youngSerif = Young_Serif({
-  subsets: ["latin"],
-  weight: "400",
-});
+// const youngSerif = Young_Serif({
+//   subsets: ["latin"],
+//   weight: "400",
+// });
 
 export default async function Home() {
   return (
@@ -28,7 +28,7 @@ export default async function Home() {
       >
         <span
           style={{
-            fontFamily: youngSerif,
+            // fontFamily: youngSerif,
             textAlign: "center",
             fontSize: "50px",
             marginLeft: "100px",
@@ -37,7 +37,7 @@ export default async function Home() {
           Welcome to <br></br> Campuswire Analytics! <br></br>
           <div
             style={{
-              fontFamily: youngSerif,
+              // fontFamily: youngSerif,
               textAlign: "center",
               fontSize: "20px",
               marginTop: "20px",

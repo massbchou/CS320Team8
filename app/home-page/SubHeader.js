@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { Young_Serif } from "next/font/google";
+// import { Young_Serif } from "next/font/google";
 
-const youngSerif = Young_Serif({
-  subsets: ["latin"],
-  weight: "400",
-});
+// const youngSerif = Young_Serif({
+//   subsets: ["latin"],
+//   weight: "400",
+// });
 
 export default function SubHeader() {
   const [isLeftHovered, setLeftHovered] = useState(false);
@@ -57,7 +57,7 @@ export default function SubHeader() {
     >
       <div
         style={{
-          fontFamily: youngSerif,
+          // fontFamily: youngSerif,
           fontWeight: "bold",
           fontSize: "20px",
           color: "black",
