@@ -67,50 +67,54 @@ export default function UserList(props) {
           component="nav"
           sx={{ display: "flex", flexDirection: "column", width: "85%" }}
         >
-          {props.userList.map((user) => ( // Maps each user to a <ListItemButton> component that redirects on click to that user's page
-            <ListItemButton
-              style={{
-                fontSize: "17px",
-                textAlign: "center",
-                margin: "6px",
-                padding: "2px",
-                backgroundColor: "rgba(255, 255, 255, .9)",
-                opacity: "0.6",
-                borderRadius: "7px",
-              }}
-              href={"/member-stats?userID=" + user.id}
-              key={user.id}
-            >
-              <ListItemText
-                primary={
-                  user.role === "moderator" ? (
-                    <div>
-                      <div>{user.name}</div>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
+          {props.userList.map(
+            (
+              user, // Maps each user to a <ListItemButton> component that redirects on click to that user's page
+            ) => (
+              <ListItemButton
+                style={{
+                  fontSize: "17px",
+                  textAlign: "center",
+                  margin: "6px",
+                  padding: "2px",
+                  backgroundColor: "rgba(255, 255, 255, .9)",
+                  opacity: "0.6",
+                  borderRadius: "7px",
+                }}
+                href={"/member-stats?userID=" + user.id}
+                key={user.id}
+              >
+                <ListItemText
+                  primary={
+                    user.role === "moderator" ? (
+                      <div>
+                        <div>{user.name}</div>
                         <div
                           style={{
-                            borderRadius: "15px",
-                            backgroundColor: "rgba(0, 132, 255, .7)",
-                            width: "50%",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
                           }}
                         >
-                          Moderator
+                          <div
+                            style={{
+                              borderRadius: "15px",
+                              backgroundColor: "rgba(0, 132, 255, .7)",
+                              width: "50%",
+                            }}
+                          >
+                            Moderator
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ) : (
-                    <div>{user.name}</div>
-                  )
-                }
-              />
-            </ListItemButton>
-          ))}
+                    ) : (
+                      <div>{user.name}</div>
+                    )
+                  }
+                />
+              </ListItemButton>
+            ),
+          )}
         </List>
       </div>
     </div>

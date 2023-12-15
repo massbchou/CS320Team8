@@ -148,7 +148,7 @@ export default function StatsGraph(props) {
         borderRadius: "10px",
         padding: "20px",
         margin: "20px",
-        width:'50%',
+        width: "50%",
       }}
     >
       <Bar width={1000} height={500} options={options} data={graphData} />

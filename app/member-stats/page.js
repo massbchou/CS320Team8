@@ -3,7 +3,6 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 
 export default async function Page(props) {
-
   let userDataset = await buildUserDataset(props.searchParams.userID);
   // builds the user's dataset for input to the selected user component and the stats graph
 
@@ -11,7 +10,9 @@ export default async function Page(props) {
   // builds the data for the user list
 
   const UserList = dynamic(() => import("./userlist.js"), { ssr: false });
-  const SelectedUser = dynamic(() => import("./selected_user.js"), {ssr: false});
+  const SelectedUser = dynamic(() => import("./selected_user.js"), {
+    ssr: false,
+  });
   const StatsGraph = dynamic(() => import("./stats_graph.js"), { ssr: false });
   // disabled server-side rendering on import for these components to fix hydration error
 
@@ -165,7 +166,6 @@ async function buildUserDataset(userID) {
     name = userObj.author.firstName + " " + userObj.author.lastName;
     // set the role and name variables to the relevant values
 
-
     /*
     User database entries are objects of this form:
     {
@@ -195,8 +195,10 @@ async function buildUserDataset(userID) {
     // get posts database for searching with relevant postIds
 
     let i = 2;
-    while (i < entries.length) { // iterate through each day within the range of days that that user was active
-      if (userObj[activityDate.toISOString().substring(0, 10)] !== undefined) { // only if that day is a day of activity for that user, process the data and add the dataset
+    while (i < entries.length) {
+      // iterate through each day within the range of days that that user was active
+      if (userObj[activityDate.toISOString().substring(0, 10)] !== undefined) {
+        // only if that day is a day of activity for that user, process the data and add the dataset
         let userActivityObj =
           userObj[activityDate.toISOString().substring(0, 10)];
 
@@ -205,14 +207,16 @@ async function buildUserDataset(userID) {
         let totalTopPosts = 0;
         // init all count variables to 0
 
-        for (let j = 0; j < userActivityObj.postIds.length; j++) { // iterate through all posts that user made in that day
+        for (let j = 0; j < userActivityObj.postIds.length; j++) {
+          // iterate through all posts that user made in that day
           const post = await postsCollection.findOne({
             id: userActivityObj.postIds[j],
           });
           // find each post in the posts DB
           totalViews += post.viewsCount;
           // increment total post views by this post's views
-          if ( // if a post is of type quesiton, and does not have either a mod answer or an endorsed reply, consider it unanswered
+          if (
+            // if a post is of type quesiton, and does not have either a mod answer or an endorsed reply, consider it unanswered
             post.type === "question" &&
             !(
               Object.hasOwn(post, "modAnsweredAt") ||
@@ -229,12 +233,14 @@ async function buildUserDataset(userID) {
             2 * (post.viewsCount - post.uniqueViewsCount) +
             20 * post.comments.length +
             50 * (post.likesCount ? post.likesCount : 0);
-          if (postScore >= 300) { // if a post's score is above 300, consider it a top post
+          if (postScore >= 300) {
+            // if a post's score is above 300, consider it a top post
             totalTopPosts++;
             // increment top posts count
           }
         }
-        dataArr.push({ // Then, push all generated data for that day
+        dataArr.push({
+          // Then, push all generated data for that day
           numPosts: userActivityObj.postCount,
           numComments: userActivityObj.commentCount,
           numPostViews: totalViews,
@@ -242,7 +248,8 @@ async function buildUserDataset(userID) {
           numTopPosts: totalTopPosts,
         });
         i++;
-      } else { // otherwise, if the user was not active on that day, push a dataset in which all values are 0
+      } else {
+        // otherwise, if the user was not active on that day, push a dataset in which all values are 0
         dataArr.push({
           numPosts: 0,
           numComments: 0,
@@ -254,7 +261,8 @@ async function buildUserDataset(userID) {
       activityDate = new Date(activityDate.getTime() + 24 * 60 * 60 * 1000); // increment the day by one
     }
 
-    if (userRole === "moderator") { // only if a user is a moderator, calculate their mod statistics and update the relevant variables
+    if (userRole === "moderator") {
+      // only if a user is a moderator, calculate their mod statistics and update the relevant variables
       const statsforMods = await calculateModeratorStats(userID, client);
       averageResponseTime = statsforMods.averageResponseTime;
       firstResponderCount = statsforMods.firstResponderCount;
@@ -265,7 +273,8 @@ async function buildUserDataset(userID) {
     await client.close();
   }
 
-  return { // return object with all relevant data for that user
+  return {
+    // return object with all relevant data for that user
     userName: name,
     dataArr: dataArr,
     startDate: activityStartDate,
