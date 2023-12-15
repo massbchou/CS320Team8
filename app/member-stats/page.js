@@ -284,18 +284,30 @@ async function buildUserDataset(userID) {
   };
 }
 
+/**
+ * Calculates average response time and count of first responses for a given moderator.
+ * This function assumes that the first comment made by the moderator is their response to the post.
+ *
+ * @param {string} userID - The ID of the user (moderator) for whom to calculate stats.
+ * @param {MongoClient} client - The MongoDB client to use for database operations.
+ * @returns {Promise<Object>} An object containing the average response time and first responder count.
+ */
 async function calculateModeratorStats(userID, client) {
+  // Using the latest collection which has the most up-to-date discussions.
   const collection = client.db("posts").collection("2022-12-15");
 
   let totalResponseTime = 0;
   let firstResponderCount = 0;
 
+  // Find all posts where the first comment is made by the moderator.
   const moderatorPostsCursor = collection.find({
     "comments.0.author.id": userID,
   });
 
+  // Convert the cursor to an array to process the documents.
   const moderatorPosts = await moderatorPostsCursor.toArray();
 
+  // Iterate through each post to calculate response times.
   for (const post of moderatorPosts) {
     if (post.comments && post.comments.length > 0) {
       const firstComment = post.comments[0];
@@ -304,19 +316,22 @@ async function calculateModeratorStats(userID, client) {
         firstComment.author &&
         firstComment.author.id === userID
       ) {
+        // Calculate the time difference between the post and the moderator's first comment.
         const postDate = new Date(post.publishedAt);
         const responseDate = new Date(firstComment.publishedAt);
-        const responseTime = (responseDate - postDate) / 60000;
-        totalResponseTime += responseTime;
-        firstResponderCount++;
+        const responseTime = (responseDate - postDate) / 60000;  // Convert milliseconds to minutes.
+        totalResponseTime += responseTime; // Accumulate the response times.
+        firstResponderCount++; // Increment the count of first responses.
       }
     }
   }
 
+  // Calculate the average response time. If no responses, default to 0.
   const averageResponseTime = firstResponderCount
     ? parseFloat((totalResponseTime / firstResponderCount).toFixed(2))
     : 0;
 
+  // Return the calculated metrics.
   return {
     averageResponseTime: parseFloat(averageResponseTime),
     firstResponderCount,
