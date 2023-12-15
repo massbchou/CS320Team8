@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { Young_Serif } from "next/font/google";
+// import { Young_Serif } from "next/font/google";
 
-const youngSerif = Young_Serif({
-  subsets: ["latin"],
-  weight: "400",
-});
+// const youngSerif = Young_Serif({
+//   subsets: ["latin"],
+//   weight: "400",
+// });
 // Returns a formatted Feature component for the Overview tab given a title and some data
 
 export default function Feature(props) {
@@ -56,7 +56,7 @@ export default function Feature(props) {
           <div
             style={{
               textAlign: "center",
-              fontFamily: youngSerif,
+              // fontFamily: youngSerif,
               fontSize: "20px",
               backgroundColor: "rgba(255, 255, 255, 0.70)",
               borderRadius: "10px",
@@ -81,7 +81,7 @@ export default function Feature(props) {
             <span
               key={i + "b"}
               style={{
-                fontFamily: youngSerif,
+                // fontFamily: youngSerif,
                 fontSize: "17px",
                 textAlign: "center",
                 margin: "6px",
@@ -97,7 +97,7 @@ export default function Feature(props) {
             <span
               key={i + "c"}
               style={{
-                fontFamily: youngSerif,
+                // fontFamily: youngSerif,
                 fontSize: "17px",
                 textAlign: "center",
                 margin: "6px",
@@ -136,7 +136,7 @@ export default function Feature(props) {
           <div
             style={{
               textAlign: "center",
-              fontFamily: youngSerif,
+              // fontFamily: youngSerif,
               fontSize: "20px",
               backgroundColor: "rgba(255, 255, 255, 0.70)",
               borderRadius: "10px",
@@ -161,7 +161,7 @@ export default function Feature(props) {
             <span
               key={i + "b"}
               style={{
-                fontFamily: youngSerif,
+                // fontFamily: youngSerif,
                 fontSize: "17px",
                 textAlign: "center",
                 margin: "6px",
@@ -177,7 +177,7 @@ export default function Feature(props) {
             <span
               key={i + "c"}
               style={{
-                fontFamily: youngSerif,
+                // fontFamily: youngSerif,
                 fontSize: "17px",
                 textAlign: "center",
                 margin: "6px",

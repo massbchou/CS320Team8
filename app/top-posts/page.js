@@ -2,6 +2,10 @@ import { MongoClient } from "mongodb";
 import top_posts_algo from "./top_posts.js";
 import Feature from "../feature.js";
 
+/**
+ * Async function representing a page displaying top posts for different periods.
+ * Retrieves and displays top posts for specific months and overall.
+ */
 export default async function Page() {
   // initialize mongoclient credentials
   const url =
@@ -14,7 +18,10 @@ export default async function Page() {
   let topPostsOfAllTime = [];
 
   try {
+    // Connect to MongoDB
     await client.connect();
+
+    // Fetch cached posts for specific periods or generate new if not cached
     let postsCollection = client.db("caching").collection("top posts");
     let cache1Posts = await postsCollection.findOne({
       //Posts from Sept 01 to Sept 30 inclusive

@@ -3,15 +3,17 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 
 export default async function Page(props) {
+
   let userDataset = await buildUserDataset(props.searchParams.userID);
+  // builds the user's dataset for input to the selected user component and the stats graph
 
   let userList = await buildUserList();
+  // builds the data for the user list
 
   const UserList = dynamic(() => import("./userlist.js"), { ssr: false });
-  const SelectedUser = dynamic(() => import("./selected_user.js"), {
-    ssr: false,
-  });
+  const SelectedUser = dynamic(() => import("./selected_user.js"), {ssr: false});
   const StatsGraph = dynamic(() => import("./stats_graph.js"), { ssr: false });
+  // disabled server-side rendering on import for these components to fix hydration error
 
   return (
     <main
@@ -108,6 +110,27 @@ export default async function Page(props) {
   );
 }
 
+/**
+ * Given some user's ID, generates all of that user's relevant metrics for the selected user window and the stats graph
+ * Generates arrays for posts, top posts, comments, post views, and unanswered questions
+ * Generates overall stats for both moderator metrics: average response time and number of first respondent incidents
+ * @param {string} userID
+ * @returns {object} an object representing all of that user's relevant metrics:
+ * {
+ *  userName: string;
+    dataArr: {
+        numPosts: any;
+        numComments: any;
+        numPostViews: number;
+        numUnansweredQuestions: number;
+        numTopPosts: number;
+    }[];
+    startDate: Date;
+    userRole: any;
+    averageResponseTime: number;
+    firstResponderCount: number;
+  }
+ */
 async function buildUserDataset(userID) {
   // initialize MongoClient credentials
   const url =
@@ -120,12 +143,15 @@ async function buildUserDataset(userID) {
   let userRole;
   let averageResponseTime = 0;
   let firstResponderCount = 0;
+  // init all relevant variables
 
   try {
     await client.connect();
     // Connect to cluster
 
     const usersCollection = client.db("users").collection("users");
+    // get users database
+
     let userObj;
 
     if (userID !== undefined) {
@@ -133,32 +159,60 @@ async function buildUserDataset(userID) {
     } else {
       userObj = await usersCollection.findOne({});
     }
+    // if the userID is undefined (not found in the searchParams) then get the stats for the first user in the database instead
 
     userRole = userObj.author.role;
-
-    let entries = Object.entries(userObj);
-
     name = userObj.author.firstName + " " + userObj.author.lastName;
-    activityStartDate = new Date(entries[2][0]);
-    let activityDate = new Date(activityStartDate);
+    // set the role and name variables to the relevant values
+
+
+    /*
+    User database entries are objects of this form:
+    {
+      _id,
+      author: {
+        id,
+        firstName,
+        lastName,
+        ...
+      }
+      2022-09-08: {     (only days of that user's activity)
+        postIds: [...]
+        commentIds: [...]
+      }
+      2022-09-15: {
+        postIds: [...]
+        commentIds: [...]
+      }
+      ...
+    }
+    */
+    let entries = Object.entries(userObj); // turn that user's object into an array of [key, value] pairs
+    activityStartDate = new Date(entries[2][0]); // get the date of the user's first activity (the key of the 3rd object entry, skipping '_id' and 'author')
+    let activityDate = new Date(activityStartDate); // turn that string into a Date object
 
     let postsCollection = client.db("posts").collection("2022-12-15");
+    // get posts database for searching with relevant postIds
 
     let i = 2;
-    while (i < entries.length) {
-      if (userObj[activityDate.toISOString().substring(0, 10)] !== undefined) {
+    while (i < entries.length) { // iterate through each day within the range of days that that user was active
+      if (userObj[activityDate.toISOString().substring(0, 10)] !== undefined) { // only if that day is a day of activity for that user, process the data and add the dataset
         let userActivityObj =
           userObj[activityDate.toISOString().substring(0, 10)];
 
         let totalViews = 0;
         let totalUnansweredQuestions = 0;
         let totalTopPosts = 0;
-        for (let j = 0; j < userActivityObj.postIds.length; j++) {
+        // init all count variables to 0
+
+        for (let j = 0; j < userActivityObj.postIds.length; j++) { // iterate through all posts that user made in that day
           const post = await postsCollection.findOne({
             id: userActivityObj.postIds[j],
           });
+          // find each post in the posts DB
           totalViews += post.viewsCount;
-          if (
+          // increment total post views by this post's views
+          if ( // if a post is of type quesiton, and does not have either a mod answer or an endorsed reply, consider it unanswered
             post.type === "question" &&
             !(
               Object.hasOwn(post, "modAnsweredAt") ||
@@ -168,17 +222,19 @@ async function buildUserDataset(userID) {
             )
           ) {
             totalUnansweredQuestions++;
+            // increment unanswered questions count
           }
           let postScore =
             1 * post.uniqueViewsCount +
             2 * (post.viewsCount - post.uniqueViewsCount) +
             20 * post.comments.length +
             50 * (post.likesCount ? post.likesCount : 0);
-          if (postScore >= 300) {
+          if (postScore >= 300) { // if a post's score is above 300, consider it a top post
             totalTopPosts++;
+            // increment top posts count
           }
         }
-        dataArr.push({
+        dataArr.push({ // Then, push all generated data for that day
           numPosts: userActivityObj.postCount,
           numComments: userActivityObj.commentCount,
           numPostViews: totalViews,
@@ -186,7 +242,7 @@ async function buildUserDataset(userID) {
           numTopPosts: totalTopPosts,
         });
         i++;
-      } else {
+      } else { // otherwise, if the user was not active on that day, push a dataset in which all values are 0
         dataArr.push({
           numPosts: 0,
           numComments: 0,
@@ -195,10 +251,10 @@ async function buildUserDataset(userID) {
           numTopPosts: 0,
         });
       }
-      activityDate = new Date(activityDate.getTime() + 24 * 60 * 60 * 1000);
+      activityDate = new Date(activityDate.getTime() + 24 * 60 * 60 * 1000); // increment the day by one
     }
 
-    if (userRole === "moderator") {
+    if (userRole === "moderator") { // only if a user is a moderator, calculate their mod statistics and update the relevant variables
       const statsforMods = await calculateModeratorStats(userID, client);
       averageResponseTime = statsforMods.averageResponseTime;
       firstResponderCount = statsforMods.firstResponderCount;
@@ -209,7 +265,7 @@ async function buildUserDataset(userID) {
     await client.close();
   }
 
-  return {
+  return { // return object with all relevant data for that user
     userName: name,
     dataArr: dataArr,
     startDate: activityStartDate,
@@ -258,6 +314,15 @@ async function calculateModeratorStats(userID, client) {
   };
 }
 
+/**
+ * Builds and returns the data for the list of users (the input for the <UserList> component)
+ * @returns {object[]} an array of objects representing all of the users on the forum:
+ * {
+ *  name,
+    id,
+    role,
+ * }[]
+ */
 async function buildUserList() {
   // initialize MongoClient credentials
   const url =
@@ -265,10 +330,12 @@ async function buildUserList() {
   const client = new MongoClient(url);
 
   let users = [];
+  // init users array
 
   try {
     await client.connect();
     const usersCollection = client.db("users").collection("users");
+    // get users database
     const usersCursor = usersCollection.find(
       {},
       {
@@ -280,14 +347,16 @@ async function buildUserList() {
         },
       },
     );
+    // get all relevant fields for all user objects
     const usersList = await usersCursor.toArray();
+    // translate to array
 
-    // Build an array of user names and their IDs
     users = usersList.map((user) => ({
       name: user.author.firstName + " " + user.author.lastName,
       id: user.author.id,
       role: user.author.role,
     }));
+    // build an array of user names and their IDs, concatenating their first and last names
   } catch (e) {
     console.error(e);
   } finally {

@@ -2,6 +2,10 @@ import { MongoClient } from "mongodb";
 import top_users_algo from "../most-active-users/top_users";
 import Feature from "../feature.js";
 
+/**
+ * Async function representing a page displaying top students and mods for different time periods.
+ * Retrieves and displays most active students and mods for different date ranges.
+ */
 export default async function Page() {
   // initialize mongoclient credentials
   const url =
@@ -13,15 +17,19 @@ export default async function Page() {
   let topStudents3 = [];
   let topMods = [];
   try {
+    // Connect to MongoDB
     await client.connect();
+    // Fetch student and mod data from the database
     const userCollection = client.db("users").collection("users");
     const studentData = userCollection.find({ "author.role": "member" });
     const studentList = await studentData.toArray();
     const modData = userCollection.find({ "author.role": "moderator" });
+    // Define date ranges for different periods
     const sep1 = new Date("2022-09-01");
     const oct1 = new Date("2022-10-01");
     const dec1 = new Date("2022-12-01");
     const dec31 = new Date("2022-12-31");
+    // Calculate most active students and mods for different date ranges
     // beginning of semester (<=sep 15) to oct 1
     topStudents1 = top_users_algo(studentList, sep1, oct1).slice(0, 5);
     // oct 1 to dec 1
